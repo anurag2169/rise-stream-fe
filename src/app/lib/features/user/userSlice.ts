@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useRouter } from "next/navigation";
 import { RootState } from "../../store";
+import { urlPath } from "@/app/config/url.const";
 
 // action
 export const registerUser = createAsyncThunk(
   "registerUser",
   async (formData: FormData, thunkAPI: any) => {
-    //   const formData = new FormData();
-    const res = await fetch("http://localhost:8000/api/v1/users/register", {
+    const res = await fetch(`${urlPath.registerUser}`, {
       method: "POST",
       body: formData,
     });
