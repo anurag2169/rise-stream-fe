@@ -43,7 +43,7 @@ const SignInForm = () => {
         sameSite: "None",
       });
 
-      router.push("/dashboard");
+      router.push("/home");
     } else {
       const errorData = await res.json();
       console.error("Registration error:", errorData);
