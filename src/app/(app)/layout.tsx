@@ -1,6 +1,7 @@
 // import Navbar from '@/components/Navbar';
 
 import Navbar from "../components/Navbar";
+import { ThemeProvider } from "../providers/theme-provider";
 
 interface RootLayoutProps {
   children: React.ReactNode;
