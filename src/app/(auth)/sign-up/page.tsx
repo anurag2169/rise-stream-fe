@@ -42,7 +42,7 @@ const SignUpForm = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols h-screen">
-      <div className="bg-primary flex flex-col justify-center items-center">
+      <div className=" flex flex-col justify-center items-center">
         <div className="max-w-md w-full ">
           <div>
             <img
