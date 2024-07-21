@@ -46,7 +46,7 @@ const SignUpForm = () => {
     if (state.status === "succeeded") {
       router.push("/sign-in");
     }
-  }, [state.status]);
+  }, [state.status, router]);
 
   return (
     <div className="flex justify-center items-center h-screen">

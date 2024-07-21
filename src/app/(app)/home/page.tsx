@@ -6,7 +6,7 @@ import Link from "next/link";
 import ThemeSwitcher from "@/app/components/ui/ThemeSwitcher";
 import { urlPath } from "@/app/config/url.const";
 
-const dashboard = () => {
+const Home = () => {
   const router = useRouter();
   const logout = async () => {
     const accessToken = Cookies.get("accessToken");
@@ -53,4 +53,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Home;
