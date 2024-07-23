@@ -25,36 +25,6 @@ const SignInForm = () => {
   const userState = useSelector(selectUserState);
   const dispatch = useDispatch<AppDispatch>();
 
-  // const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   const res = await fetch(urlPath.signInUser, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ email, password }),
-  //   });
-
-  //   if (res.ok) {
-  //     const data = await res.json();
-  //     const { accessToken, refreshToken } = data.data;
-
-  //     // Set tokens in cookies
-  //     Cookies.set("accessToken", accessToken, {
-  //       secure: true,
-  //       sameSite: "None",
-  //     });
-  //     Cookies.set("refreshToken", refreshToken, {
-  //       secure: true,
-  //       sameSite: "None",
-  //     });
-
-  //     router.push("/home");
-  //   } else {
-  //     const errorData = await res.json();
-  //     console.error("Registration error:", errorData);
-  //   }
-  // };
-
   const onSubmit = (e: any) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
@@ -62,7 +32,7 @@ const SignInForm = () => {
 
   useEffect(() => {
     if (userState.status === "succeeded" && userState.data) {
-      console.log(userState.data)
+      console.log(userState.data);
       const { accessToken, refreshToken } = userState.data.data;
 
       // Set tokens in cookies

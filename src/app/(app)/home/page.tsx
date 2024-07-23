@@ -7,6 +7,15 @@ import ThemeSwitcher from "@/app/components/ui/ThemeSwitcher";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, selectUserState } from "@/app/lib/features/user/userSlice";
 import { AppDispatch } from "@/app/lib/store";
+import ThumbnailCard from "@/app/components/ui/thumbnailCard/ThumbnailCard";
+import { videoUrlPath } from "@/app/config/url.const";
+import SideBar from "@/app/components/ui/sidebar/SideBar";
+
+interface Video {
+  _id: string;
+  title: string;
+  thumbnail: string;
+}
 
 const Home = () => {
   const router = useRouter();
@@ -14,6 +23,7 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = userState?.data?.data.user;
   const accessToken = Cookies.get("accessToken") || "";
+  const [videos, setVideos] = useState<Video[]>([]);
 
   const logout = async (e: any) => {
     e.preventDefault();
@@ -26,29 +36,52 @@ const Home = () => {
     }
   }, [userState, router]);
 
-  return (
-    <>
-      <div className="text-3xl text-center m-5">Rise Stream website</div>
-      <div className="text-xl text-center m-5">
-        <ThemeSwitcher />
-        <div>Get started to appication</div>
-        <Link
-          href="/sign-up"
-          className="font-medium  text-sm hover:text-primary-dark"
-          prefetch={false}
-        >
-          <button>register account</button>
-        </Link>
-        <div>{user?.email}</div>
-      </div>
+  const getVideos = async () => {
+    try {
+      const res = await fetch(videoUrlPath.getAllVideos, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-      <button
-        onClick={logout}
-        className=" m-4 w-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
-      >
-        logout
-      </button>
-    </>
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await res.json();
+      const videoData = data.data;
+      setVideos(videoData.reverse());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getVideos();
+  }, []);
+
+  return (
+    <div className="absolute mt-14">
+      <div className=" flex flex-row flex-wrap gap-x-4 gap-y-10  justify-center items-start my-5 ml-64">
+        {videos.map((video: any) => {
+          return (
+            <div key={video._id}>
+              <ThumbnailCard
+                title={video.title}
+                views={video.views}
+                duration={video.duration}
+                thumbnail={video.thumbnail}
+                createdAt={video.createdAt}
+                ownerAvatar="https://github.com/shadcn.png"
+                ownerName={"Code With Chai"}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
