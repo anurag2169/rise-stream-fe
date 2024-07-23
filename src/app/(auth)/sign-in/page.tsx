@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
@@ -14,24 +14,56 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { urlPath } from "@/app/config/url.const";
+import { loginUser, selectUserState } from "@/app/lib/features/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/app/lib/store";
 
 const SignInForm = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
+  const userState = useSelector(selectUserState);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   const res = await fetch(urlPath.signInUser, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ email, password }),
+  //   });
+
+  //   if (res.ok) {
+  //     const data = await res.json();
+  //     const { accessToken, refreshToken } = data.data;
+
+  //     // Set tokens in cookies
+  //     Cookies.set("accessToken", accessToken, {
+  //       secure: true,
+  //       sameSite: "None",
+  //     });
+  //     Cookies.set("refreshToken", refreshToken, {
+  //       secure: true,
+  //       sameSite: "None",
+  //     });
+
+  //     router.push("/home");
+  //   } else {
+  //     const errorData = await res.json();
+  //     console.error("Registration error:", errorData);
+  //   }
+  // };
+
+  const onSubmit = (e: any) => {
     e.preventDefault();
+    dispatch(loginUser({ email, password }));
+  };
 
-    const res = await fetch(urlPath.signInUser, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      const { accessToken, refreshToken } = data.data;
+  useEffect(() => {
+    if (userState.status === "succeeded" && userState.data) {
+      console.log(userState.data)
+      const { accessToken, refreshToken } = userState.data.data;
 
       // Set tokens in cookies
       Cookies.set("accessToken", accessToken, {
@@ -43,12 +75,10 @@ const SignInForm = () => {
         sameSite: "None",
       });
 
+      // Redirect to home page
       router.push("/home");
-    } else {
-      const errorData = await res.json();
-      console.error("Registration error:", errorData);
     }
-  };
+  }, [userState, router]);
   return (
     <div className="flex justify-center items-center h-screen ">
       <Card className="mx-auto max-w-sm">
