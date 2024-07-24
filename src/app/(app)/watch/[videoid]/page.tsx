@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 
@@ -133,7 +134,11 @@ export default function watchVideo({
                 <AvatarFallback>AD</AvatarFallback>
               </Avatar>
               <div className="ml-3">
-                <p className="text-sm font-semibold">{videoOwner?.fullName}</p>
+                <Link href={`/channel/${videoOwner?.username}`}>
+                  <p className="text-sm font-semibold">
+                    {videoOwner?.fullName}
+                  </p>
+                </Link>
                 <p className="text-sm text-muted-foreground">
                   1.56M subscribers
                 </p>
