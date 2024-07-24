@@ -43,7 +43,7 @@ export const videoUrlPath = {
   publishAVideo: DOMAIN + "videos/",
 
   /* GET */
-  getVideoById: DOMAIN + "videos/:videoId",
+  getVideoById: DOMAIN + "videos/",
 
   /* DELETE */
   deleteVideo: DOMAIN + "videos/:videoId",
@@ -82,8 +82,8 @@ export const playlistUrlPath = {
 };
 
 export const commentUrlPath = {
-  /* GET */
-  getVideoComments: DOMAIN + "comments/:videoId",
+  /* GET  :videoId*/
+  getVideoComments: DOMAIN + "comments/",
 
   /* POST */
   addComment: DOMAIN + "comments/:videoId",

@@ -66,9 +66,11 @@ interface UserState {
   error: boolean;
 }
 
+const userData = localStorage.getItem("userData") || "";
+
 const initialState: UserState = {
   status: "idle",
-  data: JSON.parse(localStorage.getItem("userData") || "null"),
+  data: JSON.parse(userData),
   error: false,
 };
 

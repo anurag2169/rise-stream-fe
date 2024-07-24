@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -49,103 +50,107 @@ const SignUpForm = () => {
   }, [state.status, router]);
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Card className="mx-auto max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-xl">Sign Up</CardTitle>
-          <CardDescription>
-            Enter your information to create an account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form action="#" method="POST" onSubmit={onSubmit}>
-            <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
+    <>
+      <BackgroundBeams />
+
+      <div className="relative flex justify-center items-center h-screen">
+        <Card className="mx-auto max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-xl">Sign Up</CardTitle>
+            <CardDescription>
+              Enter your information to create an account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form action="#" method="POST" onSubmit={onSubmit}>
+              <div className="grid gap-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="first-name">First name</Label>
+                    <Input
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      placeholder="Full Name"
+                      onChange={handleTextChange}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="last-name">Username</Label>
+                    <Input
+                      id="username"
+                      name="username"
+                      type="text"
+                      autoComplete="username"
+                      required
+                      placeholder="Username"
+                      onChange={handleTextChange}
+                    />
+                  </div>
+                </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="first-name">First name</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    autoComplete="name"
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
                     required
-                    placeholder="Full Name"
+                    placeholder="Email address"
                     onChange={handleTextChange}
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="last-name">Username</Label>
+                  <Label htmlFor="password">Password</Label>
                   <Input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
                     required
-                    placeholder="Username"
+                    placeholder="Password"
                     onChange={handleTextChange}
                   />
                 </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  placeholder="Email address"
-                  onChange={handleTextChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  placeholder="Password"
-                  onChange={handleTextChange}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="avatar">Avatar</Label>
-                  <Input
-                    id="avatar"
-                    name="avatar"
-                    type="file"
-                    required
-                    onChange={handleFileChange}
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="avatar">Avatar</Label>
+                    <Input
+                      id="avatar"
+                      name="avatar"
+                      type="file"
+                      required
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="coverImage">Cover Image</Label>
+                    <Input
+                      id="coverImage"
+                      name="coverImage"
+                      type="file"
+                      required
+                      onChange={handleFileChange}
+                    />
+                  </div>
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="coverImage">Cover Image</Label>
-                  <Input
-                    id="coverImage"
-                    name="coverImage"
-                    type="file"
-                    required
-                    onChange={handleFileChange}
-                  />
-                </div>
+                <Button type="submit" className="w-full">
+                  Create an account
+                </Button>
               </div>
-              <Button type="submit" className="w-full">
-                Create an account
-              </Button>
+            </form>
+            <div className="mt-4 text-center text-sm">
+              Already have an account?{" "}
+              <Link href="/sign-in" className="underline">
+                Sign in
+              </Link>
             </div>
-          </form>
-          <div className="mt-4 text-center text-sm">
-            Already have an account?{" "}
-            <Link href="/sign-in" className="underline">
-              Sign in
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 };
 

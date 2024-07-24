@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,8 +25,28 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import ThemeSwitcher from "./ui/ThemeSwitcher";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../lib/store";
+import { logoutUser, selectUserState } from "../lib/features/user/userSlice";
+import Cookies from "js-cookie";
 
 function Navbar() {
+  const router = useRouter();
+  const userState = useSelector(selectUserState);
+  const dispatch = useDispatch<AppDispatch>();
+  const user = userState?.data?.data.user;
+  const accessToken = Cookies.get("accessToken") || "";
+  const logout = async (e: any) => {
+    e.preventDefault();
+    dispatch(logoutUser(accessToken));
+  };
+
+  useEffect(() => {
+    if (userState.status === "logoutSuccess") {
+      router.push("/sign-in");
+    }
+  }, [userState, router]);
   return (
     <>
       <header className="fixed top-0 z-40 w-full bg-background shadow-sm">
@@ -47,7 +67,7 @@ function Navbar() {
           </div>
           <div className="flex items-center gap-4">
             <div>
-              <ThemeSwitcher/>
+              <ThemeSwitcher />
             </div>
             <Popover>
               <PopoverTrigger asChild>
@@ -118,10 +138,21 @@ function Navbar() {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Billing
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Team
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Subscription
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer" onClick={logout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
