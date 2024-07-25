@@ -29,7 +29,6 @@ export interface SidebarProps {
   data?: SidebarItem[];
 }
 
-
 export const sideBarData: SidebarProps = {
   data: [
     {
@@ -55,40 +54,6 @@ export const sideBarData: SidebarProps = {
       icon: "HomeIcon",
       submenu: false,
       subMenuItems: [],
-    },
-    {
-      menuId: Math.random() * 99,
-      menuName: "You",
-      routerLink: "#",
-      icon: "DashboardIcon",
-      submenu: true,
-      subMenuItems: [
-        {
-          subMenuId: Math.random() * 97,
-          subMenuName: "Your Channel",
-          subMenuLink: "/channel",
-        },
-        {
-          subMenuId: Math.random() * 97,
-          subMenuName: "History",
-          subMenuLink: "/history",
-        },
-        {
-          subMenuId: Math.random() * 97,
-          subMenuName: "Playlists",
-          subMenuLink: "/playlists",
-        },
-        {
-          subMenuId: Math.random() * 97,
-          subMenuName: "Your Videos",
-          subMenuLink: "/videos",
-        },
-        {
-          subMenuId: Math.random() * 97,
-          subMenuName: "Liked Videos",
-          subMenuLink: "/liked-videos",
-        },
-      ],
     },
     {
       menuId: Math.random() * 99,

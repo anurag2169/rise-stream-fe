@@ -35,7 +35,7 @@ function Navbar() {
   const router = useRouter();
   const userState = useSelector(selectUserState);
   const dispatch = useDispatch<AppDispatch>();
-  const user = userState?.data?.data.user;
+  // const user = userState?.data?.data?.user;
   const accessToken = Cookies.get("accessToken") || "";
   const logout = async (e: any) => {
     e.preventDefault();

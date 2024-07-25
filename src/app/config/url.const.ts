@@ -85,14 +85,14 @@ export const commentUrlPath = {
   /* GET  :videoId*/
   getVideoComments: DOMAIN + "comments/",
 
-  /* POST */
-  addComment: DOMAIN + "comments/:videoId",
+  /* POST :videoId */
+  addComment: DOMAIN + "comments/",
 
-  /* DELETE */
-  deleteComment: DOMAIN + "comments/c/:commentId",
+  /* DELETE :commentId */
+  deleteComment: DOMAIN + "comments/c/",
 
-  /* PATCH */
-  updateComment: DOMAIN + "comments/c/:commentId",
+  /* PATCH :commentId */
+  updateComment: DOMAIN + "comments/c/",
 };
 
 export const likesUrlPath = {

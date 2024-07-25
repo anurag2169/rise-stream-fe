@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 
 dayjs.extend(relativeTime);
 

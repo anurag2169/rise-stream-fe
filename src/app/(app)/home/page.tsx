@@ -11,6 +11,7 @@ import ThumbnailCard from "@/app/components/ui/thumbnailCard/ThumbnailCard";
 import { videoUrlPath } from "@/app/config/url.const";
 import SideBar from "@/app/components/ui/sidebar/SideBar";
 import { Button } from "@/components/ui/button";
+import { BentoGrid } from "@/components/ui/bento-grid";
 
 interface Video {
   _id: string;

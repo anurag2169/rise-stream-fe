@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { RootState } from "../../store";
 import { urlPath } from "@/app/config/url.const";
 import Cookies from "js-cookie";
+import { getUserDataFromLocalStorage } from "../../localstorageUtils";
 
 // action
 export const registerUser = createAsyncThunk(
@@ -66,11 +67,12 @@ interface UserState {
   error: boolean;
 }
 
-const userData = localStorage.getItem("userData") || "";
-
+// const userData = localStorage.getItem("userData") || "";
+// const userData = localStorage.getItem("userData");
 const initialState: UserState = {
   status: "idle",
-  data: JSON.parse(userData),
+  data: getUserDataFromLocalStorage() || {},
+  // data: userData ? JSON.parse(userData) : {},
   error: false,
 };
 
