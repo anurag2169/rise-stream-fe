@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../lib/store";
 import { logoutUser, selectUserState } from "../lib/features/user/userSlice";
 import Cookies from "js-cookie";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import SideBar from "./ui/sidebar/SideBar";
+import { sideBarData } from "../config/sideBarData";
 
 function Navbar() {
   const router = useRouter();
@@ -47,14 +50,31 @@ function Navbar() {
       router.push("/sign-in");
     }
   }, [userState, router]);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <>
       <header className="fixed top-0 z-40 w-full bg-background shadow-sm">
         <div className="container flex h-14 items-center justify-between px-4 md:px-6">
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
-            <MountainIcon className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
-          </Link>
+          <div className="flex gap-5">
+            <Button
+              variant={"ghost"}
+              className="p-2 rounded-md text-gray-700 dark:text-gray-300"
+              onClick={toggleSidebar}
+            >
+              <HamburgerMenuIcon className="h-6 w-6" />
+            </Button>
+
+            <Link href="#" className="flex items-center gap-2" prefetch={false}>
+              <MountainIcon className="h-6 w-6" />
+              <span className="sr-only">Acme Inc</span>
+            </Link>
+          </div>
           <div className="relative flex-1 max-w-md">
             <div className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground">
               <SearchIcon className="h-4 w-4" />
@@ -158,6 +178,11 @@ function Navbar() {
           </div>
         </div>
       </header>
+      <SideBar
+        data={sideBarData.data}
+        isSubmenuOpen={true}
+        isSidebarOpen={isSidebarOpen}
+      />
     </>
   );
 }

@@ -3,21 +3,15 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import ThemeSwitcher from "@/app/components/ui/ThemeSwitcher";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, selectUserState } from "@/app/lib/features/user/userSlice";
-import { AppDispatch } from "@/app/lib/store";
+import { useSelector } from "react-redux";
+import { selectUserState } from "@/app/lib/features/user/userSlice";
 import ThumbnailCard from "@/app/components/ui/thumbnailCard/ThumbnailCard";
 import { videoUrlPath } from "@/app/config/url.const";
-import SideBar from "@/app/components/ui/sidebar/SideBar";
-import { Button } from "@/components/ui/button";
-import { BentoGrid } from "@/components/ui/bento-grid";
-
-interface Video {
-  _id: string;
-  title: string;
-  thumbnail: string;
-}
+import { Video } from "@/app/types/video.type";
+import { FlipWords } from "@/components/ui/flip-words";
+import { LampContainer } from "@/components/ui/lamp";
+import { motion } from "framer-motion";
+import { Boxes } from "@/components/ui/background-boxes";
 
 const Home = () => {
   const router = useRouter();
@@ -57,26 +51,48 @@ const Home = () => {
     getVideos();
   }, []);
 
+  const words = ["movies", "series", "channels", "events", "creators"];
+
   return (
-    <div className="absolute mt-14">
-      <div className=" flex flex-row flex-wrap gap-x-4 gap-y-10  justify-center items-start my-5 ml-64">
-        {videos.map((video: any) => {
-          return (
-            <div key={video._id}>
-              <Link href={`/watch/${video._id}`}>
-                <ThumbnailCard
-                  title={video.title}
-                  views={video.views}
-                  duration={video.duration}
-                  thumbnail={video.thumbnail}
-                  createdAt={video.createdAt}
-                  ownerAvatar="https://github.com/shadcn.png"
-                  ownerName={"Code With Chai"}
-                />
-              </Link>
-            </div>
-          );
-        })}
+    <div>
+      <LampContainer>
+        <motion.h1
+          initial={{ opacity: 0.5, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.3,
+            duration: 0.8,
+            ease: "easeInOut",
+          }}
+          className="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+        >
+          <div className="text-5xl mx-auto font-normal text-neutral-600 dark:text-neutral-400">
+            Stream your favorite
+            <FlipWords words={words} className="font-bold" />
+            anytime, anywhere.
+          </div>
+        </motion.h1>
+      </LampContainer>
+      <div className="mt-20">
+        <div className="flex flex-row flex-wrap gap-x-4 gap-y-10  justify-center items-start">
+          {videos.map((video: any) => {
+            return (
+              <div key={video._id}>
+                <Link href={`/watch/${video._id}`}>
+                  <ThumbnailCard
+                    title={video.title}
+                    views={video.views}
+                    duration={video.duration}
+                    thumbnail={video.thumbnail}
+                    createdAt={video.createdAt}
+                    ownerAvatar="https://github.com/shadcn.png"
+                    ownerName={"Code With Chai"}
+                  />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

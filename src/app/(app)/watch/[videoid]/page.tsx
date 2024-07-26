@@ -2,7 +2,6 @@
 
 import { commentUrlPath, videoUrlPath } from "@/app/config/url.const";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -14,39 +13,15 @@ import { selectUserState } from "@/app/lib/features/user/userSlice";
 import Comments from "@/app/components/ui/comments/Comments";
 import VideoDescription from "@/app/components/ui/videoDescription/VideoDescription";
 import VideoActionBtn from "@/app/components/ui/videoActionBtn/VideoActionBtn";
+import { Owner, Video, Comment } from "@/app/types/video.type";
+import {
+  getVideo,
+  getCommentsOnVideo,
+  addComment,
+  editComment,
+} from "@/app/services/videoService";
 
 dayjs.extend(relativeTime);
-
-interface Video {
-  _id: string;
-  videoFile: string;
-  thumbnail: string;
-  title: string;
-  description: string;
-  duration: number;
-  views: number;
-  isPublished: boolean;
-  owner: Owner[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Owner {
-  _id: string;
-  username: string;
-  email: string;
-  fullName: string;
-  avatar: string;
-}
-
-interface Comments {
-  _id: string;
-  content: string;
-  video: string;
-  owner: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export default function watchVideo({
   params,
@@ -54,84 +29,145 @@ export default function watchVideo({
   params: { videoid: string };
 }) {
   const { videoid } = params;
-  const accessToken = Cookies.get("accessToken");
   const [video, setVideo] = useState<Video | null>(null);
   const [videoOwner, setVideoOwner] = useState<Owner | null>(null);
-  const [comments, setComments] = useState<Comments[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [currentUser, setCurrentUser] = useState<Owner | null>(null);
   const userState = useSelector(selectUserState);
 
-  const getVideo = async () => {
+  // const getVideo = async () => {
+  //   try {
+  //     const res = await fetch(`${videoUrlPath.getVideoById}${videoid}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await res.json();
+  //     const videoData = data.data[0];
+
+  //     setVideo(videoData);
+  //     setVideoOwner(videoData?.owner[0]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const getComentsOnvideo = async () => {
+  //   try {
+  //     const res = await fetch(`${commentUrlPath.getVideoComments}${videoid}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await res.json();
+  //     const commentsData = data.data;
+
+  //     setComments(commentsData.reverse());
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const addComment = async (content: any) => {
+  //   try {
+  //     const res = await fetch(`${commentUrlPath.addComment}${videoid}`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ content }),
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error(res.statusText);
+  //     }
+
+  //     await res.json();
+  //     getComentsOnvideo();
+  //   } catch (error) {
+  //     console.error("Failed to add comment:", error);
+  //   }
+  // };
+  // const editComment = async (commentId: any, editedContent: any) => {
+  //   try {
+  //     const res = await fetch(`${commentUrlPath.updateComment}${commentId}`, {
+  //       method: "POSt",
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //       },
+
+  //       body: JSON.stringify({ content: editedContent }),
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error(res.statusText);
+  //     }
+
+  //     await res.json();
+  //     getComentsOnvideo();
+  //   } catch {}
+  // };
+
+  const fetchVideo = async () => {
     try {
-      const res = await fetch(`${videoUrlPath.getVideoById}${videoid}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await res.json();
-      const videoData = data.data[0];
-
+      const videoData = await getVideo(videoid);
       setVideo(videoData);
       setVideoOwner(videoData?.owner[0]);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-  const getComentsOnvideo = async () => {
+
+  const fetchComments = async () => {
     try {
-      const res = await fetch(`${commentUrlPath.getVideoComments}${videoid}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await res.json();
-      const commentsData = data.data;
-
-      setComments(commentsData.reverse());
+      const commentsData = await getCommentsOnVideo(videoid);
+      setComments(commentsData);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-  const addComment = async (content: any) => {
+
+  const handleAddComment = async (content: any) => {
     try {
-      const res = await fetch(`${commentUrlPath.addComment}${videoid}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content }),
-      });
-
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
-
-      const newComment = await res.json();
-      setComments((prevComments) => [newComment, ...prevComments]);
+      await addComment(videoid, content);
+      fetchComments();
     } catch (error) {
       console.error("Failed to add comment:", error);
     }
   };
+
+  const handleEditComment = async (commentId: string, editedContent: any) => {
+    try {
+      await editComment(commentId, editedContent);
+      fetchComments();
+    } catch (error) {
+      console.error("Failed to edit comment:", error);
+    }
+  };
+
   useEffect(() => {
-    getVideo();
-    getComentsOnvideo();
+    fetchVideo();
     setCurrentUser(userState?.data?.data?.user);
-  }, [videoid, userState, setComments]);
+  }, [videoid, userState]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [videoid]);
 
   return (
     <>
@@ -191,7 +227,8 @@ export default function watchVideo({
               <Comments
                 comments={comments}
                 currentUser={currentUser}
-                onAddComment={addComment}
+                onAddComment={handleAddComment}
+                onEditComment={handleEditComment}
               />
             </div>
           </div>

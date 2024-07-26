@@ -1,19 +1,19 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { commentUrlPath } from "@/app/config/url.const";
-import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 
 dayjs.extend(relativeTime);
 
-const Comments = ({ comments, currentUser, onAddComment }: any) => {
-  const accessToken = Cookies.get("accessToken");
-  const [loading, setLoading] = useState(false);
+const Comments = ({
+  comments,
+  currentUser,
+  onAddComment,
+  onEditComment,
+}: any) => {
   const [content, setContent] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContent, setEditedContent] = useState("");
@@ -27,59 +27,22 @@ const Comments = ({ comments, currentUser, onAddComment }: any) => {
     setEditedContent(comment.content);
   };
 
-  const handleEditChange = (e: any) => {
-    setEditedContent(e.target.value);
+  const commentOnVideo = async () => {
+    await onAddComment(content);
+    setContent("");
   };
 
-  const handleEditSubmit = async (commentId: any) => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${commentUrlPath.updateComment}${commentId}`, {
-        method: "POSt",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-
-        body: JSON.stringify({ content: editedContent }),
-      });
-
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
-
-      const updatedComment = await res.json();
-      // Update the comment in the local state
-      comments = comments.map((comment: any) =>
-        comment._id === commentId ? updatedComment : comment
-      );
-      setEditingCommentId(null);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
-
-  const commentOnVideo = async (e: any) => {
-    e.preventDefault();
-    setLoading(true);
-    console.log("Content before sending:", content);
-    try {
-      await onAddComment(content);
-      setContent("");
-      setLoading(false);
-    } catch (error) {
-      console.error("Failed to add comment:", error);
-      setLoading(false);
-    }
+  const commentEditOnVideo = async (id: any) => {
+    await onEditComment(id, editedContent);
+    setEditedContent("");
+    setEditingCommentId(null);
   };
   return (
     <>
       <div className="mt-8 bg-muted p-4 rounded-md dark:bg-muted-dark dark:text-muted-foreground-dark">
         <h2 className="text-lg font-semibold">Comments</h2>
         <div className="mt-4 flex gap-2 items-end">
-          <Textarea
+          <Input
             id="content"
             name="content"
             value={content}
@@ -88,7 +51,7 @@ const Comments = ({ comments, currentUser, onAddComment }: any) => {
               setContent(e.target.value);
             }}
             placeholder="Add a comment..."
-            className="w-full rounded-md border border-muted-foreground/20 p-2 text-sm focus:border-primary focus:outline-none bg-muted dark:bg-muted-dark dark:text-muted-foreground-dark"
+            className="w-full rounded-md border border-muted-foreground/20 text-sm focus:border-primary focus:outline-none bg-muted dark:bg-muted-dark dark:text-muted-foreground-dark"
           />
           <Button onClick={commentOnVideo} variant={"default"} className="mt-2">
             Comment
@@ -127,7 +90,9 @@ const Comments = ({ comments, currentUser, onAddComment }: any) => {
                                   <span>Cancel</span>
                                 </Button>
                                 <Button
-                                  onClick={() => handleEditSubmit(comment._id)}
+                                  onClick={() =>
+                                    commentEditOnVideo(comment._id)
+                                  }
                                   variant="default"
                                   size="icon"
                                 >
@@ -162,7 +127,7 @@ const Comments = ({ comments, currentUser, onAddComment }: any) => {
                         name="editedContent"
                         value={editedContent}
                         required
-                        onChange={handleEditChange}
+                        onChange={(e: any) => setEditedContent(e.target.value)}
                         placeholder="Update a comment"
                         className="w-full rounded-md border border-muted-foreground/20 text-sm focus:border-primary focus:outline-none bg-muted dark:bg-muted-dark dark:text-muted-foreground-dark"
                       />
