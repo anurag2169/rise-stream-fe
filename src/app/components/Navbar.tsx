@@ -33,12 +33,12 @@ import Cookies from "js-cookie";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import SideBar from "./ui/sidebar/SideBar";
 import { sideBarData } from "../config/sideBarData";
+import SidebarSecondary from "./ui/SidebarSecondary/SidebarSecondary";
 
 function Navbar() {
   const router = useRouter();
   const userState = useSelector(selectUserState);
   const dispatch = useDispatch<AppDispatch>();
-  // const user = userState?.data?.data?.user;
   const accessToken = Cookies.get("accessToken") || "";
   const logout = async (e: any) => {
     e.preventDefault();
@@ -59,8 +59,8 @@ function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 z-40 w-full bg-background shadow-sm">
-        <div className="container flex h-14 items-center justify-between px-4 md:px-6">
+      <header className="fixed top-0 z-40 w-full bg-background shadow-sm px-9">
+        <div className=" flex h-14 items-center justify-between">
           <div className="flex gap-5">
             <Button
               variant={"ghost"}
@@ -178,6 +178,11 @@ function Navbar() {
           </div>
         </div>
       </header>
+      {!isSidebarOpen && (
+        <div className="mt-14">
+          <SidebarSecondary data={sideBarData.data} />
+        </div>
+      )}
       <SideBar
         data={sideBarData.data}
         isSubmenuOpen={true}

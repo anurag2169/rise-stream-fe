@@ -8,7 +8,7 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import React from "react";
 
-const SideBar: React.FC<SidebarProps & { isSidebarOpen?: boolean }> = ({
+const SideBar: React.FC<SidebarProps> = ({
   data,
   isSubmenuOpen,
   isSidebarOpen,
@@ -19,7 +19,7 @@ const SideBar: React.FC<SidebarProps & { isSidebarOpen?: boolean }> = ({
         <aside
           className={`mt-14 fixed inset-y-0 left-0 z-10 flex w-64 flex-col border-r bg-background dark:bg-background-dark transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 ease-in-out `}
+          } transition-transform duration-500 ease-out `}
         >
           <nav className="flex-1 overflow-y-auto px-4 py-6 no-scrollbar">
             <ul className="space-y-1">

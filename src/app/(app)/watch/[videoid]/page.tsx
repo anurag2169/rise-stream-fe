@@ -35,94 +35,6 @@ export default function watchVideo({
   const [currentUser, setCurrentUser] = useState<Owner | null>(null);
   const userState = useSelector(selectUserState);
 
-  // const getVideo = async () => {
-  //   try {
-  //     const res = await fetch(`${videoUrlPath.getVideoById}${videoid}`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const data = await res.json();
-  //     const videoData = data.data[0];
-
-  //     setVideo(videoData);
-  //     setVideoOwner(videoData?.owner[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const getComentsOnvideo = async () => {
-  //   try {
-  //     const res = await fetch(`${commentUrlPath.getVideoComments}${videoid}`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const data = await res.json();
-  //     const commentsData = data.data;
-
-  //     setComments(commentsData.reverse());
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const addComment = async (content: any) => {
-  //   try {
-  //     const res = await fetch(`${commentUrlPath.addComment}${videoid}`, {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ content }),
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error(res.statusText);
-  //     }
-
-  //     await res.json();
-  //     getComentsOnvideo();
-  //   } catch (error) {
-  //     console.error("Failed to add comment:", error);
-  //   }
-  // };
-  // const editComment = async (commentId: any, editedContent: any) => {
-  //   try {
-  //     const res = await fetch(`${commentUrlPath.updateComment}${commentId}`, {
-  //       method: "POSt",
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //       },
-
-  //       body: JSON.stringify({ content: editedContent }),
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error(res.statusText);
-  //     }
-
-  //     await res.json();
-  //     getComentsOnvideo();
-  //   } catch {}
-  // };
-
   const fetchVideo = async () => {
     try {
       const videoData = await getVideo(videoid);
@@ -171,9 +83,9 @@ export default function watchVideo({
 
   return (
     <>
-      <div className="flex justify-center w-full absolute mt-20 h-screen">
-        <div className="max-w-4xl w-screen mx-auto">
-          <div className="relative w-full h-[450px] bg-black">
+      <div className="flex justify-center absolute my-20 h-screen mx-2 md:mx-32">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative w-full lg:h-[450px] bg-black">
             <video
               className=" w-full h-full "
               src={video?.videoFile}

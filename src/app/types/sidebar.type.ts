@@ -17,4 +17,5 @@ interface SidebarItem {
 export interface SidebarProps {
   data?: SidebarItem[];
   isSubmenuOpen?: boolean;
+  isSidebarOpen?: boolean
 }

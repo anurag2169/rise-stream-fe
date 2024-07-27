@@ -40,7 +40,7 @@ const uploadVideo = () => {
     setPopupMessage("");
   };
 
-  const onSubmit = async (e: any) => {
+  const publishVideo = async (e: any) => {
     e.preventDefault();
     setLoading(true);
 
@@ -63,7 +63,6 @@ const uploadVideo = () => {
       setLoading(false);
       return data;
     } catch (error) {
-      // console.error("Error:", error.message);
       setPopupMessage(`Failed to upload the video`);
       setShowPopup(true);
       setLoading(false);
@@ -84,7 +83,7 @@ const uploadVideo = () => {
             <CardContent>
               <form
                 className="grid gap-4"
-                onSubmit={onSubmit}
+                onSubmit={publishVideo}
                 method="POST"
                 action="#"
               >
@@ -135,9 +134,6 @@ const uploadVideo = () => {
                 <Button type="submit">Upload Video</Button>
               </form>
             </CardContent>
-            {/* <CardFooter className="flex justify-end">
-          <Button type="submit">Upload Video</Button>
-        </CardFooter> */}
           </Card>
         </div>
 
@@ -157,24 +153,27 @@ const uploadVideo = () => {
           </div>
         )}
 
-        {showPopup && <Popup message={popupMessage} onClose={closePopup} />}
+        {showPopup && (
+          <div className="fixed inset-0 z-10 flex justify-center items-center bg-black bg-opacity-50">
+            <div className="relative">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Upload Video</CardTitle>
+                  <CardDescription>{popupMessage}</CardDescription>
+                </CardHeader>
+              </Card>
+              <button
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                onClick={closePopup}
+              >
+                &times;
+              </button>
+            </div>
+          </div>
+        )}
       </Suspense>
     </>
   );
 };
 
 export default uploadVideo;
-
-const Popup = ({ message, onClose }: any) => (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white p-4 rounded">
-      <p>{message}</p>
-      <button
-        onClick={onClose}
-        className="mt-2 p-2 bg-blue-500 text-white rounded"
-      >
-        Close
-      </button>
-    </div>
-  </div>
-);

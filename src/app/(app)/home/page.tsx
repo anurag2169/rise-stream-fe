@@ -74,7 +74,7 @@ const Home = () => {
         </motion.h1>
       </LampContainer>
       <div className="mt-20">
-        <div className="flex flex-row flex-wrap gap-x-4 gap-y-10  justify-center items-start">
+        <div className="flex flex-row flex-wrap gap-x-4 gap-y-10  justify-center items-center">
           {videos.map((video: any) => {
             return (
               <div key={video._id}>
