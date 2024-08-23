@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
@@ -56,13 +56,14 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
           </div>
         </div>
         <CardContent className="p-3">
-          <div className="flex  space-x-4">
-            <Avatar>
-              <img
+          <div className="flex space-x-4">
+            <Avatar className="rounded-full">
+              <AvatarImage
                 src={ownerAvatar}
                 alt="Channel avatar"
                 className="w-10 h-10 rounded-full"
               />
+              <AvatarFallback>RS</AvatarFallback>
             </Avatar>
             <div className="min-h-20">
               <h3 className="text-sm  font-semibold text-gray-900 dark:text-gray-100">

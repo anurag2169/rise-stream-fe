@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Input } from "@/components/ui/input";
+import { HeartFilledIcon, HeartIcon } from "@radix-ui/react-icons";
 
 dayjs.extend(relativeTime);
 
@@ -13,10 +14,13 @@ const Comments = ({
   currentUser,
   onAddComment,
   onEditComment,
+  onDeleteComment,
+  onLikeComment,
 }: any) => {
   const [content, setContent] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContent, setEditedContent] = useState("");
+  const [toggleLike, setToggleLike] = useState(false);
 
   const formatCreatedAt = (dateString: string): string => {
     return dayjs(dateString).fromNow();
@@ -36,6 +40,13 @@ const Comments = ({
     await onEditComment(id, editedContent);
     setEditedContent("");
     setEditingCommentId(null);
+  };
+  const commentDeleteOnVideo = async (id: any) => {
+    await onDeleteComment(id);
+  };
+  const likeOnComment = async (id: any) => {
+    await onLikeComment(id);
+    setToggleLike(!toggleLike);
   };
   return (
     <>
@@ -109,14 +120,25 @@ const Comments = ({
                                 <span className="sr-only">Edit</span>
                               </Button>
                             )}
-                            <Button variant="ghost" size="icon">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => commentDeleteOnVideo(comment._id)}
+                            >
                               <TrashIcon className="h-4 w-4" />
                               <span className="sr-only">Delete</span>
                             </Button>
                           </>
                         )}
-                        <Button variant="ghost" size="icon">
-                          <ThumbsUpIcon className="h-4 w-4" />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => likeOnComment(comment._id)}
+                        >
+                          {!toggleLike && <HeartIcon className="h-4 w-4" />}
+                          {toggleLike && (
+                            <HeartFilledIcon className="h-4 w-4" />
+                          )}
                           <span className="sr-only">Like</span>
                         </Button>
                       </div>

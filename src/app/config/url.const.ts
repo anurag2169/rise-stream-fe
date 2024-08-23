@@ -99,8 +99,8 @@ export const likesUrlPath = {
   /* POST */
   toggleVideoLike: DOMAIN + "likes/toggle/v/:videoId",
 
-  /* POST */
-  toggleCommentLike: DOMAIN + "likes/toggle/v/:commentId",
+  /* POST :commentId */
+  toggleCommentLike: DOMAIN + "likes/toggle/c/",
 
   /* POST */
   toggleTweetLike: DOMAIN + "likes/toggle/v/:tweetId",

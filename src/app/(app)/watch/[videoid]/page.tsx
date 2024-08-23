@@ -1,10 +1,8 @@
 "use client";
 
-import { commentUrlPath, videoUrlPath } from "@/app/config/url.const";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
@@ -20,6 +18,7 @@ import {
   addComment,
   editComment,
 } from "@/app/services/videoService";
+import { deleteComment, toggleCommentLike } from "@/app/services/commentServices";
 
 dayjs.extend(relativeTime);
 
@@ -69,6 +68,23 @@ export default function watchVideo({
       fetchComments();
     } catch (error) {
       console.error("Failed to edit comment:", error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      await deleteComment(commentId);
+      fetchComments();
+    } catch (error) {
+      console.error("Failed to delete a comment:", error);
+    }
+  };
+  const handleLikeOnComment = async (commentId: string) => {
+    try {
+      await toggleCommentLike(commentId);
+      fetchComments();
+    } catch (error) {
+      console.error("Failed to delete a comment:", error);
     }
   };
 
@@ -141,6 +157,8 @@ export default function watchVideo({
                 currentUser={currentUser}
                 onAddComment={handleAddComment}
                 onEditComment={handleEditComment}
+                onDeleteComment={handleDeleteComment}
+                onLikeComment={handleLikeOnComment}
               />
             </div>
           </div>

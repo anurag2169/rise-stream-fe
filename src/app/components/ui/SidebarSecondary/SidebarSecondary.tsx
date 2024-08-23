@@ -1,5 +1,11 @@
 "use client";
 import { SidebarProps } from "@/app/types/sidebar.type";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -18,12 +24,23 @@ const SidebarSecondary: React.FC<SidebarProps> = ({ data }) => {
           }`}
           prefetch={false}
         >
-          <div
-            className={`flex flex-col items-center gap-2 rounded-lg p-2 transition-colors hover:bg-accent hover:text-accent-foreground`}
-          >
-            <div>{item.Icon && <item.Icon className="h-5 w-5" />}</div>
-            <div className="text-xs font-medium px-1">{item.menuName}</div>
-          </div>
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className={`flex flex-col items-center gap-2 rounded-lg p-2 transition-colors hover:bg-accent hover:text-accent-foreground`}
+                >
+                  <div>{item.Icon && <item.Icon className="h-5 w-5" />}</div>
+                  <div className="text-xs font-medium px-1">
+                    {item.menuName}
+                  </div>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>{item.menuName}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Link>
       ))}
     </nav>
