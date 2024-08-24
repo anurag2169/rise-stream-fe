@@ -30,10 +30,10 @@ const SidebarSecondary: React.FC<SidebarProps> = ({ data }) => {
                 <div
                   className={`flex flex-col items-center gap-2 rounded-lg p-2 transition-colors hover:bg-accent hover:text-accent-foreground`}
                 >
-                  <div>{item.Icon && <item.Icon className="h-5 w-5" />}</div>
-                  <div className="text-xs font-medium px-1">
+                  <div>{item.Icon && <item.Icon className="h-5 w-8" />}</div>
+                  {/* <div className="text-xs font-medium px-1">
                     {item.menuName}
-                  </div>
+                  </div> */}
                 </div>
               </TooltipTrigger>
               <TooltipContent side="right">

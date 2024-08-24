@@ -70,7 +70,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
                 {truncateText(title)}
               </h3>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                {ownerName}
+                {ownerName || "Rise Stream"}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 {views} views • {formatCreatedAt(createdAt)}

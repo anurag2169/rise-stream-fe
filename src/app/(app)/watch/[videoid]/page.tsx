@@ -120,7 +120,7 @@ export default function watchVideo({
                   className="w-10 h-10 rounded-full"
                   src={videoOwner?.avatar}
                 />
-                <AvatarFallback>AD</AvatarFallback>
+                <AvatarFallback>RS</AvatarFallback>
               </Avatar>
               <div className="ml-3">
                 <Link href={`/channel/${videoOwner?.username}`}>

@@ -4,7 +4,7 @@ import React from "react";
 const HomeSkeleton = () => {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <header className="sticky top-0 z-40 w-full border-b bg-background">
+      {/* <header className="sticky top-0 z-40 w-full border-b bg-background">
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
           <div className="flex items-center space-x-4">
             <Skeleton className="h-8 w-8 rounded-full" />
@@ -17,7 +17,7 @@ const HomeSkeleton = () => {
             <Skeleton className="h-4 w-20" />
           </nav>
         </div>
-      </header>
+      </header> */}
       <main className="container flex-1 px-4 py-8 md:px-6 md:py-12">
         <div className="grid gap-8">
           <div className="space-y-4">

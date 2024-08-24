@@ -25,8 +25,8 @@ export const urlPath = {
   /* PATCH */
   updateUserCoverImage: DOMAIN + "users/cover-image",
 
-  /* GET */
-  getUserChannelProfile: DOMAIN + "users/c/:username",
+  /* GET :username */
+  getUserChannelProfile: DOMAIN + "users/c/",
 
   /* GET */
   getUserWatchHistory: DOMAIN + "users/history",
@@ -54,8 +54,8 @@ export const videoUrlPath = {
   /* patch */
   togglePublishStatus: DOMAIN + "videos/toggle/publish/:videoId",
 
-  /* GET */
-  getUserAllVideos: DOMAIN + "videos/userVideos/:userId",
+  /* GET :userId */
+  getUserAllVideos: DOMAIN + "videos/userVideos/",
 };
 
 export const playlistUrlPath = {
