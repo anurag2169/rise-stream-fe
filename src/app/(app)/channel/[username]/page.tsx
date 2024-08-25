@@ -1,9 +1,11 @@
 "use client";
 import ChannelDetails from "@/app/components/ui/channelDetails/ChannelDetails";
+import PlaylistTab from "@/app/components/ui/playlist/PlaylistTab";
 import HomeTab from "@/app/components/ui/tabs/homeTab/HomeTab";
 import Tab from "@/app/components/ui/tabs/Tabs";
 import VideoTab from "@/app/components/ui/tabs/videoTab/VideoTab";
-import { getUserDataFromLocalStorage } from "@/app/lib/localstorageUtils";
+import { getChannelPlaylists } from "@/app/services/playlistService";
+import { toggleSubscription } from "@/app/services/subscriptionServices";
 import {
   getUserChannelProfile,
   getUserChannelVideos,
@@ -18,6 +20,7 @@ const channel = ({ params }: { params: { username: string } }) => {
     useState<channelDetails | null>(null);
 
   const [channelVideos, setchannelVideos] = useState([]);
+  const [channelPlaylists, setchannelPlaylists] = useState([]);
 
   const getUserChannel = async () => {
     try {
@@ -37,6 +40,22 @@ const channel = ({ params }: { params: { username: string } }) => {
     }
   };
 
+  const togglesubscription = async () => {
+    try {
+      await toggleSubscription(userChannelDetails?.data._id);
+      getUserChannel();
+    } catch (error) {
+      console.error("Failed to toggle User channel subscription");
+    }
+  };
+
+  const getChannelplaylists = async () => {
+    const playListsData = await getChannelPlaylists(
+      userChannelDetails?.data._id
+    );
+    setchannelPlaylists(playListsData?.data);
+  };
+
   useEffect(() => {
     getUserChannel();
   }, []);
@@ -44,6 +63,7 @@ const channel = ({ params }: { params: { username: string } }) => {
   useEffect(() => {
     if (userChannelDetails?.data._id) {
       getchannelvideos();
+      getChannelplaylists();
     }
   }, [userChannelDetails?.data._id]);
 
@@ -67,11 +87,7 @@ const channel = ({ params }: { params: { username: string } }) => {
     {
       value: "playlist",
       label: "Playlist",
-      content: (
-        <>
-          <section>Playlist Tab Content</section>
-        </>
-      ),
+      content: <PlaylistTab playlists={channelPlaylists} />,
     },
     {
       value: "live",
@@ -83,7 +99,10 @@ const channel = ({ params }: { params: { username: string } }) => {
   return (
     <div className="w-10/12 mt-20 mx-36 h-screen absolute">
       {userChannelDetails ? (
-        <ChannelDetails channelDetails={userChannelDetails} />
+        <ChannelDetails
+          channelDetails={userChannelDetails}
+          toggleSubscriber={togglesubscription}
+        />
       ) : (
         <div>Loading...</div>
       )}

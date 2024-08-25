@@ -14,4 +14,5 @@ export interface channelDetails {
 
 export interface channelDetailsProps {
   channelDetails: channelDetails | null;
+  toggleSubscriber: any
 }

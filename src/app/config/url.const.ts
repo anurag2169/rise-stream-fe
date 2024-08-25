@@ -77,8 +77,8 @@ export const playlistUrlPath = {
   /* PATCH */
   removeVideoFromPlaylist: DOMAIN + "playlist/remove/:videoId/:playlistId",
 
-  /* GET */
-  getUserPlaylists: DOMAIN + "playlist/user/:userId",
+  /* GET :userId */
+  getUserPlaylists: DOMAIN + "playlist/user/",
 };
 
 export const commentUrlPath = {
@@ -113,8 +113,8 @@ export const subscriptionsUrlPath = {
   /* GET */
   getUserChannelSubscribers: DOMAIN + "subscriptions/c/:channelId",
 
-  /* POST */
-  toggleSubscription: DOMAIN + "subscriptions/c/:channelId",
+  /* POST :channelId*/
+  toggleSubscription: DOMAIN + "subscriptions/c/",
 
   /* GET */
   getSubscribedChannels: DOMAIN + "subscriptions/u/:subscriberId",

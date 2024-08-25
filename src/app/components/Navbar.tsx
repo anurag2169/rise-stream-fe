@@ -159,16 +159,13 @@ function Navbar() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer">
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  Billing
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  Team
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  Subscription
+                  <Link
+                    href={
+                      `/channel/${userState.data.data?.user.username}` || "/"
+                    }
+                  >
+                    View your Channel
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer" onClick={logout}>
                   Logout

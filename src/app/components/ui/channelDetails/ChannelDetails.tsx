@@ -3,7 +3,10 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { channelDetailsProps } from "@/app/types/userChannel.types";
 
-const ChannelDetails: React.FC<channelDetailsProps> = ({ channelDetails }) => {
+const ChannelDetails: React.FC<channelDetailsProps> = ({
+  channelDetails,
+  toggleSubscriber,
+}) => {
   return (
     <>
       <div>
@@ -20,16 +23,16 @@ const ChannelDetails: React.FC<channelDetailsProps> = ({ channelDetails }) => {
           <div className="flex items-center gap-4">
             <Avatar className="h-16 w-16">
               <AvatarImage src={channelDetails?.data.avatar} />
-              <AvatarFallback>YT</AvatarFallback>
+              <AvatarFallback>RS</AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-2xl font-bold capitalize">
                 {channelDetails?.data.fullName}
               </h2>
               <p className="text-sm text-muted-foreground">
                 {channelDetails?.data.username}
               </p>
-              <p className="text-sm text-muted-foreground flex gap-2">
+              <p className="text-sm text-muted-foreground flex gap-2 capitalize">
                 <span>{channelDetails?.data.subscribersCount} subscribers</span>
                 <span>1.3K Videos</span>
               </p>
@@ -39,7 +42,8 @@ const ChannelDetails: React.FC<channelDetailsProps> = ({ channelDetails }) => {
               variant={
                 !channelDetails?.data.isSubscribed ? "outline" : "default"
               }
-              className="ml-auto"
+              className="ml-auto capitalize"
+              onClick={() => toggleSubscriber()}
             >
               {!channelDetails?.data.isSubscribed ? "Subscribe" : "Subscribed"}
             </Button>
