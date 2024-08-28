@@ -19,3 +19,20 @@ export const getChannelPlaylists = async (ChannelId: any) => {
     console.error("Failed to fetch channel playlists" + error);
   }
 };
+
+export const getPlaylistById = async (playlistId: any) => {
+  try {
+    const res = await fetch(`${playlistUrlPath.getPlaylistById}${playlistId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!res.ok) {
+      console.error("Failed to fetch playlist Details");
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to fetch playlist Details" + error);
+  }
+};

@@ -62,8 +62,8 @@ export const playlistUrlPath = {
   /* POST */
   createPlaylist: DOMAIN + "playlist/",
 
-  /* GET */
-  getPlaylistById: DOMAIN + "playlist/:playlistId",
+  /* GET :playlistId */
+  getPlaylistById: DOMAIN + "playlist/",
 
   /* PATCH */
   updatePlaylist: DOMAIN + "playlist/:playlistId",
