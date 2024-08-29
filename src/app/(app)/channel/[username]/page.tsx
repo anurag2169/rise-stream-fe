@@ -5,7 +5,11 @@ import HomeTab from "@/app/components/ui/tabs/homeTab/HomeTab";
 import Tab from "@/app/components/ui/tabs/Tabs";
 import VideoTab from "@/app/components/ui/tabs/videoTab/VideoTab";
 import { getChannelPlaylists } from "@/app/services/playlistService";
-import { toggleSubscription } from "@/app/services/subscriptionServices";
+import {
+  getSubscribedChannels,
+  getUserChannelSubscribers,
+  toggleSubscription,
+} from "@/app/services/subscriptionServices";
 import {
   getUserChannelProfile,
   getUserChannelVideos,
@@ -13,6 +17,7 @@ import {
 import { TabType } from "@/app/types/tab.type";
 import { channelDetails } from "@/app/types/userChannel.types";
 import React, { useEffect, useState } from "react";
+import { ProfileCard } from "../../search/page";
 
 const channel = ({ params }: { params: { username: string } }) => {
   const { username } = params;
@@ -21,6 +26,8 @@ const channel = ({ params }: { params: { username: string } }) => {
 
   const [channelVideos, setchannelVideos] = useState([]);
   const [channelPlaylists, setchannelPlaylists] = useState([]);
+  const [subscribedChannelDetails, setSubscribedChannelDetails] = useState([]);
+  const [subscribersDetails, setSubscribersDetails] = useState([]);
 
   const getUserChannel = async () => {
     try {
@@ -44,6 +51,8 @@ const channel = ({ params }: { params: { username: string } }) => {
     try {
       await toggleSubscription(userChannelDetails?.data._id);
       getUserChannel();
+      getSubscriptionDetails();
+      getSubscriberDetails();
     } catch (error) {
       console.error("Failed to toggle User channel subscription");
     }
@@ -56,6 +65,29 @@ const channel = ({ params }: { params: { username: string } }) => {
     setchannelPlaylists(playListsData?.data);
   };
 
+  const getSubscriptionDetails = async () => {
+    try {
+      const subscribedData = await getSubscribedChannels(
+        userChannelDetails?.data._id
+      );
+      setSubscribedChannelDetails(
+        subscribedData.data.subscribedChannels.reverse()
+      );
+    } catch (error) {
+      console.log("Failed to get subscription details" + error);
+    }
+  };
+  const getSubscriberDetails = async () => {
+    try {
+      const subscriberData = await getUserChannelSubscribers(
+        userChannelDetails?.data._id
+      );
+      setSubscribersDetails(subscriberData?.data.reverse());
+    } catch (error) {
+      console.log("Failed to get channel subsribers" + error);
+    }
+  };
+
   useEffect(() => {
     getUserChannel();
   }, []);
@@ -64,6 +96,8 @@ const channel = ({ params }: { params: { username: string } }) => {
     if (userChannelDetails?.data._id) {
       getchannelvideos();
       getChannelplaylists();
+      getSubscriptionDetails();
+      getSubscriberDetails();
     }
   }, [userChannelDetails?.data._id]);
 
@@ -71,7 +105,12 @@ const channel = ({ params }: { params: { username: string } }) => {
     {
       value: "home",
       label: "Home",
-      content: <HomeTab />,
+      content: (
+        <HomeTab
+          channelVideos={channelVideos}
+          channelId={userChannelDetails?.data._id}
+        />
+      ),
     },
     {
       value: "videos",
@@ -89,10 +128,66 @@ const channel = ({ params }: { params: { username: string } }) => {
       label: "Playlist",
       content: <PlaylistTab playlists={channelPlaylists} />,
     },
+    // {
+    //   value: "live",
+    //   label: "Live",
+    //   content: <section>Live Content</section>,
+    // },
     {
-      value: "live",
-      label: "Live",
-      content: <section>Live Content</section>,
+      value: "subscribers",
+      label: "Subscribers",
+      content: (
+        <div className="p-4">
+          <h2 className="text-xl font-semibold pb-2">Channel Subscribers</h2>
+          <div>
+            {subscribersDetails &&
+              subscribersDetails.map((subscriber: any) => (
+                <div
+                  key={subscriber.subscriber?._id}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <ProfileCard
+                    name={subscriber.subscriber?.fullName}
+                    username={subscriber.subscriber?.username}
+                    description={
+                      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet quas, doloribus quidem, dolores ipsum tempora accusantium, natus minus molestias necessitatibus quia porro. Neque esse iste suscipit temporibus quis odio cum, delectus atque consequuntur debitis alias aperiam aliquam, aliquid eos recusandae."
+                    }
+                    avatarUrl={subscriber.subscriber?.avatar}
+                    createdAt={subscriber?.createdAt}
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+      ),
+    },
+    {
+      value: "subscription",
+      label: `Subscription (${subscribedChannelDetails.length})`,
+      content: (
+        <div className="p-4">
+          <h2 className="text-xl font-semibold pb-2">Subscribed Channels</h2>
+          <div>
+            {subscribedChannelDetails &&
+              subscribedChannelDetails.map((subsChannel: any) => (
+                <div
+                  key={subsChannel.channel?._id}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <ProfileCard
+                    name={subsChannel.channel?.fullName}
+                    username={subsChannel.channel?.username}
+                    description={
+                      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet quas, doloribus quidem, dolores ipsum tempora accusantium, natus minus molestias necessitatibus quia porro. Neque esse iste suscipit temporibus quis odio cum, delectus atque consequuntur debitis alias aperiam aliquam, aliquid eos recusandae."
+                    }
+                    avatarUrl={subsChannel.channel?.avatar}
+                    createdAt={subsChannel?.createdAt}
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+      ),
     },
   ];
 

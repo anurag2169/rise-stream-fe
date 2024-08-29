@@ -38,7 +38,7 @@ export default function watchVideo({
     try {
       const videoData = await getVideo(videoid);
       setVideo(videoData);
-      setVideoOwner(videoData?.owner[0]);
+      setVideoOwner(videoData?.owner);
     } catch (error) {
       console.error(error);
     }

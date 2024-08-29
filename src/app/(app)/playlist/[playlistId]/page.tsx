@@ -6,18 +6,23 @@ import React, { Suspense, useEffect, useState } from "react";
 import { extractAndSetGradient } from "@/app/utils/imageColorPicker";
 import PlaylistVideosList from "@/app/components/ui/playlist/PlaylistVideosList";
 import { getPlaylistById } from "@/app/services/playlistService";
-import { Playlist, Video } from "@/app/types/playlist.types";
+import { Owner, Playlist, Video } from "@/app/types/playlist.types";
 import Link from "next/link";
 import { formatCreatedAt } from "@/app/utils/dateFormater";
+import PlaylistDetails from "@/app/components/ui/playlist/PlaylistDetails";
+import { selectUserState } from "@/app/lib/features/user/userSlice";
+import { useSelector } from "react-redux";
 
 const playlist = ({ params }: { params: { playlistId: string } }) => {
   const { playlistId } = params;
 
   const [gradientStyle, setGradientStyle] = useState({});
-  const [gradientImage, setGradientImage] = useState("/logo.png");
+  const [gradientImage, setGradientImage] = useState("/ownerImage.png");
   const [playlistData, setPlaylistData] = useState<Playlist | null>(null);
   const [playlistVideosData, setPlaylistVideosData] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<Owner | null>(null);
+  const userState = useSelector(selectUserState);
 
   const getPlaylistDetails = async () => {
     try {
@@ -46,7 +51,8 @@ const playlist = ({ params }: { params: { playlistId: string } }) => {
 
   useEffect(() => {
     getPlaylistDetails();
-  }, []);
+    setCurrentUser(userState?.data?.data?.user);
+  }, [userState]);
 
   const sortVideolist = () => {
     const nextList = [...playlistVideosData];
@@ -54,58 +60,22 @@ const playlist = ({ params }: { params: { playlistId: string } }) => {
     setPlaylistVideosData(nextList);
   };
   if (loading) {
-    return <YouTubePlaylistSkeleton />;
+    return <PlaylistSkeleton />;
   }
   return (
     <div className="mt-20 h-screen absolute lg:mx-28">
       <div className="flex flex-col md:flex-row gap-4 p-4">
-        <Card
-          style={gradientStyle}
-          className="w-full md:w-1/3 text-white h-1/2"
-        >
-          <CardHeader className="p-4">
-            <img
-              src={playlistVideosData[0]?.thumbnail || "/placeholder.svg"}
-              alt="System Design Course"
-              className="w-full h-auto rounded-lg"
-              width="350"
-              height="200"
-              style={{ aspectRatio: "350/200", objectFit: "cover" }}
-            />
-          </CardHeader>
-          <CardContent className="p-4 space-y-2">
-            <h1 className="text-2xl font-bold">{playlistData?.name}</h1>
-            <p>{playlistData?.owner.username}</p>
-            <div className="flex items-center space-x-2">
-              <span>Private</span>
-              <ChevronDownIcon className="w-4 h-4" />
-            </div>
-            <p>
-              <span className="mr-2">{playlistVideosData.length} videos</span>
-              <span>{formatCreatedAt(playlistData?.updatedAt)}</span>
-            </p>
-            <div className="flex space-x-2">
-              <Button variant="outline" className="flex-1">
-                <DownloadIcon className="w-4 h-4 mr-2" />
-              </Button>
-              <Button variant="outline" className="flex-1">
-                <DotIcon className="w-4 h-4" />
-              </Button>
-            </div>
-            <div className="flex space-x-2">
-              <Button variant="default" className="flex-1">
-                <PlayIcon className="w-4 h-4 mr-2" />
-                Play all
-              </Button>
-              <Button variant="default" className="flex-1">
-                <ShuffleIcon className="w-4 h-4 mr-2" />
-                Shuffle
-              </Button>
-            </div>
-            <p>{playlistData?.description}</p>
-          </CardContent>
-        </Card>
-
+        <PlaylistDetails
+          gradientStyle={gradientStyle}
+          playlistThumbnail={playlistVideosData[0]?.thumbnail}
+          plyName={playlistData?.name}
+          playlistOwner={playlistData?.owner.username}
+          playlistLength={playlistVideosData.length}
+          playlistUpdatedAt={playlistData?.updatedAt}
+          playlistDescription={playlistData?.description}
+          playlistOwnerId={playlistData?.owner._id}
+          currentUser={currentUser}
+        />
         <div className="w-full md:w-2/3">
           <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-bold">Sort</h2>
@@ -146,7 +116,7 @@ const playlist = ({ params }: { params: { playlistId: string } }) => {
 
 export default playlist;
 
-function YouTubePlaylistSkeleton() {
+function PlaylistSkeleton() {
   return (
     <div className="mt-7 lg:mx-28 flex flex-col md:flex-row gap-4 p-4 ">
       <Card className="w-full md:w-1/3 text-white">

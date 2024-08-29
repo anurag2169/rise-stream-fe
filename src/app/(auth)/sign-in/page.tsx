@@ -32,8 +32,7 @@ const SignInForm = () => {
   };
 
   useEffect(() => {
-    if (userState.status === "succeeded" && userState.data) {
-      console.log(userState.data);
+    if (userState.status === "succeeded" && userState.data) {;
       const { accessToken, refreshToken } = userState.data.data;
 
       // Set tokens in cookies

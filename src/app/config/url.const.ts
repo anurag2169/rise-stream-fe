@@ -1,3 +1,5 @@
+import { Domain } from "domain";
+
 const DOMAIN = "http://localhost:8000/api/v1/";
 
 export const urlPath = {
@@ -110,17 +112,23 @@ export const likesUrlPath = {
 };
 
 export const subscriptionsUrlPath = {
-  /* GET */
-  getUserChannelSubscribers: DOMAIN + "subscriptions/c/:channelId",
+  /* GET :channelId */
+  getUserChannelSubscribers: DOMAIN + "subscriptions/c/",
 
   /* POST :channelId*/
   toggleSubscription: DOMAIN + "subscriptions/c/",
 
-  /* GET */
-  getSubscribedChannels: DOMAIN + "subscriptions/u/:subscriberId",
+  /* GET  :subscriberId*/
+  getSubscribedChannels: DOMAIN + "subscriptions/u/",
 };
 
 export const dashboardUrlPath = {
   /* GET */
   getChannelStats: DOMAIN + "dashboard/stats",
+};
+
+export const searchUrlPath = {
+  // GET
+
+  getSeachData: DOMAIN + "search?query=",
 };

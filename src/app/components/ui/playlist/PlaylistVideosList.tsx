@@ -20,7 +20,7 @@ const PlaylistVideosList: React.FC<playListVideoProps> = ({ videoDetails }) => {
         </Link>
         <div className="flex-1">
           <Link href={`/watch/${videoDetails?._id}`}>
-            <h3 className="text-lg font-bold">
+            <h3 className="text-lg font-bold capitalize"> 
               {videoDetails?.title || "title"}
             </h3>
           </Link>

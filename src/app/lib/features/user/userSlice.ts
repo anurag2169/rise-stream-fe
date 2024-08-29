@@ -90,7 +90,7 @@ export const userSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        console.log("Error", action.payload);
+        console.error("Error", action.payload);
         state.status = "failed";
         state.error = true;
       })
@@ -104,7 +104,7 @@ export const userSlice = createSlice({
         localStorage.setItem("userData", JSON.stringify(action.payload));
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log("Error", action.error.message);
+        console.error("Error", action.error.message);
         state.status = "failed";
         state.error = true;
       })

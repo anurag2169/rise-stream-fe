@@ -10,7 +10,7 @@ const ChannelDetails: React.FC<channelDetailsProps> = ({
   return (
     <>
       <div>
-        <div className="relative h-[300px] overflow-hidden w-full">
+        <div className="relative h-[300px] overflow-hidden w-full rounded-xl">
           <img
             src={channelDetails?.data.coverImage}
             alt="Cover Image"
@@ -29,7 +29,7 @@ const ChannelDetails: React.FC<channelDetailsProps> = ({
               <h2 className="text-2xl font-bold capitalize">
                 {channelDetails?.data.fullName}
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground pt-2">
                 {channelDetails?.data.username}
               </p>
               <p className="text-sm text-muted-foreground flex gap-2 capitalize">

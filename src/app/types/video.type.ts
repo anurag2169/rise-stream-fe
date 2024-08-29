@@ -7,7 +7,7 @@ export interface Video {
   duration: number;
   views: number;
   isPublished: boolean;
-  owner: Owner[];
+  owner: Owner;
   createdAt: string;
   updatedAt: string;
 }
@@ -30,5 +30,3 @@ export interface Comment {
   createdAt: string;
   updatedAt: string;
 }
-
-

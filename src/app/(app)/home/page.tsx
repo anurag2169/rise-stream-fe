@@ -43,7 +43,7 @@ const Home = () => {
       const videoData = data.data;
       setVideos(videoData.reverse());
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -85,8 +85,8 @@ const Home = () => {
                     duration={video.duration}
                     thumbnail={video.thumbnail}
                     createdAt={video.createdAt}
-                    ownerAvatar="https://github.com/shadcn.png"
-                    ownerName={"Code With Chai"}
+                    ownerAvatar={video.owner.avatar}
+                    ownerName={video.owner.fullName}
                   />
                 </Link>
               </div>

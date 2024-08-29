@@ -25,7 +25,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import ThemeSwitcher from "./ui/ThemeSwitcher";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../lib/store";
 import { logoutUser, selectUserState } from "../lib/features/user/userSlice";
@@ -34,15 +33,25 @@ import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import SideBar from "./ui/sidebar/SideBar";
 import { sideBarData } from "../config/sideBarData";
 import SidebarSecondary from "./ui/SidebarSecondary/SidebarSecondary";
+import { getsearchDetails } from "../services/searchService";
+import { Owner } from "../types/video.type";
+import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Navbar() {
   const router = useRouter();
   const userState = useSelector(selectUserState);
   const dispatch = useDispatch<AppDispatch>();
   const accessToken = Cookies.get("accessToken") || "";
-  const logout = async (e: any) => {
-    e.preventDefault();
-    dispatch(logoutUser(accessToken));
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const [searchInputData, setSearchInputData] = useState("");
+
+  const handleSearch = (e: any) => {
+    if (e.key === "Enter" || e.type === "click") {
+      router.push(`/search?query=${encodeURIComponent(searchInputData)}`);
+    }
   };
 
   useEffect(() => {
@@ -51,10 +60,13 @@ function Navbar() {
     }
   }, [userState, router]);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const logout = async (e: any) => {
+    e.preventDefault();
+    dispatch(logoutUser(accessToken));
   };
 
   return (
@@ -82,6 +94,11 @@ function Navbar() {
             <Input
               type="search"
               placeholder="Search..."
+              value={searchInputData}
+              name={searchInputData}
+              id={searchInputData}
+              onChange={(e: any) => setSearchInputData(e.target.value)}
+              onKeyDown={handleSearch}
               className="h-9 w-full rounded-lg bg-muted pl-8 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
@@ -145,13 +162,14 @@ function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
-                  <img
-                    src="https://github.com/shadcn.png"
-                    width="36"
-                    height="36"
-                    className="rounded-full"
-                    alt="Avatar"
-                  />
+                  <Avatar className="rounded-full">
+                    <AvatarImage
+                      src={userState.data?.data?.user?.avatar}
+                      alt="Channel avatar"
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <AvatarFallback>RS</AvatarFallback>
+                  </Avatar>
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -160,9 +178,7 @@ function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer">
                   <Link
-                    href={
-                      `/channel/${userState.data.data?.user.username}` || "/"
-                    }
+                    href={`/channel/${userState.data?.data?.user?.username}`}
                   >
                     View your Channel
                   </Link>
