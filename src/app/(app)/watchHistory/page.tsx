@@ -1,15 +1,15 @@
 "use client";
 import { getWatchHistory } from "@/app/services/userService";
 import React, { useEffect, useState } from "react";
-import { VideoAndPlaylistCard } from "../search/page";
 import { Video } from "@/app/types/video.type";
+import VideoAndPlaylistCard from "@/app/components/ui/videoPlaylistCard/VideoAndPlaylistCard";
 
 interface HistoryVideo {
   videoDetails: Video;
   videoAddedAt: string;
 }
 
-const watchHistory = () => {
+const WatchHistory = () => {
   const [todaysWatchHistory, setTodaysWatchHistory] = useState<
     HistoryVideo[] | null
   >(null);
@@ -116,4 +116,4 @@ const watchHistory = () => {
   );
 };
 
-export default watchHistory;
+export default WatchHistory;

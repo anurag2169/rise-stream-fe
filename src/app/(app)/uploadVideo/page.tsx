@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import React, { Suspense, useRef, useState } from "react";
 import Cookies from "js-cookie";
 
-const uploadVideo = () => {
+const UploadVideo = () => {
   const formDataRef = useRef(new FormData());
   const accessToken = Cookies.get("accessToken");
 
@@ -176,4 +176,4 @@ const uploadVideo = () => {
   );
 };
 
-export default uploadVideo;
+export default UploadVideo;

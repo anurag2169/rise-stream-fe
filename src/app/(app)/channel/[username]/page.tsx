@@ -17,10 +17,10 @@ import {
 import { TabType } from "@/app/types/tab.type";
 import { channelDetails } from "@/app/types/userChannel.types";
 import React, { useEffect, useState } from "react";
-import { ProfileCard } from "../../search/page";
 import { useSearchParams } from "next/navigation";
+import ProfileCard from "@/app/components/ui/profileCard/ProfileCard";
 
-const channel = ({ params }: { params: { username: string } }) => {
+const Channel = ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const searchParams = useSearchParams();
   const tabQuery = searchParams.get("query") || "home";
@@ -210,4 +210,4 @@ const channel = ({ params }: { params: { username: string } }) => {
   );
 };
 
-export default channel;
+export default Channel;

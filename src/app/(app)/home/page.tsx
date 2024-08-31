@@ -11,7 +11,6 @@ import { Video } from "@/app/types/video.type";
 import { FlipWords } from "@/components/ui/flip-words";
 import { LampContainer } from "@/components/ui/lamp";
 import { motion } from "framer-motion";
-import { Boxes } from "@/components/ui/background-boxes";
 import { addUserWatchHistory } from "@/app/services/userService";
 
 const Home = () => {
@@ -52,6 +51,12 @@ const Home = () => {
     getVideos();
   }, []);
 
+  const addVideoToHistory = async (videoId: string) => {
+    setTimeout(() => {
+      addUserWatchHistory(videoId);
+    }, 2000);
+  };
+
   const words = ["movies", "series", "channels", "events", "creators"];
 
   return (
@@ -76,9 +81,12 @@ const Home = () => {
       </LampContainer>
       <div className="mt-20">
         <div className="flex flex-row flex-wrap gap-x-4 gap-y-10  justify-center items-center">
-          {videos.map((video: any) => {
+          {videos.map((video: Video) => {
             return (
-              <div key={video._id} onClick={() => addVideoToHistory(video._id)}>
+              <div
+                key={video._id}
+                onClick={() => addVideoToHistory(video?._id)}
+              >
                 <Link href={`/watch/${video._id}`}>
                   <ThumbnailCard
                     title={video.title}
@@ -100,9 +108,3 @@ const Home = () => {
 };
 
 export default Home;
-
-export const addVideoToHistory = async (videoId: any) => {
-  setTimeout(() => {
-    addUserWatchHistory(videoId);
-  }, 2000);
-};

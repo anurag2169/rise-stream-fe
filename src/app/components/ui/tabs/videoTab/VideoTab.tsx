@@ -1,9 +1,15 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import ThumbnailCard from "../../thumbnailCard/ThumbnailCard";
-import { addVideoToHistory } from "@/app/(app)/home/page";
+import { addUserWatchHistory } from "@/app/services/userService";
 
 const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
+  const addVideoToHistory = async (videoId: string) => {
+    setTimeout(() => {
+      addUserWatchHistory(videoId);
+    }, 2000);
+  };
   return (
     <>
       <section className="p-4">

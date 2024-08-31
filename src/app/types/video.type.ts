@@ -4,7 +4,7 @@ export interface Video {
   thumbnail: string;
   title: string;
   description: string;
-  duration: number;
+  duration: string;
   views: number;
   isPublished: boolean;
   owner: Owner;

@@ -6,20 +6,20 @@ import React, { Suspense, useEffect, useState } from "react";
 import { extractAndSetGradient } from "@/app/utils/imageColorPicker";
 import PlaylistVideosList from "@/app/components/ui/playlist/PlaylistVideosList";
 import { getPlaylistById } from "@/app/services/playlistService";
-import { Owner, Playlist, Video } from "@/app/types/playlist.types";
+import { Owner, PlaylistTypes, Video } from "@/app/types/playlist.types";
 import Link from "next/link";
 import { formatCreatedAt } from "@/app/utils/dateFormater";
 import PlaylistDetails from "@/app/components/ui/playlist/PlaylistDetails";
 import { selectUserState } from "@/app/lib/features/user/userSlice";
 import { useSelector } from "react-redux";
-import { addVideoToHistory } from "../../home/page";
+import { addUserWatchHistory } from "@/app/services/userService";
 
-const playlist = ({ params }: { params: { playlistId: string } }) => {
+const Playlist = ({ params }: { params: { playlistId: string } }) => {
   const { playlistId } = params;
 
   const [gradientStyle, setGradientStyle] = useState({});
   const [gradientImage, setGradientImage] = useState("/ownerImage.png");
-  const [playlistData, setPlaylistData] = useState<Playlist | null>(null);
+  const [playlistData, setPlaylistData] = useState<PlaylistTypes | null>(null);
   const [playlistVideosData, setPlaylistVideosData] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<Owner | null>(null);
@@ -35,6 +35,12 @@ const playlist = ({ params }: { params: { playlistId: string } }) => {
       console.error(error);
       setLoading(false);
     }
+  };
+
+  const addVideoToHistory = async (videoId: string) => {
+    setTimeout(() => {
+      addUserWatchHistory(videoId);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -86,7 +92,10 @@ const playlist = ({ params }: { params: { playlistId: string } }) => {
           </div>
           <div className="space-y-4">
             {playlistVideosData.map((video) => (
-              <div onClick={() => addVideoToHistory(video._id)}>
+              <div
+                key={video?._id}
+                onClick={() => addVideoToHistory(video._id)}
+              >
                 <PlaylistVideosList key={video._id} videoDetails={video} />
               </div>
             ))}
@@ -117,7 +126,7 @@ const playlist = ({ params }: { params: { playlistId: string } }) => {
   );
 };
 
-export default playlist;
+export default Playlist;
 
 function PlaylistSkeleton() {
   return (

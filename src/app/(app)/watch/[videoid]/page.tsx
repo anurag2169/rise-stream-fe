@@ -18,11 +18,14 @@ import {
   addComment,
   editComment,
 } from "@/app/services/videoService";
-import { deleteComment, toggleCommentLike } from "@/app/services/commentServices";
+import {
+  deleteComment,
+  toggleCommentLike,
+} from "@/app/services/commentServices";
 
 dayjs.extend(relativeTime);
 
-export default function watchVideo({
+export default function WatchVideo({
   params,
 }: {
   params: { videoid: string };

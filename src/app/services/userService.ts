@@ -79,7 +79,7 @@ export const getWatchHistory = async () => {
   }
 };
 
-export const addUserWatchHistory = async (videoId: any) => {
+export const addUserWatchHistory = async (videoId: string) => {
   try {
     const res = await fetch(`${urlPath.addUserWatchHistory}${videoId}`, {
       method: "POST",

@@ -21,7 +21,7 @@ export interface Video {
   __v: number;
 }
 
-export interface Playlist {
+export interface PlaylistTypes {
   _id: string;
   name: string;
   description: string;

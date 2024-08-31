@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const SidebarSecondary: React.FC<SidebarProps> = ({ data }) => {
+  const pathname = usePathname();
   return (
     <nav className="z-10 h-screen fixed left-0 flex flex-col px-1 gap-3 py-5 max-w-28 bg-background dark:bg-background-dark invisible lg:visible">
       {data?.map((item: any, index) => (
@@ -18,7 +19,7 @@ const SidebarSecondary: React.FC<SidebarProps> = ({ data }) => {
           key={index}
           href={item?.routerLink}
           className={` rounded-sm ${
-            usePathname() === item.routerLink
+            pathname === item.routerLink
               ? "bg-accent text-accent-foreground"
               : "text-muted-foreground"
           }`}

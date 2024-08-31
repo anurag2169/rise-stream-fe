@@ -1,11 +1,12 @@
-import { addVideoToHistory } from "@/app/(app)/home/page";
-import { VideoAndPlaylistCard } from "@/app/(app)/search/page";
+"use client";
 import { selectUserState } from "@/app/lib/features/user/userSlice";
+import { addUserWatchHistory } from "@/app/services/userService";
 import { Video } from "@/app/types/video.type";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
+import VideoAndPlaylistCard from "../../videoPlaylistCard/VideoAndPlaylistCard";
 
 const HomeTab = ({ channelVideos, channelId }: any) => {
   const latestVideos = channelVideos
@@ -16,6 +17,12 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
     .slice(0, 3);
 
   const userState = useSelector(selectUserState);
+
+  const addVideoToHistory = async (videoId: string) => {
+    setTimeout(() => {
+      addUserWatchHistory(videoId);
+    }, 2000);
+  };
   return (
     <div className="p-4">
       {latestVideos.length != 0 && (
