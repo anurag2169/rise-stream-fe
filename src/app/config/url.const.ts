@@ -1,6 +1,7 @@
 import { Domain } from "domain";
 
-const DOMAIN = "http://localhost:8000/api/v1/";
+// const DOMAIN = "http://localhost:8000/api/v1/";
+const DOMAIN = "https://rise-stream-backend.vercel.app/";
 
 export const urlPath = {
   /* POST */
