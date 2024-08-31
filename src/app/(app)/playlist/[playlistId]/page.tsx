@@ -12,6 +12,7 @@ import { formatCreatedAt } from "@/app/utils/dateFormater";
 import PlaylistDetails from "@/app/components/ui/playlist/PlaylistDetails";
 import { selectUserState } from "@/app/lib/features/user/userSlice";
 import { useSelector } from "react-redux";
+import { addVideoToHistory } from "../../home/page";
 
 const playlist = ({ params }: { params: { playlistId: string } }) => {
   const { playlistId } = params;
@@ -85,7 +86,9 @@ const playlist = ({ params }: { params: { playlistId: string } }) => {
           </div>
           <div className="space-y-4">
             {playlistVideosData.map((video) => (
-              <PlaylistVideosList key={video._id} videoDetails={video} />
+              <div onClick={() => addVideoToHistory(video._id)}>
+                <PlaylistVideosList key={video._id} videoDetails={video} />
+              </div>
             ))}
           </div>
 

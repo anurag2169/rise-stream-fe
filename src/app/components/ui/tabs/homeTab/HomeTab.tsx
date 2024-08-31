@@ -1,3 +1,4 @@
+import { addVideoToHistory } from "@/app/(app)/home/page";
 import { VideoAndPlaylistCard } from "@/app/(app)/search/page";
 import { selectUserState } from "@/app/lib/features/user/userSlice";
 import { Video } from "@/app/types/video.type";
@@ -23,7 +24,11 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
 
       <>
         {latestVideos.map((video: Video) => (
-          <div key={video?._id} className="flex flex-col  my-3">
+          <div
+            key={video?._id}
+            className="flex flex-col  my-3"
+            onClick={() => addVideoToHistory(video._id)}
+          >
             <VideoAndPlaylistCard
               id={video?._id}
               title={video?.title}

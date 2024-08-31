@@ -78,3 +78,20 @@ export const getWatchHistory = async () => {
     console.error("Failed to get user watch history" + error);
   }
 };
+
+export const addUserWatchHistory = async (videoId: any) => {
+  try {
+    const res = await fetch(`${urlPath.addUserWatchHistory}${videoId}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) console.log("failed to add video to history");
+
+    return await res.json();
+  } catch (error) {
+    console.log("failed to add video to history" + error);
+  }
+};

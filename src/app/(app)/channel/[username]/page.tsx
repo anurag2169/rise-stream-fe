@@ -18,9 +18,13 @@ import { TabType } from "@/app/types/tab.type";
 import { channelDetails } from "@/app/types/userChannel.types";
 import React, { useEffect, useState } from "react";
 import { ProfileCard } from "../../search/page";
+import { useSearchParams } from "next/navigation";
 
 const channel = ({ params }: { params: { username: string } }) => {
   const { username } = params;
+  const searchParams = useSearchParams();
+  const tabQuery = searchParams.get("query") || "home";
+
   const [userChannelDetails, setuserChannelDetails] =
     useState<channelDetails | null>(null);
 
@@ -201,7 +205,7 @@ const channel = ({ params }: { params: { username: string } }) => {
       ) : (
         <div>Loading...</div>
       )}
-      <Tab tabs={tabs} />
+      <Tab tabs={tabs} activetab={tabQuery} />
     </div>
   );
 };

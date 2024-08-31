@@ -12,6 +12,7 @@ const SideBar: React.FC<SidebarProps> = ({
   data,
   isSubmenuOpen,
   isSidebarOpen,
+  closeSideBar,
 }) => {
   return (
     <>
@@ -29,7 +30,10 @@ const SideBar: React.FC<SidebarProps> = ({
                     <Collapsible open={isSubmenuOpen}>
                       <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted dark:text-muted-foreground-dark dark:hover:bg-muted-dark">
                         <Link href={!menu.submenu ? menu.routerLink : "#"}>
-                          <div className="flex items-center">
+                          <div
+                            className="flex items-center"
+                            onClick={closeSideBar}
+                          >
                             {menu.Icon && (
                               <menu.Icon className="mr-3 h-5 w-5" />
                             )}
@@ -45,7 +49,10 @@ const SideBar: React.FC<SidebarProps> = ({
                           <ul className="space-y-1">
                             {menu.subMenuItems.map((submenu: any) => {
                               return (
-                                <li key={submenu.subMenuId}>
+                                <li
+                                  key={submenu.subMenuId}
+                                  onClick={closeSideBar}
+                                >
                                   <Link
                                     href={submenu.subMenuLink}
                                     className="flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-muted dark:hover:bg-muted-dark"

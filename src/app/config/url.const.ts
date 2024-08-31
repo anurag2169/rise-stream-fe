@@ -33,8 +33,8 @@ export const urlPath = {
   /* GET */
   getUserWatchHistory: DOMAIN + "users/history",
 
-  /* POST */
-  addUserWatchHistory: DOMAIN + "users/addWatchHistory/:videoId",
+  /* POST :videoId */
+  addUserWatchHistory: DOMAIN + "users/addWatchHistory/",
 };
 
 export const videoUrlPath = {

@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useEffect, useState } from "react";
+import { addVideoToHistory } from "../home/page";
 
 const search = () => {
   const searchParams = useSearchParams();
@@ -65,6 +66,7 @@ const search = () => {
           <div
             key={video?._id}
             className="flex items-center justify-center my-2"
+            onClick={() => addVideoToHistory(video._id)}
           >
             <VideoAndPlaylistCard
               id={video?._id}

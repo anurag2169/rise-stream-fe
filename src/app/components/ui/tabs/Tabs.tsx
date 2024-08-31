@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TabsList, TabsTrigger, TabsContent, Tabs } from "@/components/ui/tabs";
 import { TabsProps, TabType } from "@/app/types/tab.type";
 
-const Tab: React.FC<TabsProps> = ({ tabs = [] }) => {
+const Tab: React.FC<TabsProps> = ({ tabs = [], activetab }) => {
+  const [activeTab, setActiveTab] = useState(activetab);
+
+  useEffect(() => {
+    if (activetab !== activeTab) {
+      setActiveTab(activetab);
+    }
+  }, [activetab]);
+
   return (
     <>
       <Tabs
-        defaultValue={tabs && tabs.length > 0 ? tabs[0].value : ""}
+        defaultValue={activeTab}
+        onValueChange={setActiveTab}
         className="w-full mt-8"
       >
         <TabsList className="flex border-b">

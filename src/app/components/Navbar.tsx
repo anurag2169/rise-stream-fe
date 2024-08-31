@@ -31,12 +31,14 @@ import { logoutUser, selectUserState } from "../lib/features/user/userSlice";
 import Cookies from "js-cookie";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import SideBar from "./ui/sidebar/SideBar";
-import { sideBarData } from "../config/sideBarData";
+import { getSideBarData } from "../config/sideBarData";
 import SidebarSecondary from "./ui/SidebarSecondary/SidebarSecondary";
 import { getsearchDetails } from "../services/searchService";
 import { Owner } from "../types/video.type";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SidebarProps } from "../types/sidebar.type";
+import SidebarSkeleton from "./ui/SidebarSecondary/SidebarSkeleton";
 
 function Navbar() {
   const router = useRouter();
@@ -47,6 +49,8 @@ function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [searchInputData, setSearchInputData] = useState("");
+
+  const [sidebarData, setSidebarData] = useState<SidebarProps | null>(null);
 
   const handleSearch = (e: any) => {
     if (e.key === "Enter" || e.type === "click") {
@@ -68,6 +72,11 @@ function Navbar() {
     e.preventDefault();
     dispatch(logoutUser(accessToken));
   };
+
+  useEffect(() => {
+    const data = getSideBarData();
+    setSidebarData(data);
+  }, []);
 
   return (
     <>
@@ -191,16 +200,26 @@ function Navbar() {
           </div>
         </div>
       </header>
-      {!isSidebarOpen && (
-        <div className="mt-14">
-          <SidebarSecondary data={sideBarData.data} />
+
+      {sidebarData ? (
+        <>
+          {!isSidebarOpen && (
+            <div className="mt-14">
+              <SidebarSecondary data={sidebarData.data} />
+            </div>
+          )}
+          <SideBar
+            data={sidebarData.data}
+            isSubmenuOpen={true}
+            isSidebarOpen={isSidebarOpen}
+            closeSideBar={toggleSidebar}
+          />
+        </>
+      ) : (
+        <div>
+          <SidebarSkeleton />
         </div>
       )}
-      <SideBar
-        data={sideBarData.data}
-        isSubmenuOpen={true}
-        isSidebarOpen={isSidebarOpen}
-      />
     </>
   );
 }
