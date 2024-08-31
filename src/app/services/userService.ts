@@ -1,8 +1,9 @@
 import { urlPath, videoUrlPath } from "../config/url.const";
 import Cookies from "js-cookie";
 
+const accessToken = Cookies.get("accessToken");
+
 export const changeUserPassword = async ({ content }: any) => {
-  const accessToken = Cookies.get("accessToken");
   try {
     const res = await fetch(`${urlPath.changeUserPassword}`, {
       method: "POST",
@@ -25,8 +26,6 @@ export const changeUserPassword = async ({ content }: any) => {
 };
 
 export const getUserChannelProfile = async (username: string) => {
-  const accessToken = Cookies.get("accessToken");
-
   try {
     const res = await fetch(`${urlPath.getUserChannelProfile}${username}`, {
       method: "GET",
@@ -46,7 +45,6 @@ export const getUserChannelProfile = async (username: string) => {
 };
 
 export const getUserChannelVideos = async (userId: any) => {
-  const accessToken = Cookies.get("accessToken");
   try {
     const res = await fetch(`${videoUrlPath.getUserAllVideos}${userId}`, {
       method: "GET",
@@ -60,5 +58,23 @@ export const getUserChannelVideos = async (userId: any) => {
     return await res.json();
   } catch (error) {
     console.error("Failed to fetch User channel videos");
+  }
+};
+
+export const getWatchHistory = async () => {
+  try {
+    const res = await fetch(`${urlPath.getUserWatchHistory}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      console.error("Failed to get user watch history");
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to get user watch history" + error);
   }
 };

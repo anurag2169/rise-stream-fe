@@ -54,7 +54,7 @@ export const sideBarData: SidebarProps = {
         {
           subMenuId: Math.random() * 97,
           subMenuName: "History",
-          subMenuLink: "/history",
+          subMenuLink: "/watchHistory",
           Icon: RotateCounterClockwiseIcon,
         },
         {
