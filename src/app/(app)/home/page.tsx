@@ -16,7 +16,7 @@ import { addUserWatchHistory } from "@/app/services/userService";
 const Home = () => {
   const router = useRouter();
   const userState = useSelector(selectUserState);
-  const accessToken = Cookies.get("accessToken") || "";
+  const accessToken = Cookies.get("accessToken");
   const [videos, setVideos] = useState<Video[]>([]);
 
   useEffect(() => {
@@ -48,6 +48,10 @@ const Home = () => {
   };
 
   useEffect(() => {
+    if (accessToken === undefined || accessToken === null) {
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+    }
     getVideos();
   }, []);
 
