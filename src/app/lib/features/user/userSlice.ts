@@ -16,8 +16,10 @@ export const registerUser = createAsyncThunk(
     if (!res.ok) {
       throw new Error("Network response was not ok");
     }
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
+    if (res.ok) {
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+    }
     return await res.json();
   }
 );

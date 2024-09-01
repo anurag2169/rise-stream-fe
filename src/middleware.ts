@@ -16,11 +16,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if (
-    !token ||
-    (token === undefined &&
-      (url.pathname.startsWith("/home") ||
-        url.pathname.startsWith("/dashboard") ||
-        url.pathname.startsWith("/sign-up")))
+    !token &&
+    (url.pathname.startsWith("/home") || url.pathname.startsWith("/dashboard"))
   ) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
