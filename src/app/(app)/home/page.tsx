@@ -18,7 +18,7 @@ const Home = () => {
   const userState = useSelector(selectUserState);
   // const accessToken = Cookies.get("accessToken");
   const [videos, setVideos] = useState<Video[]>([]);
-  const [token, setToken] = useState("");
+  const accessToken = Cookies.get("accessToken");
 
   useEffect(() => {
     if (userState.status === "logoutSuccess") {
@@ -32,7 +32,7 @@ const Home = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -49,13 +49,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const accessToken = Cookies.get("accessToken");
-    if (accessToken) {
-      setToken(accessToken);
-    }
-    if (accessToken === undefined || accessToken === null) {
-      router.push("/sign-in");
-    }
     getVideos();
   }, []);
 
