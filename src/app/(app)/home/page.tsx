@@ -16,8 +16,9 @@ import { addUserWatchHistory } from "@/app/services/userService";
 const Home = () => {
   const router = useRouter();
   const userState = useSelector(selectUserState);
-  const accessToken = Cookies.get("accessToken");
+  // const accessToken = Cookies.get("accessToken");
   const [videos, setVideos] = useState<Video[]>([]);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     if (userState.status === "logoutSuccess") {
@@ -31,7 +32,7 @@ const Home = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -48,9 +49,12 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const accessToken = Cookies.get("accessToken");
+    if (accessToken) {
+      setToken(accessToken);
+    }
     if (accessToken === undefined || accessToken === null) {
-      Cookies.remove("accessToken");
-      Cookies.remove("refreshToken");
+      router.push("/sign-in");
     }
     getVideos();
   }, []);
