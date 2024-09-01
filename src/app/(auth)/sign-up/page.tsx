@@ -38,9 +38,9 @@ const SignUpForm = () => {
     }
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
-    dispatch(registerUser(formData));
+    await dispatch(registerUser(formData));
   };
 
   useEffect(() => {
