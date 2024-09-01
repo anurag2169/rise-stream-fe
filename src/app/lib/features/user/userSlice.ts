@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useRouter } from "next/navigation";
 import { RootState } from "../../store";
 import { urlPath } from "@/app/config/url.const";
 import Cookies from "js-cookie";
@@ -17,7 +16,7 @@ export const registerUser = createAsyncThunk(
     if (!res.ok) {
       throw new Error("Network response was not ok");
     }
-    return res.json();
+    return await res.json();
   }
 );
 
@@ -36,7 +35,7 @@ export const loginUser = createAsyncThunk(
     if (!res.ok) {
       throw new Error("Network response was not ok");
     }
-    return res.json();
+    return await res.json();
   }
 );
 
@@ -57,7 +56,7 @@ export const logoutUser = createAsyncThunk(
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
     localStorage.removeItem("userData");
-    return res.json();
+    return await res.json();
   }
 );
 
