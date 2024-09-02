@@ -138,12 +138,12 @@ const Channel = ({ params }: { params: { username: string } }) => {
       content: (
         <div className="p-4">
           <h2 className="text-xl font-semibold pb-2">Channel Subscribers</h2>
-          <div>
+          <div className="flex flex-row flex-wrap justify-center">
             {subscribersDetails &&
               subscribersDetails.map((subscriber: any) => (
                 <div
                   key={subscriber.subscriber?._id}
-                  className="flex flex-col items-center justify-center"
+                  className="flex flex-col items-center justify-center mb-2"
                 >
                   <ProfileCard
                     name={subscriber.subscriber?.fullName}
@@ -166,12 +166,12 @@ const Channel = ({ params }: { params: { username: string } }) => {
       content: (
         <div className="p-4">
           <h2 className="text-xl font-semibold pb-2">Subscribed Channels</h2>
-          <div>
+          <div className="flex flex-row flex-wrap justify-center">
             {subscribedChannelDetails &&
               subscribedChannelDetails.map((subsChannel: any) => (
                 <div
                   key={subsChannel.channel?._id}
-                  className="flex flex-col items-center justify-center"
+                  className="flex flex-col items-center justify-center mb-3"
                 >
                   <ProfileCard
                     name={subsChannel.channel?.fullName}

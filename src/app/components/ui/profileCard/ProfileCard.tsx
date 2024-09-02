@@ -20,9 +20,9 @@ const ProfileCard: React.FC<profileCardType> = ({
 }) => {
   return (
     <>
-      <div className="flex flex-row items-center content-center mx-3 p-2 space-x-4 border rounded-full w-3/2">
+      <div className="flex flex-row items-center content-center mx-3 p-2 space-x-4 border rounded-full w-80">
         <Link href={`/channel/${username}`}>
-          <div className=" flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <Avatar className="rounded-full w-20 h-20">
               <AvatarImage
                 src={avatarUrl}
@@ -35,16 +35,11 @@ const ProfileCard: React.FC<profileCardType> = ({
         </Link>
         <div className="">
           <Link href={`/channel/${username}`}>
-            <CardContent className="px-5 py-0">
+            <CardContent className="px-0 py-0">
               <div className="font-semibold text-xl">{name}</div>
+              <p className="text-gray-500">@{username}</p>
               <p className="text-gray-500">
-                @{username}{" "}
-                {createdAt && (
-                  <>
-                    <span>• </span>
-                    {formatCreatedAt(createdAt)}
-                  </>
-                )}
+                {createdAt && <span>{formatCreatedAt(createdAt)}</span>}
               </p>
               {/* <div className="text-gray-700 ">
                 {truncateText(description, 90)}

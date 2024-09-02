@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
-import VideoAndPlaylistCard from "../../videoPlaylistCard/VideoAndPlaylistCard";
+import ThumbnailCard from "../../thumbnailCard/ThumbnailCard";
 
 const HomeTab = ({ channelVideos, channelId }: any) => {
   const latestVideos = channelVideos
@@ -24,31 +24,33 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
     }, 2000);
   };
   return (
-    <div className="p-2 md:p-4">
+    <div className="py-2 md:py-4 ">
       {latestVideos.length != 0 && (
         <h2 className="mb-4 text-xl font-bold">Recently Uploaded</h2>
       )}
 
       <>
-        {latestVideos.map((video: Video) => (
-          <div
-            key={video?._id}
-            className="flex flex-col my-3"
-            onClick={() => addVideoToHistory(video._id)}
-          >
-            <VideoAndPlaylistCard
-              id={video?._id}
-              title={video?.title}
-              description={video?.description}
-              fullname={video?.owner?.fullName}
-              thumbnail={video?.thumbnail}
-              avatarUrl={video?.owner?.avatar}
-              views={video?.views}
-              createdAt={video?.createdAt}
-              duration={video?.duration}
-            />
-          </div>
-        ))}
+        <div className="flex flex-row flex-wrap justify-center md:justify-start">
+          {latestVideos.map((video: Video) => (
+            <div
+              key={video?._id}
+              className="flex flex-col my-3"
+              onClick={() => addVideoToHistory(video._id)}
+            >
+              <Link href={`/watch/${video._id}`}>
+                <ThumbnailCard
+                  title={video?.title}
+                  thumbnail={video?.thumbnail}
+                  duration={video?.duration}
+                  createdAt={video?.createdAt}
+                  views={0}
+                  ownerAvatar={video?.owner.avatar}
+                  ownerName={video?.owner.fullName}
+                />
+              </Link>
+            </div>
+          ))}
+        </div>
         {latestVideos.length === 0 && (
           <div className="flex flex-col items-center justify-center my-3">
             <h2 className="mb-4 text-xl font-bold">

@@ -71,7 +71,7 @@ const Playlist = ({ params }: { params: { playlistId: string } }) => {
   }
   return (
     <div className="mt-20 h-screen absolute lg:mx-28">
-      <div className="flex flex-col md:flex-row gap-4 p-4">
+      <div className="flex flex-col md:flex-row gap-4 p-2 md:p-4">
         <PlaylistDetails
           gradientStyle={gradientStyle}
           playlistThumbnail={playlistVideosData[0]?.thumbnail}
