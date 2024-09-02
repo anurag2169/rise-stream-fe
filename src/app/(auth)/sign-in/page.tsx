@@ -35,18 +35,20 @@ const SignInForm = () => {
     if (userState.status === "succeeded" && userState.data) {
       const { accessToken, refreshToken } = userState.data.data;
 
-      // Set tokens in cookies
-      Cookies.set("accessToken", accessToken, {
-        secure: true,
-        sameSite: "None",
-      });
-      Cookies.set("refreshToken", refreshToken, {
-        secure: true,
-        sameSite: "None",
-      });
+      if (accessToken) {
+        // Set tokens in cookies
+        Cookies.set("accessToken", accessToken, {
+          secure: true,
+          sameSite: "None",
+        });
+        Cookies.set("refreshToken", refreshToken, {
+          secure: true,
+          sameSite: "None",
+        });
 
-      // Redirect to home page
-      router.push("/home");
+        // Redirect to home page
+        router.push("/home");
+      }
     }
   }, [userState.status, router]);
   return (
