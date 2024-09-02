@@ -9,45 +9,39 @@ const ChannelDetails: React.FC<channelDetailsProps> = ({
 }) => {
   return (
     <>
-      <div>
-        <div className="relative h-[300px] overflow-hidden w-full rounded-xl">
-          <img
-            src={channelDetails?.data.coverImage}
-            alt="Cover Image"
-            width={1920}
-            height={1080}
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <div className="container mx-auto py-8 px-4 md:px-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src={channelDetails?.data.avatar} />
-              <AvatarFallback>RS</AvatarFallback>
-            </Avatar>
-            <div>
-              <h2 className="text-2xl font-bold capitalize">
-                {channelDetails?.data.fullName}
-              </h2>
-              <p className="text-sm text-muted-foreground pt-2">
-                {channelDetails?.data.username}
-              </p>
-              <p className="text-sm text-muted-foreground flex gap-2 capitalize">
-                <span>{channelDetails?.data.subscribersCount} subscribers</span>
-                <span>1.3K Videos</span>
-              </p>
-            </div>
-
-            <Button
-              variant={
-                !channelDetails?.data.isSubscribed ? "outline" : "default"
-              }
-              className="ml-auto capitalize"
-              onClick={() => toggleSubscriber()}
-            >
-              {!channelDetails?.data.isSubscribed ? "Subscribe" : "Subscribed"}
-            </Button>
+      <div className="h-52 md:h-80 border overflow-hidden rounded-xl mx-2">
+        <img
+          src={channelDetails?.data.coverImage}
+          alt="Cover Image"
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="container mx-auto pt-4 px-2 md:px-6">
+        <div className="flex items-center gap-4">
+          <Avatar className="h-16 w-16">
+            <AvatarImage src={channelDetails?.data.avatar} />
+            <AvatarFallback>RS</AvatarFallback>
+          </Avatar>
+          <div>
+            <h2 className="text-2xl font-bold capitalize">
+              {channelDetails?.data.fullName}
+            </h2>
+            <p className="text-sm text-muted-foreground ">
+              {channelDetails?.data.username}
+            </p>
+            <p className="text-sm text-muted-foreground flex flex-col md:flex-row md:gap-2 capitalize">
+              <span>{channelDetails?.data.subscribersCount} subscribers</span>
+              <span>1.3K Videos</span>
+            </p>
           </div>
+
+          <Button
+            variant={!channelDetails?.data.isSubscribed ? "outline" : "default"}
+            className="ml-auto capitalize"
+            onClick={() => toggleSubscriber()}
+          >
+            {!channelDetails?.data.isSubscribed ? "Subscribe" : "Subscribed"}
+          </Button>
         </div>
       </div>
     </>

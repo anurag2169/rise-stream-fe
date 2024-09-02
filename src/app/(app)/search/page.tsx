@@ -82,7 +82,7 @@ const Search = () => {
               id={video?._id}
               title={video?.title}
               description={video?.description}
-              fullname={"Lorem molestias"}
+              fullname={video?.owner?.fullName || "Rise Stream"}
               avatarUrl={""}
               thumbnail={video?.thumbnail}
               views={video?.views}

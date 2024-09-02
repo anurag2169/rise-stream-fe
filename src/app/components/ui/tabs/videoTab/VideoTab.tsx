@@ -12,13 +12,13 @@ const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
   };
   return (
     <>
-      <section className="p-4">
+      <section className="py-2 md:py-4">
         <h2 className="mb-4 text-xl font-bold">Latest Videos</h2>
-        <div className="flex flex-row flex-wrap gap-x-4 gap-y-10  justify-center items-center">
+        <div className="flex flex-row flex-wrap justify-center md:justify-start">
           {userVideos.map((video: any) => (
             <div
               key={video._id}
-              className="relative flex flex-col gap-2"
+              className="flex flex-col mb-2 md:mb-5"
               onClick={() => addVideoToHistory(video._id)}
             >
               <Link href={`/watch/${video._id}`}>

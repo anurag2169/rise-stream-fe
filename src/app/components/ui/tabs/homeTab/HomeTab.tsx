@@ -24,7 +24,7 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
     }, 2000);
   };
   return (
-    <div className="p-4">
+    <div className="p-2 md:p-4">
       {latestVideos.length != 0 && (
         <h2 className="mb-4 text-xl font-bold">Recently Uploaded</h2>
       )}
@@ -33,7 +33,7 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
         {latestVideos.map((video: Video) => (
           <div
             key={video?._id}
-            className="flex flex-col  my-3"
+            className="flex flex-col my-3"
             onClick={() => addVideoToHistory(video._id)}
           >
             <VideoAndPlaylistCard

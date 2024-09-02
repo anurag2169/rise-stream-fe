@@ -16,9 +16,9 @@ const Tab: React.FC<TabsProps> = ({ tabs = [], activetab }) => {
       <Tabs
         defaultValue={activeTab}
         onValueChange={setActiveTab}
-        className="w-full mt-8"
+        className="mt-4 md:mt-8 mx-2"
       >
-        <TabsList className="flex border-b">
+        <TabsList className="flex border-b overflow-x-auto no-scrollbar justify-start md:justify-center">
           {tabs.map((tab: TabType) => (
             <TabsTrigger key={tab.value} value={tab.value}>
               {tab.label}

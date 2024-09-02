@@ -80,7 +80,7 @@ function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 z-40 w-full bg-background shadow-sm px-9">
+      <header className="fixed top-0 z-40 w-full bg-background shadow-sm px-2 md:px-9">
         <div className=" flex h-14 items-center justify-between">
           <div className="flex gap-5">
             <Button
@@ -91,12 +91,16 @@ function Navbar() {
               <HamburgerMenuIcon className="h-6 w-6" />
             </Button>
 
-            <Link href="#" className="flex items-center gap-2" prefetch={false}>
+            <Link
+              href="#"
+              className="flex items-center gap-2 invisible md:visible"
+              prefetch={false}
+            >
               <MountainIcon className="h-6 w-6" />
               <span className="sr-only">Acme Inc</span>
             </Link>
           </div>
-          <div className="relative flex-1 max-w-md">
+          <div className="relative w-1/2 lg:w-1/4 ">
             <div className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground">
               <SearchIcon className="h-4 w-4" />
             </div>
@@ -108,66 +112,13 @@ function Navbar() {
               id={searchInputData}
               onChange={(e: any) => setSearchInputData(e.target.value)}
               onKeyDown={handleSearch}
-              className="h-9 w-full rounded-lg bg-muted pl-8 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              className="h-9 rounded-lg bg-muted pl-8 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
-          <div className="flex items-center gap-4">
-            <div>
+          <div className="flex items-center gap-1 md:gap-4">
+            <div className="">
               <ThemeSwitcher />
             </div>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <BellIcon className="h-5 w-5" />
-                  <span className="sr-only">Notifications</span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="p-0">
-                <Card className="shadow-none border-0">
-                  <CardHeader className="border-b">
-                    <CardTitle>Notifications</CardTitle>
-                    <CardDescription>
-                      You have 3 unread messages.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                      <span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-                      <div className="grid gap-1">
-                        <p className="text-sm font-medium">
-                          Your call has been confirmed.
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          5 min ago
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                      <span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-                      <div className="grid gap-1">
-                        <p className="text-sm font-medium">
-                          You have a new message!
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          1 min ago
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                      <span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-                      <div className="grid gap-1">
-                        <p className="text-sm font-medium">
-                          Your subscription is expiring soon!
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          2 hours ago
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </PopoverContent>
-            </Popover>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">

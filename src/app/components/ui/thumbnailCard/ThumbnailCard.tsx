@@ -44,12 +44,12 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
 
   return (
     <>
-      <Card className="max-w-sm  min-w-96 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+      <Card className="w-80 mx-2 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
         <div className="relative h-48">
           <img
             src={thumbnail}
             alt="Video thumbnail"
-            className="w-full h-48 object-cover "
+            className="w-full h-48 object-cover"
           />
           <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
             {formatDuration(duration)}

@@ -132,11 +132,6 @@ const Channel = ({ params }: { params: { username: string } }) => {
       label: "Playlist",
       content: <PlaylistTab playlists={channelPlaylists} />,
     },
-    // {
-    //   value: "live",
-    //   label: "Live",
-    //   content: <section>Live Content</section>,
-    // },
     {
       value: "subscribers",
       label: "Subscribers",
@@ -196,7 +191,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
   ];
 
   return (
-    <div className="w-10/12 mt-20 mx-36 h-screen absolute">
+    <div className="w-full lg:w-10/12 mt-5 lg:mx-36 h-screen">
       {userChannelDetails ? (
         <ChannelDetails
           channelDetails={userChannelDetails}
@@ -205,7 +200,9 @@ const Channel = ({ params }: { params: { username: string } }) => {
       ) : (
         <div>Loading...</div>
       )}
-      <Tab tabs={tabs} activetab={tabQuery} />
+      <div className="">
+        <Tab tabs={tabs} activetab={tabQuery} />
+      </div>
     </div>
   );
 };
