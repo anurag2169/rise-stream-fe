@@ -18,6 +18,7 @@ import { loginUser, selectUserState } from "@/app/lib/features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/app/lib/store";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import Loader from "@/app/components/ui/loader/Loader";
 
 const SignInForm = () => {
   const [password, setPassword] = useState("");
@@ -26,9 +27,17 @@ const SignInForm = () => {
   const userState = useSelector(selectUserState);
   const dispatch = useDispatch<AppDispatch>();
 
+  const [loading, setLoading] = useState(false);
+
   const onSubmit = (e: any) => {
-    e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    try {
+      setLoading(true);
+      e.preventDefault();
+      dispatch(loginUser({ email, password }));
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -36,6 +45,7 @@ const SignInForm = () => {
       const { accessToken, refreshToken } = userState.data.data;
 
       if (accessToken) {
+        setLoading(false);
         // Set tokens in cookies
         Cookies.set("accessToken", accessToken, {
           secure: true,
@@ -113,6 +123,8 @@ const SignInForm = () => {
           </CardContent>
         </Card>
       </div>
+
+      {loading && <Loader />}
     </>
   );
 };

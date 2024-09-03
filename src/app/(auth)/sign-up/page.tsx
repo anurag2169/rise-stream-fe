@@ -19,12 +19,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import Loader from "@/app/components/ui/loader/Loader";
 
 const SignUpForm = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const state = useSelector(selectUserState);
   const [formData, setFormData] = useState<FormData>(new FormData());
+  const [loading, setLoading] = useState(false);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,8 +41,14 @@ const SignUpForm = () => {
   };
 
   const onSubmit = async (e: any) => {
-    e.preventDefault();
-    await dispatch(registerUser(formData));
+    try {
+      setLoading(true);
+      e.preventDefault();
+      await dispatch(registerUser(formData));
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -51,6 +59,7 @@ const SignUpForm = () => {
 
   return (
     <>
+      {loading && <Loader />}
       <BackgroundBeams />
 
       <div className="relative flex justify-center items-center h-screen">
