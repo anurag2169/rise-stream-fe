@@ -187,7 +187,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
                     createdAt={subsChannel?.createdAt}
                   />
                 </div>
-              ))} 
+              ))}
           </div>
         </div>
       ),
