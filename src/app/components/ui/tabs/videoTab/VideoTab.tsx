@@ -30,6 +30,7 @@ const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
                   views={0}
                   ownerAvatar={ownerAvatar}
                   ownerName={ownerName}
+                  videoUrl={video?.videoFile}
                 />
               </Link>
             </div>

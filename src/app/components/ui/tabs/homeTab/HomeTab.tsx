@@ -46,6 +46,7 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
                   views={0}
                   ownerAvatar={video?.owner.avatar}
                   ownerName={video?.owner.fullName}
+                  videoUrl={video?.videoFile}
                 />
               </Link>
             </div>

@@ -37,7 +37,6 @@ export default function WatchVideo({
   const [comments, setComments] = useState<Comment[]>([]);
   const [currentUser, setCurrentUser] = useState<Owner | null>(null);
   const userState = useSelector(selectUserState);
-  const pathname = usePathname();
   const [fullUrl, setFullUrl] = useState("");
 
   const fetchVideo = async () => {
@@ -109,9 +108,9 @@ export default function WatchVideo({
     <>
       <div className="flex justify-center absolute my-20 h-screen mx-2 md:mx-32">
         <div className="max-w-4xl mx-auto">
-          <div className="relative w-full lg:h-[450px] bg-black">
+          <div className="relative w-full lg:h-[450px] bg-black rounded-xl">
             <video
-              className=" w-full h-full "
+              className="w-full h-full object-cover rounded-xl"
               src={video?.videoFile}
               controls
               id="video-player"

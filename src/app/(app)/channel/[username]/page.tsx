@@ -19,6 +19,8 @@ import { channelDetails } from "@/app/types/userChannel.types";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ProfileCard from "@/app/components/ui/profileCard/ProfileCard";
+import { useSelector } from "react-redux";
+import { selectUserState } from "@/app/lib/features/user/userSlice";
 
 const Channel = ({ params }: { params: { username: string } }) => {
   const { username } = params;
@@ -32,6 +34,8 @@ const Channel = ({ params }: { params: { username: string } }) => {
   const [channelPlaylists, setchannelPlaylists] = useState([]);
   const [subscribedChannelDetails, setSubscribedChannelDetails] = useState([]);
   const [subscribersDetails, setSubscribersDetails] = useState([]);
+
+  const userState = useSelector(selectUserState);
 
   const getUserChannel = async () => {
     try {
@@ -183,7 +187,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
                     createdAt={subsChannel?.createdAt}
                   />
                 </div>
-              ))}
+              ))} 
           </div>
         </div>
       ),

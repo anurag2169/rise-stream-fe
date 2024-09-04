@@ -45,7 +45,6 @@ const SignInForm = () => {
       const { accessToken, refreshToken } = userState.data.data;
 
       if (accessToken) {
-        setLoading(false);
         // Set tokens in cookies
         Cookies.set("accessToken", accessToken, {
           secure: true,

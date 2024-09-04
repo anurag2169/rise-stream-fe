@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import dayjs from "dayjs";
@@ -15,6 +15,7 @@ interface ThumbnailCardProps {
   views: number;
   ownerAvatar: string;
   ownerName: string;
+  videoUrl?: string;
 }
 
 const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
@@ -25,7 +26,15 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
   views,
   ownerAvatar,
   ownerName,
+  videoUrl,
 }) => {
+  const [isHovered, setisHovered] = useState(false);
+  const [previewError, setpreviewError] = useState(false);
+
+  useEffect(() => {
+    setpreviewError(false);
+  }, [isHovered]);
+
   const formatDuration = (duration: string): string => {
     const seconds = parseFloat(duration);
     const minutes = Math.floor(seconds / 60);
@@ -41,20 +50,43 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + "...";
   };
+  const handlePreviewError = () => {
+    setpreviewError(true);
+  };
 
   return (
     <>
-      <Card className="w-80 mx-2 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-        <div className="relative h-48">
-          <img
-            src={thumbnail}
-            alt="Video thumbnail"
-            className="w-full h-48 object-cover"
-          />
+      <Card className="w-80 mx-2 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden ">
+        <figure
+          className="relative h-48 transition-all duration-300"
+          onMouseEnter={() => setisHovered(true)}
+          onMouseLeave={() => setisHovered(false)}
+        >
+          {isHovered ? (
+            previewError ? (
+              <div className="w-full h-48 flex text-center items-center justify-center bg-gray-200">
+                <p className="text-red-500 text-bold"> preview not available</p>
+              </div>
+            ) : (
+              <video
+                src={videoUrl}
+                autoPlay
+                loop
+                onError={handlePreviewError}
+                className="w-full h-48 object-cover"
+              />
+            )
+          ) : (
+            <img
+              src={thumbnail}
+              alt={title}
+              className="w-full h-48 object-cover"
+            />
+          )}
           <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
             {formatDuration(duration)}
           </div>
-        </div>
+        </figure>
         <CardContent className="p-3">
           <div className="flex space-x-4">
             <Avatar className="rounded-full">
