@@ -22,6 +22,7 @@ import {
   deleteComment,
   toggleCommentLike,
 } from "@/app/services/commentServices";
+import { usePathname, useSearchParams } from "next/navigation";
 
 dayjs.extend(relativeTime);
 
@@ -36,6 +37,8 @@ export default function WatchVideo({
   const [comments, setComments] = useState<Comment[]>([]);
   const [currentUser, setCurrentUser] = useState<Owner | null>(null);
   const userState = useSelector(selectUserState);
+  const pathname = usePathname();
+  const [fullUrl, setFullUrl] = useState("");
 
   const fetchVideo = async () => {
     try {
@@ -92,6 +95,8 @@ export default function WatchVideo({
   };
 
   useEffect(() => {
+    const url = window.location.href;
+    setFullUrl(url);
     fetchVideo();
     setCurrentUser(userState?.data?.data?.user);
   }, [videoid, userState]);
@@ -143,7 +148,7 @@ export default function WatchVideo({
               </Button>
             </div>
             <div className="flex items-center mt-4 space-x-4">
-              <VideoActionBtn />
+              <VideoActionBtn urlLink={fullUrl} />
             </div>
             <div>
               <VideoDescription

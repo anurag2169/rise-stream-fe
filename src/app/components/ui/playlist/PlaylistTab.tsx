@@ -1,8 +1,9 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ListBulletIcon } from "@radix-ui/react-icons";
+import { ListBulletIcon, PlusIcon } from "@radix-ui/react-icons";
 import PlaylistCard from "./PlaylistCard";
 import { Video } from "@/app/types/video.type";
+import CreatePlaylistDialog from "./CreatePlaylistDialog";
 
 interface Playlist {
   _id: string;
@@ -25,10 +26,7 @@ const PlaylistTab: React.FC<PlaylistTabProps> = ({ playlists = [] }) => {
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Created playlists</h2>
-        <Button variant="ghost" className="flex items-center gap-2">
-          <ListBulletIcon className="h-5 w-5" />
-          Sort by
-        </Button>
+        <CreatePlaylistDialog />
       </div>
       <div className="w-full flex justify-center items-center mt-4">
         {playlists.length == 0 && <span>Please Create Some Playlists</span>}
