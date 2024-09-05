@@ -22,7 +22,6 @@ import {
   deleteComment,
   toggleCommentLike,
 } from "@/app/services/commentServices";
-import { usePathname, useSearchParams } from "next/navigation";
 
 dayjs.extend(relativeTime);
 
@@ -106,11 +105,11 @@ export default function WatchVideo({
 
   return (
     <>
-      <div className="flex justify-center absolute my-20 h-screen md:mx-32 w-full h-60 sm:h-80 md:w-3/4 lg:w-8/12 lg:h-[450px] md:h-96">
+      <div className="flex justify-center absolute my-20 h-screen md:mx-32 w-full  md:w-3/4 lg:w-8/12">
         <div className="w-full mx-2">
-          <div className="relative w-full h-full bg-black rounded-xl ">
+          <div className="relative w-full bg-black rounded-xl ">
             <video
-              className="w-full h-full object-cover rounded-xl"
+              className="w-full h-60 sm:h-80 md:h-96 lg:h-[450px] object-cover rounded-xl"
               src={video?.videoFile}
               controls
               id="video-player"

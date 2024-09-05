@@ -29,7 +29,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../lib/store";
 import { logoutUser, selectUserState } from "../lib/features/user/userSlice";
 import Cookies from "js-cookie";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import {
+  AvatarIcon,
+  ExitIcon,
+  HamburgerMenuIcon,
+  MoonIcon,
+  SunIcon,
+} from "@radix-ui/react-icons";
 import SideBar from "./ui/sidebar/SideBar";
 import { getSideBarData } from "../config/sideBarData";
 import SidebarSecondary from "./ui/SidebarSecondary/SidebarSecondary";
@@ -133,19 +139,55 @@ function Navbar() {
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuContent className="w-80 rounded-xl" align="end">
+                <div className="flex items-center justify-start gap-2 p-2">
+                  <div className="flex flex-col space-y-1 leading-none">
+                    <p className="font-medium">
+                      {userState.data?.data?.user?.email}
+                    </p>
+                  </div>
+                </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
-                  <Link
-                    href={`/channel/${userState.data?.data?.user?.username}`}
-                  >
-                    View your Channel
+                <div className="p-2">
+                  <div className="mb-2">
+                    <Avatar className="h-24 w-24 mx-auto">
+                      <AvatarImage
+                        src={userState.data?.data?.user?.avatar}
+                        alt={userState.data?.data?.user?.username}
+                      />
+                      <AvatarFallback>RS</AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <p className="text-center text-xl font-semibold">
+                    Hi, {userState.data?.data?.user?.fullName}!
+                  </p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer flex flex-row items-center gap-2">
+                  <AvatarIcon className="w-4 h-4" />
+                  <Link href={"/admin?query=account"}>
+                    <span>Manage your Google Account</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer" onClick={logout}>
-                  Logout
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer flex flex-row items-center gap-2"
+                  onClick={logout}
+                >
+                  <ExitIcon className="w-4 h-4 " />
+                  <span>Sign out</span>
                 </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+                <div className="flex justify-center gap-3 p-2 text-xs text-muted-foreground">
+                  <a href="#" className="hover:underline">
+                    Privacy Policy
+                  </a>
+                  <span>•</span>
+                  <a href="#" className="hover:underline">
+                    Terms of Service
+                  </a>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -18,11 +18,15 @@ const Tab: React.FC<TabsProps> = ({ tabs = [], activetab }) => {
         onValueChange={setActiveTab}
         className="mt-4 md:mt-8 mx-2"
       >
-        <TabsList className="flex border-b overflow-x-auto no-scrollbar justify-start md:justify-center">
+        <TabsList
+          className={`flex border-b overflow-x-auto no-scrollbar justify-start md:justify-center `}
+        >
           {tabs.map((tab: TabType) => (
-            <TabsTrigger key={tab.value} value={tab.value}>
-              {tab.label}
-            </TabsTrigger>
+            <span className={`${tab.isVisible ? "" : "hidden"}`}>
+              <TabsTrigger key={tab.value} value={tab.value}>
+                {tab.label}
+              </TabsTrigger>
+            </span>
           ))}
         </TabsList>
 

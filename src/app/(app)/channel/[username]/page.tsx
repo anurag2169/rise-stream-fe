@@ -113,6 +113,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
     {
       value: "home",
       label: "Home",
+      isVisible: true,
       content: (
         <HomeTab
           channelVideos={channelVideos}
@@ -123,6 +124,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
     {
       value: "videos",
       label: "Videos",
+      isVisible: true,
       content: (
         <VideoTab
           userVideos={channelVideos}
@@ -134,11 +136,13 @@ const Channel = ({ params }: { params: { username: string } }) => {
     {
       value: "playlist",
       label: "Playlist",
+      isVisible: true,
       content: <PlaylistTab playlists={channelPlaylists} />,
     },
     {
       value: "subscribers",
       label: "Subscribers",
+      isVisible: true,
       content: (
         <div className="p-4">
           <h2 className="text-xl font-semibold pb-2">Channel Subscribers</h2>
@@ -167,6 +171,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
     {
       value: "subscription",
       label: `Subscription (${subscribedChannelDetails.length})`,
+      isVisible: false,
       content: (
         <div className="p-4">
           <h2 className="text-xl font-semibold pb-2">Subscribed Channels</h2>
