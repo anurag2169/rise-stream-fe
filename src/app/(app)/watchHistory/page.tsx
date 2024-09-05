@@ -64,10 +64,12 @@ const WatchHistory = () => {
   }
 
   return (
-    <div className="w-10/12 mt-20 mx-36 h-screen absolute">
-      <h1 className="text-4xl font-bold lg:pb-16 pb-5">Watch history</h1>
+    <div className="w-10/12 mt-20 mx-4 md:mx-36 h-screen absolute">
+      <h1 className="text-2xl md:text-4xl font-bold lg:pb-16 pb-5">
+        Watch history
+      </h1>
 
-      <h3 className="text-2xl font-bold  pb-3">Today</h3>
+      <h3 className="text-md md:text-2xl font-bold pb-3">Today</h3>
       {todaysWatchHistory && todaysWatchHistory.length > 0 ? (
         todaysWatchHistory.map((video: any) => (
           <div key={video?.videoDetails._id} className="flex flex-col my-2">
@@ -85,12 +87,12 @@ const WatchHistory = () => {
           </div>
         ))
       ) : (
-        <span className="text-xl font-medium py-5">
+        <span className="text-sm md:text-xl font-medium py-5">
           Your video history is empty. Add some videos to see them here.
         </span>
       )}
 
-      <h3 className="text-2xl font-bold  py-7">Yesterday</h3>
+      <h3 className="text-md md:text-2xl font-bold  py-7">Yesterday</h3>
       {yesterdayWatchHistory && yesterdayWatchHistory.length > 0 ? (
         yesterdayWatchHistory.map((video) => (
           <div key={video?.videoDetails._id} className="flex flex-col my-2">
@@ -108,7 +110,7 @@ const WatchHistory = () => {
           </div>
         ))
       ) : (
-        <span className="text-xl font-medium py-5">
+        <span className="text-sm md:text-xl font-medium py-5">
           There were no updates to your video history yesterday.
         </span>
       )}
