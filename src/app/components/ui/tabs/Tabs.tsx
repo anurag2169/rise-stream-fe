@@ -22,8 +22,8 @@ const Tab: React.FC<TabsProps> = ({ tabs = [], activetab }) => {
           className={`flex border-b overflow-x-auto no-scrollbar justify-start md:justify-center `}
         >
           {tabs.map((tab: TabType) => (
-            <span className={`${tab.isVisible ? "" : "hidden"}`}>
-              <TabsTrigger key={tab.value} value={tab.value}>
+            <span key={tab.value} className={`${tab.isVisible ? "" : "hidden"}`}>
+              <TabsTrigger  value={tab.value}>
                 {tab.label}
               </TabsTrigger>
             </span>
