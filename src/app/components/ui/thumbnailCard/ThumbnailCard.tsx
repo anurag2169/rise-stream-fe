@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 
 dayjs.extend(relativeTime);
 
@@ -11,10 +10,10 @@ interface ThumbnailCardProps {
   title: string;
   thumbnail: string;
   duration: string;
-  createdAt: string;
-  views: number;
-  ownerAvatar: string;
-  ownerName: string;
+  createdAt?: string;
+  views?: number;
+  ownerAvatar?: string;
+  ownerName?: string;
   videoUrl?: string;
 }
 
@@ -39,10 +38,10 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
     const seconds = parseFloat(duration);
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds}`;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
-  const formatCreatedAt = (dateString: string): string => {
+  const formatCreatedAt = (dateString: any): any => {
     return dayjs(dateString).fromNow();
   };
 
@@ -56,7 +55,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
 
   return (
     <>
-      <Card className="w-80 mx-2 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden ">
+      <Card className="w-80 mx-2 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
         <figure
           className="relative h-48 transition-all duration-300"
           onMouseEnter={() => setisHovered(true)}
@@ -98,9 +97,13 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
               <AvatarFallback>RS</AvatarFallback>
             </Avatar>
             <div className="min-h-20">
-              <h3 className="text-sm  font-semibold text-gray-900 dark:text-gray-100">
-                {truncateText(title)}
-              </h3>
+              <div className="h-10">
+                {title && (
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                    {truncateText(title)}
+                  </h3>
+                )}
+              </div>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 {ownerName || "Rise Stream"}
               </p>
