@@ -28,15 +28,14 @@ export const getSideBarData = (): SidebarProps => {
         submenu: false,
         subMenuItems: [],
       },
-      // {
-      //   menuId: Math.random() * 99,
-      //   menuName: "Subscriptions",
-      //   routerLink: `/channel/${username}?query=subscription`,
-      //   Icon: CardStackPlusIcon,
-      //   submenu: false,
-      //   subMenuItems: [],
-      // },
-
+      {
+        menuId: Math.random() * 99,
+        menuName: "Subscriptions",
+        routerLink: `/subscriptions`,
+        Icon: CardStackPlusIcon,
+        submenu: false,
+        subMenuItems: [],
+      },
       {
         menuId: Math.random() * 99,
         menuName: "You",

@@ -3,6 +3,8 @@ import Link from "next/link";
 import React from "react";
 import ThumbnailCard from "../../thumbnailCard/ThumbnailCard";
 import { addUserWatchHistory } from "@/app/services/userService";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
   const addVideoToHistory = async (videoId: string) => {
@@ -13,7 +15,15 @@ const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
   return (
     <>
       <section className="py-2 md:py-4">
-        <h2 className="mb-4 text-xl font-bold">Latest Videos</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">Latest Videos</h2>
+          <Link href={"/uploadVideo"}>
+            <Button variant="ghost" className="flex items-center gap-2">
+              <PlusIcon className="h-5 w-5" />
+              Upload Video
+            </Button>
+          </Link>
+        </div>
         <div className="flex flex-row flex-wrap justify-center md:justify-start">
           {userVideos.map((video: any) => (
             <div
