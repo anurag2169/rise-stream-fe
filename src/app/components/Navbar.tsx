@@ -1,51 +1,27 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import ThemeSwitcher from "./ui/ThemeSwitcher";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../lib/store";
 import { logoutUser, selectUserState } from "../lib/features/user/userSlice";
 import Cookies from "js-cookie";
-import {
-  AvatarIcon,
-  ExitIcon,
-  HamburgerMenuIcon,
-  MoonIcon,
-  SunIcon,
-} from "@radix-ui/react-icons";
+import { AvatarIcon, ExitIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import SideBar from "./ui/sidebar/SideBar";
 import { getSideBarData } from "../config/sideBarData";
-import SidebarSecondary from "./ui/SidebarSecondary/SidebarSecondary";
-import { getsearchDetails } from "../services/searchService";
-import { Owner } from "../types/video.type";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SidebarProps } from "../types/sidebar.type";
-import SidebarSkeleton from "./ui/SidebarSecondary/SidebarSkeleton";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { SidebarProps, SubscribedChannelDetail } from "../types/sidebar.type";
+import { getSubscribedChannels } from "../services/subscriptionServices";
 
 function Navbar() {
   const router = useRouter();
@@ -59,6 +35,12 @@ function Navbar() {
   const [searchInputData, setSearchInputData] = useState("");
 
   const [sidebarData, setSidebarData] = useState<SidebarProps | null>(null);
+
+  const [subscribedChannelDetails, setSubscribedChannelDetails] = useState<
+    SubscribedChannelDetail[]
+  >([]);
+
+  const [showMore, setShowMore] = useState(false);
 
   const handleSearch = (e: any) => {
     if (e.key === "Enter" || e.type === "click") {
@@ -74,6 +56,7 @@ function Navbar() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+    setShowMore(false);
   };
 
   const logout = async (e: any) => {
@@ -84,7 +67,25 @@ function Navbar() {
   useEffect(() => {
     const data = getSideBarData();
     setSidebarData(data);
+    getSubscriptionDetails();
   }, [pathname]);
+
+  const getSubscriptionDetails = async () => {
+    try {
+      const subscribedData = await getSubscribedChannels(
+        userState.data?.data?.user?._id
+      );
+      setSubscribedChannelDetails(
+        subscribedData?.data?.subscribedChannels.reverse()
+      );
+    } catch (error) {
+      console.log("Failed to get subscription details" + error);
+    }
+  };
+
+  const showMoreHandler = () => {
+    setShowMore(!showMore);
+  };
 
   return (
     <>
@@ -100,12 +101,15 @@ function Navbar() {
             </Button>
 
             <Link
-              href="#"
-              className="flex items-center gap-2 invisible md:visible"
+              href="/"
+              className="flex items-center gap-2 hidden md:block"
               prefetch={false}
             >
-              <MountainIcon className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
+              <h3 className="text-md md:text-2xl font-extrabold tracking-tight text-gray-800 dark:text-white">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 ">
+                  Rise Stream
+                </span>
+              </h3>
             </Link>
           </div>
           <div className="relative w-1/2 lg:w-1/4 ">
@@ -201,6 +205,9 @@ function Navbar() {
             isSubmenuOpen={true}
             isSidebarOpen={isSidebarOpen}
             closeSideBar={toggleSidebar}
+            subscribedChannelDetails={subscribedChannelDetails}
+            showMore={showMore}
+            showMoreHandler={showMoreHandler}
           />
         )}
       </header>
@@ -209,26 +216,6 @@ function Navbar() {
 }
 
 export default Navbar;
-
-function BellIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-    </svg>
-  );
-}
 
 function MountainIcon(props: any) {
   return (
@@ -265,26 +252,6 @@ function SearchIcon(props: any) {
     >
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
-
-function XIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
     </svg>
   );
 }

@@ -8,7 +8,7 @@ import { Collapsible, CollapsibleTrigger } from "@radix-ui/react-collapsible";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import SubscriptionBar from "./SubscriptionBar";
 
 const SideBar: React.FC<SidebarProps> = ({
@@ -16,6 +16,9 @@ const SideBar: React.FC<SidebarProps> = ({
   isSubmenuOpen,
   isSidebarOpen,
   closeSideBar,
+  subscribedChannelDetails,
+  showMore = false,
+  showMoreHandler = () => {},
 }) => {
   return (
     <div className={`flex w-full`}>
@@ -78,7 +81,12 @@ const SideBar: React.FC<SidebarProps> = ({
           </ul>
 
           <>
-            <SubscriptionBar />
+            <SubscriptionBar
+              subscribedChannelDetails={subscribedChannelDetails}
+              onCloseSideBar={closeSideBar}
+              showMore={showMore}
+              showMoreHandler={showMoreHandler}
+            />
           </>
         </nav>
       </aside>
