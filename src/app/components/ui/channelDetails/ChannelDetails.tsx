@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { channelDetailsProps } from "@/app/types/userChannel.types";
+import Image from "next/image";
 
 const ChannelDetails: React.FC<channelDetailsProps> = ({
   channelDetails,
@@ -10,9 +11,11 @@ const ChannelDetails: React.FC<channelDetailsProps> = ({
   return (
     <>
       <div className="h-52 md:h-80 border overflow-hidden rounded-xl mx-2">
-        <img
-          src={channelDetails?.data.coverImage}
+        <Image
+          src={channelDetails?.data.coverImage || "/placeholder.svg"}
           alt="Cover Image"
+          width={320}
+          height={180}
           className="w-full h-full object-cover"
         />
       </div>

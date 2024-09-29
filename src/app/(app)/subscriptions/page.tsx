@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ListBulletIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
 
 const Subscriptions = () => {
   const subscriptions = [
@@ -93,9 +94,11 @@ const Subscriptions = () => {
                   {videos.map((video, index) => (
                     <Card key={index}>
                       <CardContent className="p-0">
-                        <img
+                        <Image
                           src={video.thumbnail}
                           alt={video.title}
+                          width={320}
+                          height={180}
                           className="w-full h-auto"
                         />
                         <div className="p-4">

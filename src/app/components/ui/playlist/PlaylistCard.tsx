@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Image from "next/image";
 
 dayjs.extend(relativeTime);
 
@@ -29,7 +30,7 @@ const PlaylistCard = ({
       <Card className="overflow-hidden">
         <Link href={`/playlist/${playlistId}`}>
           <div className="relative">
-            <img
+            <Image
               src={playlistImage}
               alt={playlistImageAlt}
               className="w-full h-36 object-cover"

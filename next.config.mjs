@@ -6,7 +6,16 @@ const nextConfig = {
     missingSuspenseWithCSRBailout: false,
   },
   images: {
-    domains: ["res.cloudinary.com"], // Add Cloudinary domain
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
   },
 };
 

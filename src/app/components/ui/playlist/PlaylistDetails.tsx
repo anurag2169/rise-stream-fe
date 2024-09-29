@@ -10,6 +10,7 @@ import {
   ResetIcon,
   ShuffleIcon,
 } from "@radix-ui/react-icons";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const PlaylistDetails = ({
@@ -42,7 +43,7 @@ const PlaylistDetails = ({
     <>
       <Card style={gradientStyle} className="w-full md:w-1/3 h-1/2">
         <CardHeader className="p-4">
-          <img
+          <Image
             src={playlistThumbnail || "/placeholder.svg"}
             alt="System Design Course"
             className="w-full h-auto rounded-lg"

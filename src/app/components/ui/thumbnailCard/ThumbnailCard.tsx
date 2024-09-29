@@ -161,7 +161,7 @@ const ThumbnailCard: React.FC<ThumbnailCardProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Cross2Icon className="mr-2 h-4 w-4" />
-              <span>Don't recommend channel</span>
+              <span>Dont recommend channel</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <FileTextIcon className="mr-2 h-4 w-4" />

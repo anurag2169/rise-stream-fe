@@ -6,6 +6,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 
 interface videoAndPlaylistProps {
   id: string;
@@ -34,9 +35,11 @@ const VideoAndPlaylistCard: React.FC<videoAndPlaylistProps> = ({
       <Card className="flex flex-col md:flex-row items-center mx-2 md:mx-0 md:p-4 md:space-x-4 w-full  md:w-3/4 ">
         <div className="relative  md:w-80 w-full">
           <Link href={`/watch/${id}`}>
-            <img
+            <Image
               src={thumbnail}
               alt="Video thumbnail"
+              width={320}
+              height={180}
               className="w-full h-52 md:h-48 object-cover rounded-t-xl md:rounded-xl"
             />
             <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">

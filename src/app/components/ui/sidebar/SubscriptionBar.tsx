@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
+import Image from "next/image";
 import React, { useState } from "react";
 
 interface Channel {
@@ -13,26 +14,65 @@ const SubscriptionBar = () => {
   const channels: Channel[] = [
     {
       name: "IndiaTV",
-      imageUrl: "/placeholder.svg?height=32&width=32",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
       isLive: true,
     },
-    { name: "Chai aur Code", imageUrl: "/placeholder.svg?height=32&width=32" },
-    { name: "Raj Shamani", imageUrl: "/placeholder.svg?height=32&width=32" },
-    { name: "Piyush Garg", imageUrl: "/placeholder.svg?height=32&width=32" },
+    {
+      name: "Chai aur Code",
+      imageUrl:
+        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
+    {
+      name: "Raj Shamani",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
+    {
+      name: "Piyush Garg",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
     {
       name: "The Sham Sharma Show",
-      imageUrl: "/placeholder.svg?height=32&width=32",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
     },
     {
       name: "आचार्य प्रशान्त - Acharya Prashant",
-      imageUrl: "/placeholder.svg?height=32&width=32",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
     },
-    { name: "Dostcast", imageUrl: "/placeholder.svg?height=32&width=32" },
-    { name: "Piyush Garg", imageUrl: "/placeholder.svg?height=32&width=32" },
-    { name: "Dostcast", imageUrl: "/placeholder.svg?height=32&width=32" },
-    { name: "Chai aur Code", imageUrl: "/placeholder.svg?height=32&width=32" },
-    { name: "Dostcast", imageUrl: "/placeholder.svg?height=32&width=32" },
-    { name: "All Subscriptions", imageUrl: "/placeholder.svg?height=32&width=32" },
+    {
+      name: "Dostcast",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
+    {
+      name: "Piyush Garg",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
+    {
+      name: "Dostcast",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
+    {
+      name: "Chai aur Code",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
+    {
+      name: "Dostcast",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
+    {
+      name: "All Subscriptions",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D",
+    },
   ];
 
   const [showMore, setShowMore] = useState(false);
@@ -51,9 +91,11 @@ const SubscriptionBar = () => {
         <ul className="space-y-3">
           {channels.map((channel, index) => (
             <li key={index} className="flex items-center space-x-3">
-              <img
+              <Image
                 src={channel.imageUrl}
                 alt={`${channel.name} channel`}
+                width={32}
+                height={32}
                 className="w-8 h-8 rounded-full"
               />
               <span className="text-sm flex-grow truncate">{channel.name}</span>

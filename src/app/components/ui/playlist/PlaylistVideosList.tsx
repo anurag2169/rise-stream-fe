@@ -1,5 +1,6 @@
 import { playListVideoProps } from "@/app/types/playlist.types";
 import { formatCreatedAt } from "@/app/utils/dateFormater";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -9,7 +10,7 @@ const PlaylistVideosList: React.FC<playListVideoProps> = ({ videoDetails }) => {
       <div draggable className="flex items-center space-x-4 p-4 border-b">
         <MenuIcon className="w-6 h-6" />
         <Link href={`/watch/${videoDetails?._id}`}>
-          <img
+          <Image
             src={videoDetails?.thumbnail || "/placeholder.svg"}
             alt="System Design for Beginners Course"
             className="w-40 h-auto rounded-lg"
@@ -20,7 +21,7 @@ const PlaylistVideosList: React.FC<playListVideoProps> = ({ videoDetails }) => {
         </Link>
         <div className="flex-1">
           <Link href={`/watch/${videoDetails?._id}`}>
-            <h3 className="text-lg font-bold capitalize"> 
+            <h3 className="text-lg font-bold capitalize">
               {videoDetails?.title || "title"}
             </h3>
           </Link>
