@@ -41,16 +41,18 @@ import { getSideBarData } from "../config/sideBarData";
 import SidebarSecondary from "./ui/SidebarSecondary/SidebarSecondary";
 import { getsearchDetails } from "../services/searchService";
 import { Owner } from "../types/video.type";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SidebarProps } from "../types/sidebar.type";
 import SidebarSkeleton from "./ui/SidebarSecondary/SidebarSkeleton";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 function Navbar() {
   const router = useRouter();
   const userState = useSelector(selectUserState);
   const dispatch = useDispatch<AppDispatch>();
   const accessToken = Cookies.get("accessToken") || "";
+  const pathname = usePathname();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -82,12 +84,12 @@ function Navbar() {
   useEffect(() => {
     const data = getSideBarData();
     setSidebarData(data);
-  }, []);
+  }, [pathname]);
 
   return (
     <>
       <header className="fixed top-0 z-40 w-full bg-background shadow-sm px-2 md:px-9">
-        <div className=" flex h-14 items-center justify-between">
+        <main className="w-full flex items-center justify-between items-center h-14">
           <div className="flex gap-5">
             <Button
               variant={"ghost"}
@@ -191,28 +193,17 @@ function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        </div>
-      </header>
+        </main>
 
-      {sidebarData ? (
-        <>
-          {!isSidebarOpen && (
-            <div className="mt-14">
-              <SidebarSecondary data={sidebarData.data} />
-            </div>
-          )}
+        {sidebarData && (
           <SideBar
             data={sidebarData.data}
             isSubmenuOpen={true}
             isSidebarOpen={isSidebarOpen}
             closeSideBar={toggleSidebar}
           />
-        </>
-      ) : (
-        <div>
-          <SidebarSkeleton />
-        </div>
-      )}
+        )}
+      </header>
     </>
   );
 }

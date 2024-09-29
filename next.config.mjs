@@ -5,6 +5,9 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  images: {
+    domains: ["res.cloudinary.com"], // Add Cloudinary domain
+  },
 };
 
 export default nextConfig;
