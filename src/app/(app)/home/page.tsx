@@ -102,7 +102,7 @@ const Home = () => {
   return (
     <>
       <div className="fixed top-14 z-10 w-full bg-muted/60 dark:bg-slate-950/60 backdrop-blur">
-        <div className="relative w-full px-16 mb-4 mt-2 ">
+        <div className="relative w-full md:px-16 mb-4 mt-2 ">
           <div
             ref={scrollContainerRef}
             className="flex justify-start overflow-x-auto whitespace-nowrap space-x-4 p-4 no-scrollbar"
@@ -124,13 +124,13 @@ const Home = () => {
           </div>
           <button
             onClick={() => scroll(-200)}
-            className={`absolute left-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 w-10 ml-2 rounded-full shadow-md`}
+            className={`hidden md:block absolute left-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 w-10 ml-2 rounded-full shadow-md`}
           >
             ←
           </button>
           <button
             onClick={() => scroll(200)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 mr-2 w-10 rounded-full shadow-md"
+            className="hidden md:block absolute right-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 mr-2 w-10 rounded-full shadow-md"
           >
             →
           </button>

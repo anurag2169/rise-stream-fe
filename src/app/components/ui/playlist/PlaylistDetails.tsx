@@ -55,7 +55,7 @@ const PlaylistDetails = ({
         <CardContent className="p-4 space-y-2">
           <div className="text-2xl font-bold capitalize  flex gap-3">
             {!togglePlaylistname ? (
-              <p className="text-white">{plyName}</p>
+              <p className="">{plyName}</p>
             ) : (
               <>
                 <div className="flex flex-col w-full max-w-sm items-start gap-2 space-x-2">
@@ -79,7 +79,7 @@ const PlaylistDetails = ({
             )}
             {playlistOwnerId === currentUser?._id && (
               <div
-                className="cursor-pointer mt-2 text-white"
+                className="cursor-pointer mt-2 "
                 onClick={togglePlaylistName}
                 title="Edit Playlist Name"
               >
@@ -91,12 +91,12 @@ const PlaylistDetails = ({
               </div>
             )}
           </div>
-          <p className="text-white">{playlistOwner}</p>
-          <div className="flex items-center space-x-2 text-white">
+          <p className="">{playlistOwner}</p>
+          <div className="flex items-center space-x-2 ">
             <span>Public</span>
             <ChevronDownIcon className="w-4 h-4" />
           </div>
-          <p className="text-white">
+          <p className="">
             <span className="mr-2">{playlistLength} videos</span>
             <span>{formatCreatedAt(playlistUpdatedAt)}</span>
           </p>
@@ -112,7 +112,7 @@ const PlaylistDetails = ({
           </div>
           <div className="flex items-start gap-3 ">
             {!toggleDesc ? (
-              <p className="text-white">{playlistDescription}</p>
+              <p className="">{playlistDescription}</p>
             ) : (
               <>
                 <div className="flex flex-col w-full max-w-sm items-start gap-2 space-x-2">
@@ -136,7 +136,7 @@ const PlaylistDetails = ({
             )}
             {playlistOwnerId === currentUser?._id && (
               <div
-                className="cursor-pointer mt-2 text-white"
+                className="cursor-pointer mt-2 "
                 onClick={toggleDescription}
                 title="Edit Playlist description"
               >
