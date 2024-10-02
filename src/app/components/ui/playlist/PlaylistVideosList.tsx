@@ -1,5 +1,5 @@
 import { playListVideoProps } from "@/app/types/playlist.types";
-import { formatCreatedAt } from "@/app/utils/dateFormater";
+import { formatCreatedAt, truncateText } from "@/app/utils/dateFormater";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -7,33 +7,33 @@ import React from "react";
 const PlaylistVideosList: React.FC<playListVideoProps> = ({ videoDetails }) => {
   return (
     <>
-      <div draggable className="flex items-center space-x-4 p-4 border-b">
-        <MenuIcon className="w-6 h-6" />
-        <Link href={`/watch/${videoDetails?._id}`}>
-          <Image
-            src={videoDetails?.thumbnail || "/placeholder.svg"}
-            alt="System Design for Beginners Course"
-            className="w-40 h-auto rounded-lg"
-            width="160"
-            height="90"
-            style={{ aspectRatio: "160/90", objectFit: "cover" }}
-          />
-        </Link>
-        <div className="flex-1">
+      <div className="flex flex-col md:flex-row md:items-start p-4 border-b w-full md:gap-4">
+        <div className="w-full h-36  md:w-1/3">
           <Link href={`/watch/${videoDetails?._id}`}>
-            <h3 className="text-lg font-bold capitalize">
-              {videoDetails?.title || "title"}
-            </h3>
+            <img
+              src={videoDetails?.thumbnail || "/placeholder.svg"}
+              alt="System Design for Beginners Course"
+              className="rounded-lg w-full h-full object-cover"
+            />
           </Link>
-          <p className="flex gap-2">
-            <Link href={`/channel/${videoDetails?.owner?.username}`}>
-              <span>{videoDetails?.owner?.username || "RS"}</span>
+        </div>
+        <div className="m-2">
+          <h3 className="text-md md:text-lg font-bold capitalize ">
+            <Link href={`/watch/${videoDetails?._id}`}>
+              {truncateText(videoDetails?.title || "title", 30)}
             </Link>
-            <span>•</span>
-            <span>{videoDetails?.views} views </span>
-            <span>•</span>
-            <span>{formatCreatedAt(videoDetails?.updatedAt)}</span>
-          </p>
+          </h3>
+          <div className="flex md:gap-2 flex-col md:flex-row">
+            <span className="font-xs md:text-sm text-gray-400">
+              <Link href={`/channel/${videoDetails?.owner?.username}`}>
+                {videoDetails?.owner?.username || "RS"}
+              </Link>
+            </span>
+
+            <div className="font-xs md:text-sm wrap-nowrap text-gray-400">
+              {formatCreatedAt(videoDetails?.updatedAt)}
+            </div>
+          </div>
         </div>
       </div>
     </>

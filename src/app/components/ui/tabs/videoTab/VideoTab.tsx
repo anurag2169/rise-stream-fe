@@ -24,7 +24,7 @@ const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
             </Button>
           </Link>
         </div>
-        <div className="flex flex-row flex-wrap justify-center md:justify-start">
+        <div className="flex flex-row flex-wrap justify-center md:justify-start gap-3">
           {userVideos.map((video: any) => (
             <div
               key={video._id}

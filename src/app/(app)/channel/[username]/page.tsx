@@ -21,6 +21,7 @@ import { useSearchParams } from "next/navigation";
 import ProfileCard from "@/app/components/ui/profileCard/ProfileCard";
 import { useSelector } from "react-redux";
 import { selectUserState } from "@/app/lib/features/user/userSlice";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Channel = ({ params }: { params: { username: string } }) => {
   const { username } = params;
@@ -207,7 +208,13 @@ const Channel = ({ params }: { params: { username: string } }) => {
           toggleSubscriber={togglesubscription}
         />
       ) : (
-        <div>Loading...</div>
+        <div>
+          <Skeleton className="h-52 md:h-80 overflow-hidden rounded-xl mx-2 p-5 flex flex-col gap-5 justify-between">
+            <Skeleton className="h-20 w-full" />
+            <Skeleton className="h-20 w-full" />
+            <Skeleton className="h-20 w-full" />
+          </Skeleton>
+        </div>
       )}
       <div className="">
         <Tab tabs={tabs} activetab={tabQuery} />

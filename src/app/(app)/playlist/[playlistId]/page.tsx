@@ -70,7 +70,7 @@ const Playlist = ({ params }: { params: { playlistId: string } }) => {
     return <PlaylistSkeleton />;
   }
   return (
-    <div className="mt-20 h-screen absolute lg:mx-28">
+    <div className="mt-4 h-screen w-full  lg:w-10/12 mx-auto">
       <div className="flex flex-col md:flex-row gap-4 p-2 md:p-4">
         <PlaylistDetails
           gradientStyle={gradientStyle}
@@ -90,16 +90,16 @@ const Playlist = ({ params }: { params: { playlistId: string } }) => {
               <ListOrderedIcon className="w-6 h-6" />
             </span>
           </div>
-          <div className="space-y-4">
+          <>
             {playlistVideosData.map((video) => (
-              <div
+              <span
                 key={video?._id}
                 onClick={() => addVideoToHistory(video._id)}
               >
                 <PlaylistVideosList key={video._id} videoDetails={video} />
-              </div>
+              </span>
             ))}
-          </div>
+          </>
 
           {playlistVideosData.length === 0 && (
             <div className="lg:w-full md:w-1/4 text-white p-4 rounded-lg flex justify-center items-center lg:mt-12">
