@@ -70,6 +70,21 @@ function Navbar() {
     getSubscriptionDetails();
   }, [pathname]);
 
+  useEffect(() => {
+    if (isSidebarOpen) {
+      // Disable scroll
+      document.body.classList.add("overflow-hidden");
+    } else {
+      // Enable scroll
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    // Cleanup function to enable scroll on component unmount
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isSidebarOpen]);
+
   const getSubscriptionDetails = async () => {
     try {
       const subscribedData = await getSubscribedChannels(
@@ -89,8 +104,8 @@ function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 z-40 w-full bg-background shadow-sm px-2 md:px-9">
-        <main className="w-full flex items-center justify-between items-center h-14">
+      <header className="fixed top-0 z-40 w-full bg-background shadow-sm px-2 md:px-9 ">
+        <main className="w-full flex items-center justify-between items-center h-14 z-50">
           <div className="flex gap-5">
             <Button
               variant={"ghost"}
@@ -210,31 +225,19 @@ function Navbar() {
             showMoreHandler={showMoreHandler}
           />
         )}
+
+        {isSidebarOpen && (
+          <div
+            className="fixed top-14 inset-0 bg-black bg-opacity-50 z-0 "
+            onClick={toggleSidebar}
+          ></div>
+        )}
       </header>
     </>
   );
 }
 
 export default Navbar;
-
-function MountainIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
 
 function SearchIcon(props: any) {
   return (
