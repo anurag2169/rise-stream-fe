@@ -7,18 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import { videoAndPlaylistProps } from "@/app/types/video.type";
 
-interface videoAndPlaylistProps {
-  id: string;
-  title: string;
-  description: string;
-  fullname: string;
-  thumbnail: string;
-  avatarUrl: string;
-  views: number;
-  createdAt: string;
-  duration: any;
-}
 const VideoAndPlaylistCard: React.FC<videoAndPlaylistProps> = ({
   id,
   title,
@@ -50,7 +40,9 @@ const VideoAndPlaylistCard: React.FC<videoAndPlaylistProps> = ({
         <div className="my-2 md:my-5">
           <Link href={`/watch/${id}`}>
             <CardContent>
-              <div className="font-semibold text-xl ">{truncateText(title, 45)}</div>
+              <div className="font-semibold text-xl ">
+                {truncateText(title, 45)}
+              </div>
               <p className="text-gray-500 text-sm">
                 {views} views | {formatCreatedAt(createdAt)}
               </p>

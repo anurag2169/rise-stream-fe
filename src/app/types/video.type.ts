@@ -30,3 +30,16 @@ export interface Comment {
   createdAt: string;
   updatedAt: string;
 }
+
+
+export interface videoAndPlaylistProps {
+  id: string;
+  title: string;
+  description: string;
+  fullname: string;
+  thumbnail: string;
+  avatarUrl: string;
+  views: number;
+  createdAt: string;
+  duration: any;
+}

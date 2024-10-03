@@ -1,4 +1,5 @@
 "use client";
+import { truncateText } from "@/app/utils/dateFormater";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@radix-ui/react-avatar";
@@ -13,11 +14,6 @@ const VideoDescription = ({
   channelUserName,
 }: any) => {
   const [toggle, setToggle] = useState(false);
-
-  const truncateText = (text: string, maxLength: number = 48): string => {
-    if (text?.length <= maxLength) return text;
-    return text?.substring(0, maxLength) + "...";
-  };
 
   const toggleMore = () => {
     setToggle(!toggle);
@@ -37,7 +33,7 @@ const VideoDescription = ({
           </div>
         )}
         {toggle && (
-          <div className="">
+          <>
             <p className="mt-2 text-sm text-muted-foreground">{description}</p>
             <div className="pt-6 ">
               <div className="flex items-center my-5">
@@ -58,18 +54,22 @@ const VideoDescription = ({
                 </div>
               </div>
               <div className="flex space-x-2">
-                <Button variant={"outline"} className="px-4 py-2">
-                  🎥 Videos
-                </Button>
-                <Button variant={"outline"} className="px-4 py-2">
-                  📖 About
-                </Button>
+                <Link href={`/channel/${channelUserName}?query=videos`}>
+                  <Button variant={"outline"} className="px-4 py-2">
+                    🎥 Videos
+                  </Button>
+                </Link>
+                <Link href={`/channel/${channelUserName}`}>
+                  <Button variant={"outline"} className="px-4 py-2">
+                    📖 About
+                  </Button>
+                </Link>
               </div>
             </div>
             <Button className="mt-2" onClick={toggleMore} variant={"link"}>
               Show less
             </Button>
-          </div>
+          </>
         )}
       </div>
     </>
