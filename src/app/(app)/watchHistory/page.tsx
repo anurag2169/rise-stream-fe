@@ -64,7 +64,7 @@ const WatchHistory = () => {
   }
 
   return (
-    <div className="w-10/12 mt-20 mx-4 md:mx-36 h-screen absolute">
+    <div className="w-10/12 m-4 md:mx-36 h-screen absolute">
       <h1 className="text-2xl md:text-4xl font-bold lg:pb-16 pb-5">
         Watch history
       </h1>

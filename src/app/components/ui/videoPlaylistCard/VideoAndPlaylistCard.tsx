@@ -50,7 +50,7 @@ const VideoAndPlaylistCard: React.FC<videoAndPlaylistProps> = ({
         <div className="my-2 md:my-5">
           <Link href={`/watch/${id}`}>
             <CardContent>
-              <div className="font-semibold text-xl ">{title}</div>
+              <div className="font-semibold text-xl ">{truncateText(title, 45)}</div>
               <p className="text-gray-500 text-sm">
                 {views} views | {formatCreatedAt(createdAt)}
               </p>
