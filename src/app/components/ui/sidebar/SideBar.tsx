@@ -21,13 +21,13 @@ const SideBar: React.FC<SidebarProps> = ({
   showMoreHandler = () => {},
 }) => {
   return (
-    <div className={`flex w-full`}>
-      <aside
-        className={`mt-14 fixed inset-y-0 left-0 z-10 flex w-64 flex-col bg-background dark:bg-background-dark transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-500 ease-out `}
-      >
-        <ScrollArea className="h-[calc(100vh-64px)]">
+    <ScrollArea className="h-[calc(100vh-64px)]">
+      <div className={`flex w-full`}>
+        <aside
+          className={`mt-14 fixed inset-y-0 left-0 z-10 flex w-64 flex-col bg-background dark:bg-background-dark transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-500 ease-out `}
+        >
           <nav className="flex-1 overflow-y-auto px-4 py-6 no-scrollbar">
             <ul className="space-y-1">
               {data?.map((menu: any) => {
@@ -92,9 +92,9 @@ const SideBar: React.FC<SidebarProps> = ({
               />
             </>
           </nav>
-        </ScrollArea>
-      </aside>
-    </div>
+        </aside>
+      </div>
+    </ScrollArea>
   );
 };
 
