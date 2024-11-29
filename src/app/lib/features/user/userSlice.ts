@@ -7,11 +7,10 @@ import { getUserDataFromLocalStorage } from "../../localstorageUtils";
 // action
 export const registerUser = createAsyncThunk(
   "registerUser",
-  async (formData: FormData, thunkAPI: any) => {
+  async (formData: FormData, thunkAPI: any) => {  
     const res = await fetch(`${urlPath.registerUser}`, {
       method: "POST",
       body: formData,
-      headers: { "Content-Type": "multipart/form-data" },
     });
 
     if (!res.ok) {
