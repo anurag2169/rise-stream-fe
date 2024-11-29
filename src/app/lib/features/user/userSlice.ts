@@ -11,6 +11,7 @@ export const registerUser = createAsyncThunk(
     const res = await fetch(`${urlPath.registerUser}`, {
       method: "POST",
       body: formData,
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
     if (!res.ok) {
@@ -41,7 +42,11 @@ export const loginUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   "user/logoutUser",
-  async (accessToken: String) => {
+  async (accessToken: string) => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    localStorage.removeItem("userData");
+
     const res = await fetch(urlPath.signOutUser, {
       method: "POST",
       headers: {
@@ -53,9 +58,6 @@ export const logoutUser = createAsyncThunk(
       throw new Error("Network response was not ok");
     }
 
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
-    localStorage.removeItem("userData");
     return await res.json();
   }
 );

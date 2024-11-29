@@ -187,7 +187,7 @@ function Navbar() {
                 <DropdownMenuItem className="cursor-pointer flex flex-row items-center gap-2">
                   <AvatarIcon className="w-4 h-4" />
                   <Link href={"/admin?query=account"}>
-                    <span>Manage your Google Account</span>
+                    <span>Manage your Rise Channel</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

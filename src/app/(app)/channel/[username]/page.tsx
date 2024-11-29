@@ -16,11 +16,9 @@ import {
 } from "@/app/services/userService";
 import { TabType } from "@/app/types/tab.type";
 import { channelDetails } from "@/app/types/userChannel.types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ProfileCard from "@/app/components/ui/profileCard/ProfileCard";
-import { useSelector } from "react-redux";
-import { selectUserState } from "@/app/lib/features/user/userSlice";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Channel = ({ params }: { params: { username: string } }) => {
@@ -36,30 +34,43 @@ const Channel = ({ params }: { params: { username: string } }) => {
   const [subscribedChannelDetails, setSubscribedChannelDetails] = useState([]);
   const [subscribersDetails, setSubscribersDetails] = useState([]);
 
-  const userState = useSelector(selectUserState);
+  // const getUserChannel = async () => {
+  //   try {
+  //     const result = await getUserChannelProfile(username);
+  //     setuserChannelDetails(result);
+  //   } catch (error) {
+  //     console.error("Failed to fetch User channel");
+  //   }
+  // };
 
-  const getUserChannel = async () => {
-    try {
-      const result = await getUserChannelProfile(username);
-      setuserChannelDetails(result);
-    } catch (error) {
-      console.error("Failed to fetch User channel");
-    }
-  };
+  // const getchannelvideos = async () => {
+  //   try {
+  //     const data = await getUserChannelVideos(userChannelDetails?.data._id);
+  //     setchannelVideos(data?.data.reverse());
+  //   } catch (error) {
+  //     console.error("Failed to fetch User channel videos");
+  //   }
+  // };
 
-  const getchannelvideos = async () => {
+  const fetchUserChannelAndVideos = useCallback(async () => {
     try {
-      const data = await getUserChannelVideos(userChannelDetails?.data._id);
-      setchannelVideos(data?.data.reverse());
+      const userChannelResult = await getUserChannelProfile(username);
+      setuserChannelDetails(userChannelResult);
+
+      const userId = userChannelResult?.data?._id;
+      if (userId) {
+        const videoData = await getUserChannelVideos(userId);
+        setchannelVideos(videoData?.data.reverse());
+      }
     } catch (error) {
-      console.error("Failed to fetch User channel videos");
+      console.error("Failed to fetch User channel or videos", error);
     }
-  };
+  }, [username, setuserChannelDetails, setchannelVideos]);
 
   const togglesubscription = async () => {
     try {
       await toggleSubscription(userChannelDetails?.data._id);
-      getUserChannel();
+      // getUserChannel();
       getSubscriptionDetails();
       getSubscriberDetails();
     } catch (error) {
@@ -67,14 +78,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
     }
   };
 
-  const getChannelplaylists = async () => {
-    const playListsData = await getChannelPlaylists(
-      userChannelDetails?.data._id
-    );
-    setchannelPlaylists(playListsData?.data);
-  };
-
-  const getSubscriptionDetails = async () => {
+  const getSubscriptionDetails = useCallback(async () => {
     try {
       const subscribedData = await getSubscribedChannels(
         userChannelDetails?.data._id
@@ -85,30 +89,50 @@ const Channel = ({ params }: { params: { username: string } }) => {
     } catch (error) {
       console.log("Failed to get subscription details" + error);
     }
-  };
-  const getSubscriberDetails = async () => {
+  }, [userChannelDetails, setSubscribedChannelDetails]);
+
+  const getSubscriberDetails = useCallback(async () => {
     try {
       const subscriberData = await getUserChannelSubscribers(
         userChannelDetails?.data._id
       );
       setSubscribersDetails(subscriberData?.data.reverse());
     } catch (error) {
-      console.log("Failed to get channel subsribers" + error);
+      console.error("Failed to get channel subscribers: ", error);
     }
-  };
+  }, [userChannelDetails, setSubscribersDetails]);
+
+  const getChannelplaylists = useCallback(async () => {
+    if (!userChannelDetails?.data?._id) return; // Prevent API call if ID is not available
+
+    try {
+      const playListsData = await getChannelPlaylists(
+        userChannelDetails.data._id
+      );
+      setchannelPlaylists(playListsData?.data || []); // Set an empty array if data is undefined
+    } catch (error) {
+      console.error("Failed to fetch channel playlists:", error); // Improved error logging
+    }
+  }, [userChannelDetails, setchannelPlaylists]);
 
   useEffect(() => {
-    getUserChannel();
-  }, []);
+    // getUserChannel();
+    fetchUserChannelAndVideos();
+  }, [fetchUserChannelAndVideos]);
 
   useEffect(() => {
     if (userChannelDetails?.data._id) {
-      getchannelvideos();
+      // getchannelvideos();
       getChannelplaylists();
       getSubscriptionDetails();
       getSubscriberDetails();
     }
-  }, [userChannelDetails?.data._id]);
+  }, [
+    getSubscriberDetails,
+    getSubscriptionDetails,
+    getChannelplaylists,
+    userChannelDetails?.data._id,
+  ]);
 
   const tabs: TabType[] = [
     {

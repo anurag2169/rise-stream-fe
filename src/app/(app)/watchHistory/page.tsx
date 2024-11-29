@@ -1,6 +1,6 @@
 "use client";
 import { getWatchHistory } from "@/app/services/userService";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Video } from "@/app/types/video.type";
 import VideoAndPlaylistCard from "@/app/components/ui/videoPlaylistCard/VideoAndPlaylistCard";
 
@@ -13,31 +13,31 @@ const WatchHistory = () => {
   const [todaysWatchHistory, setTodaysWatchHistory] = useState<
     HistoryVideo[] | null
   >(null);
-  const [yesterdayWatchHistory, setyesterdayWatchHistory] = useState<
+  const [yesterdayWatchHistory, setYesterdayWatchHistory] = useState<
     HistoryVideo[] | null
   >(null);
 
-  const [loading, setloading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const getUserWatchHistory = async () => {
+  const getUserWatchHistory = useCallback(async () => {
     try {
       const res = await getWatchHistory();
       const todayVideos = filterTodaysVideos(res.data, "today");
       setTodaysWatchHistory(todayVideos);
       const yesterdayVideos = filterTodaysVideos(res.data, "yesterday");
-      setyesterdayWatchHistory(yesterdayVideos);
-      setloading(false);
+      setYesterdayWatchHistory(yesterdayVideos);
+      setLoading(false);
     } catch (error) {
       console.error(error);
-      setloading(false);
+      setLoading(false);
     }
-  };
+  }, [setTodaysWatchHistory, setYesterdayWatchHistory, setLoading]);
 
   useEffect(() => {
     getUserWatchHistory();
-  }, []);
+  }, [getUserWatchHistory]);
 
-  const filterTodaysVideos = (videos: HistoryVideo[], day: any) => {
+  const filterTodaysVideos = useCallback((videos: HistoryVideo[], day: any) => {
     const today = new Date();
 
     const startOfToday = new Date(today);
@@ -57,7 +57,7 @@ const WatchHistory = () => {
         return videoDate < startOfToday || videoDate > endOfToday;
       });
     }
-  };
+  }, []);
 
   if (loading) {
     return <>loading...</>;

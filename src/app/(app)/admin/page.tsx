@@ -1,16 +1,24 @@
 "use client";
 import AccountDetails from "@/app/components/ui/accountDetails/AccountDetails";
+import ThumbnailCard from "@/app/components/ui/thumbnailCard/ThumbnailCard";
+import { selectUserState } from "@/app/lib/features/user/userSlice";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useDeferredValue, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const AdminPanel = () => {
+  const userState = useSelector(selectUserState);
   const searchParams = useSearchParams();
   const menuQuery = searchParams.get("query") || "account";
   const [selectedOption, setSelectedOption] = useState(menuQuery);
+
+  // useEffect(() => {
+  //   setSelectedOption(menuQuery);
+  // }, [menuQuery]);
 
   const menuOptions = [
     { id: "account", label: "Account" },
@@ -26,10 +34,99 @@ const AdminPanel = () => {
   const renderContent = () => {
     switch (selectedOption) {
       case "account":
-        return <AccountDetails />;
-      case "notifications":
-        return <h2 className="text-2xl font-bold">Notifications Content</h2>;
-      case "playback":
+        return (
+          <AccountDetails
+            email={userState.data?.data.user?.email}
+            name={userState.data?.data.user.fullName}
+            userName={userState.data?.data.user.username}
+            avatarUrl={userState.data?.data.user.avatar}
+          />
+        );
+      case "videos":
+        return (
+          <span>
+            <div className="flex flex-wrap gap-4 justify-center items-center">
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+              <ThumbnailCard
+                title={"lorem lorem"}
+                thumbnail={
+                  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D"
+                }
+                duration={"25"}
+              />
+            </div>
+          </span>
+        );
+      case "playlists":
         return (
           <h2 className="text-2xl font-bold">
             Playback and Performance Content
@@ -47,7 +144,10 @@ const AdminPanel = () => {
         );
       case "advanced":
         return (
-          <h2 className="text-2xl font-bold">Advanced Settings Content</h2>
+          <>
+            <h2 className="text-2xl font-bold">Advanced Settings Content</h2>
+            <span className="text-muted-foreground">Coming Soon</span>
+          </>
         );
       default:
         return <h2 className="text-2xl font-bold">Select an option</h2>;
@@ -77,14 +177,14 @@ const AdminPanel = () => {
   );
 
   return (
-    <div className="flex h-screen bg-background text-foreground">
+    <div className="flex h-screen bg-background text-foreground ">
       {/* Sidebar for larger screens */}
-      <aside className="hidden md:block w-64 border-r border-border">
+      <aside className="hidden md:block w-64 border-r border-border h-screen">
         <SidebarContent />
       </aside>
 
       {/* Main content area */}
-      <main className="flex-1 p-6 overflow-auto">
+      <main className="flex-1 py-6 px-3 overflow-auto no-scrollbar ">
         <div className="md:hidden flex justify-between items-center mb-6">
           <Sheet>
             <SheetTrigger asChild>

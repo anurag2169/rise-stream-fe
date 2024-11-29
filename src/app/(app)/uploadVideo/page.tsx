@@ -49,6 +49,7 @@ const UploadVideo = () => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
         },
         body: formDataRef.current,
       });
@@ -58,7 +59,7 @@ const UploadVideo = () => {
       }
 
       const data = await res.json();
-      setPopupMessage("Video Uplpoaded successful!");
+      setPopupMessage("Video Uploaded successful!");
       setShowPopup(true);
       setLoading(false);
       return data;
