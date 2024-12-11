@@ -56,7 +56,7 @@ const SignInForm = () => {
         });
 
         // Redirect to home page
-        router.push("/home");
+        router.push("/feed");
       }
     }
   }, [userState.status, router]);

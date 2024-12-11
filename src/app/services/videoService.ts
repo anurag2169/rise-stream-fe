@@ -2,8 +2,9 @@
 import { commentUrlPath, videoUrlPath } from "@/app/config/url.const";
 import Cookies from "js-cookie";
 
+const accessToken = Cookies.get("accessToken");
+
 export const getVideo = async (videoid: string) => {
-  const accessToken = Cookies.get("accessToken");
   try {
     const res = await fetch(`${videoUrlPath.getVideoById}${videoid}`, {
       method: "GET",
@@ -26,7 +27,6 @@ export const getVideo = async (videoid: string) => {
 };
 
 export const getCommentsOnVideo = async (videoid: string) => {
-  const accessToken = Cookies.get("accessToken");
   try {
     const res = await fetch(`${commentUrlPath.getVideoComments}${videoid}`, {
       method: "GET",
@@ -49,7 +49,6 @@ export const getCommentsOnVideo = async (videoid: string) => {
 };
 
 export const addComment = async (videoid: string, content: any) => {
-  const accessToken = Cookies.get("accessToken");
   try {
     const res = await fetch(`${commentUrlPath.addComment}${videoid}`, {
       method: "POST",
@@ -72,7 +71,6 @@ export const addComment = async (videoid: string, content: any) => {
 };
 
 export const editComment = async (commentId: string, editedContent: any) => {
-  const accessToken = Cookies.get("accessToken");
   try {
     const res = await fetch(`${commentUrlPath.updateComment}${commentId}`, {
       method: "POST",
@@ -92,5 +90,25 @@ export const editComment = async (commentId: string, editedContent: any) => {
   } catch (error) {
     console.error("Failed to edit comment:", error);
     throw error;
+  }
+};
+
+export const getAllVideos = async () => {
+  try {
+    const res = await fetch(videoUrlPath.getAllVideos, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
   }
 };

@@ -34,25 +34,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
   const [subscribedChannelDetails, setSubscribedChannelDetails] = useState([]);
   const [subscribersDetails, setSubscribersDetails] = useState([]);
 
-  // const getUserChannel = async () => {
-  //   try {
-  //     const result = await getUserChannelProfile(username);
-  //     setuserChannelDetails(result);
-  //   } catch (error) {
-  //     console.error("Failed to fetch User channel");
-  //   }
-  // };
-
-  // const getchannelvideos = async () => {
-  //   try {
-  //     const data = await getUserChannelVideos(userChannelDetails?.data._id);
-  //     setchannelVideos(data?.data.reverse());
-  //   } catch (error) {
-  //     console.error("Failed to fetch User channel videos");
-  //   }
-  // };
-
-  const fetchUserChannelAndVideos = useCallback(async () => {
+  const fetchUserChannelAndVideos = async () => {
     try {
       const userChannelResult = await getUserChannelProfile(username);
       setuserChannelDetails(userChannelResult);
@@ -65,20 +47,20 @@ const Channel = ({ params }: { params: { username: string } }) => {
     } catch (error) {
       console.error("Failed to fetch User channel or videos", error);
     }
-  }, [username, setuserChannelDetails, setchannelVideos]);
+  };
 
   const togglesubscription = async () => {
     try {
       await toggleSubscription(userChannelDetails?.data._id);
-      // getUserChannel();
       getSubscriptionDetails();
       getSubscriberDetails();
+      fetchUserChannelAndVideos();
     } catch (error) {
       console.error("Failed to toggle User channel subscription");
     }
   };
 
-  const getSubscriptionDetails = useCallback(async () => {
+  const getSubscriptionDetails = async () => {
     try {
       const subscribedData = await getSubscribedChannels(
         userChannelDetails?.data._id
@@ -89,9 +71,9 @@ const Channel = ({ params }: { params: { username: string } }) => {
     } catch (error) {
       console.log("Failed to get subscription details" + error);
     }
-  }, [userChannelDetails, setSubscribedChannelDetails]);
+  };
 
-  const getSubscriberDetails = useCallback(async () => {
+  const getSubscriberDetails = async () => {
     try {
       const subscriberData = await getUserChannelSubscribers(
         userChannelDetails?.data._id
@@ -100,39 +82,32 @@ const Channel = ({ params }: { params: { username: string } }) => {
     } catch (error) {
       console.error("Failed to get channel subscribers: ", error);
     }
-  }, [userChannelDetails, setSubscribersDetails]);
+  };
 
-  const getChannelplaylists = useCallback(async () => {
-    if (!userChannelDetails?.data?._id) return; // Prevent API call if ID is not available
+  const getChannelplaylists = async () => {
+    if (!userChannelDetails?.data?._id) return;
 
     try {
       const playListsData = await getChannelPlaylists(
         userChannelDetails.data._id
       );
-      setchannelPlaylists(playListsData?.data || []); // Set an empty array if data is undefined
+      setchannelPlaylists(playListsData?.data || []);
     } catch (error) {
-      console.error("Failed to fetch channel playlists:", error); // Improved error logging
+      console.error("Failed to fetch channel playlists:", error);
     }
-  }, [userChannelDetails, setchannelPlaylists]);
+  };
 
   useEffect(() => {
-    // getUserChannel();
     fetchUserChannelAndVideos();
-  }, [fetchUserChannelAndVideos]);
+  }, []);
 
   useEffect(() => {
     if (userChannelDetails?.data._id) {
-      // getchannelvideos();
       getChannelplaylists();
       getSubscriptionDetails();
       getSubscriberDetails();
     }
-  }, [
-    getSubscriberDetails,
-    getSubscriptionDetails,
-    getChannelplaylists,
-    userChannelDetails?.data._id,
-  ]);
+  }, [userChannelDetails?.data._id]);
 
   const tabs: TabType[] = [
     {
@@ -233,11 +208,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
         />
       ) : (
         <div>
-          <Skeleton className="h-52 md:h-80 overflow-hidden rounded-xl mx-2 p-5 flex flex-col gap-5 justify-between">
-            <Skeleton className="h-20 w-full" />
-            <Skeleton className="h-20 w-full" />
-            <Skeleton className="h-20 w-full" />
-          </Skeleton>
+          <Skeleton className="h-52 md:h-80 overflow-hidden rounded-xl mx-2 p-5 flex flex-col gap-5 justify-between"></Skeleton>
         </div>
       )}
       <div className="">

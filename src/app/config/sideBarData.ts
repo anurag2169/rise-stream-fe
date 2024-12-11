@@ -23,7 +23,7 @@ export const getSideBarData = (): SidebarProps => {
       {
         menuId: Math.random() * 100,
         menuName: "Home",
-        routerLink: "/home",
+        routerLink: "/feed",
         Icon: HomeIcon,
         submenu: false,
         subMenuItems: [],

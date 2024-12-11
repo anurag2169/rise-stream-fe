@@ -14,26 +14,19 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
   const [latestVideos, setLatestVideos] = useState<Video[]>([]);
   const userState = useSelector(selectUserState);
 
-  // const latestVideos = channelVideos
-  //   .sort(
-  //     (a: any, b: any) =>
-  //       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  //   )
-  //   .slice(0, 3);
-
   useEffect(() => {
     if (channelVideos && channelVideos.length > 0) {
       // Simulate a loading delay or fetch
-      setTimeout(() => {
-        const sortedVideos = channelVideos
-          .sort(
-            (a: any, b: any) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          )
-          .slice(0, 3);
-        setLatestVideos(sortedVideos);
-        setLoading(false); // Data has been loaded
-      }, 2000); // Simulate loading time
+
+      const sortedVideos = channelVideos
+        .sort(
+          (a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        .slice(0, 3);
+      setLatestVideos(sortedVideos);
+      setLoading(false); // Data has been loaded
+      // Simulate loading time
     } else {
       setLoading(false); // No videos to load
     }
@@ -53,10 +46,7 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
       <div className="flex flex-row flex-wrap justify-center md:justify-start gap-3">
         {loading ? (
           [...Array(3)].map((_, idx) => (
-            <Skeleton key={idx} className="h-56 w-96 p-3">
-              <Skeleton className="h-28 w-full mb-2"></Skeleton>
-              <Skeleton className="h-5 w-full" />
-            </Skeleton>
+            <Skeleton key={idx} className="h-56 w-96 p-3"></Skeleton>
           ))
         ) : latestVideos.length > 0 ? (
           latestVideos.map((video: Video) => (
