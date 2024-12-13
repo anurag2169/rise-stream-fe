@@ -22,6 +22,7 @@ import {
   deleteComment,
   toggleCommentLike,
 } from "@/app/services/commentServices";
+import { useGetVideoByIdQuery } from "@/app/lib/features/api/videoApiSlice";
 
 dayjs.extend(relativeTime);
 
@@ -31,22 +32,17 @@ export default function WatchVideo({
   params: { videoid: string };
 }) {
   const { videoid } = params;
-  const [video, setVideo] = useState<Video | null>(null);
-  const [videoOwner, setVideoOwner] = useState<Owner | null>(null);
+  // const [video, setVideo] = useState<Video | null>(null);
+  // const [videoOwner, setVideoOwner] = useState<Owner | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [currentUser, setCurrentUser] = useState<Owner | null>(null);
   const userState = useSelector(selectUserState);
   const [fullUrl, setFullUrl] = useState("");
 
-  const fetchVideo = async () => {
-    try {
-      const videoData = await getVideo(videoid);
-      setVideo(videoData);
-      setVideoOwner(videoData?.owner);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // rtk query code
+  const { data: videoResponse, isLoading } = useGetVideoByIdQuery(videoid);
+
+  const video = videoResponse?.data?.[0];
 
   const fetchComments = async () => {
     try {
@@ -95,7 +91,7 @@ export default function WatchVideo({
   useEffect(() => {
     const url = window.location.href;
     setFullUrl(url);
-    fetchVideo();
+    // fetchVideo();
     setCurrentUser(userState?.data?.data?.user);
   }, [videoid, userState]);
 
@@ -124,14 +120,14 @@ export default function WatchVideo({
               <Avatar>
                 <AvatarImage
                   className="w-10 h-10 rounded-full"
-                  src={videoOwner?.avatar}
+                  src={video?.owner?.avatar}
                 />
                 <AvatarFallback>RS</AvatarFallback>
               </Avatar>
               <div className="ml-3">
-                <Link href={`/channel/${videoOwner?.username}`}>
+                <Link href={`/channel/${video?.owner?.username}`}>
                   <p className="text-sm font-semibold">
-                    {videoOwner?.fullName}
+                    {video?.owner?.fullName}
                   </p>
                 </Link>
                 <p className="text-sm text-muted-foreground">
@@ -151,9 +147,9 @@ export default function WatchVideo({
             <div>
               <VideoDescription
                 description={video?.description}
-                channelName={videoOwner?.fullName}
-                channelAvatar={videoOwner?.avatar}
-                channelUserName={videoOwner?.username}
+                channelName={video?.owner?.fullName}
+                channelAvatar={video?.owner?.avatar}
+                channelUserName={video?.owner?.username}
                 subscriber={"10.5M"}
               />
             </div>

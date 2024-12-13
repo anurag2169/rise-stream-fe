@@ -92,23 +92,3 @@ export const editComment = async (commentId: string, editedContent: any) => {
     throw error;
   }
 };
-
-export const getAllVideos = async () => {
-  try {
-    const res = await fetch(videoUrlPath.getAllVideos, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};

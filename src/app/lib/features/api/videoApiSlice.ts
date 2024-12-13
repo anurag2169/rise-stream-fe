@@ -20,8 +20,12 @@ export const videoApiSlice = createApi({
       getVideos: builder.query({
         query: () => "/videos/",
       }),
+
+      getVideoById: builder.query({
+        query: (videoId) => `/videos/${videoId}`,
+      }),
     };
   },
 });
 
-export const { useGetVideosQuery } = videoApiSlice;
+export const { useGetVideosQuery, useGetVideoByIdQuery } = videoApiSlice;
