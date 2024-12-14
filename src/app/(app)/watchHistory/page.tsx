@@ -1,8 +1,9 @@
 "use client";
-import { getWatchHistory } from "@/app/services/userService";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { Video } from "@/app/types/video.type";
 import VideoAndPlaylistCard from "@/app/components/ui/videoPlaylistCard/VideoAndPlaylistCard";
+import { useGetUserWatchHistoryQuery } from "@/app/lib/features/api/videoApiSlice";
 
 interface HistoryVideo {
   videoDetails: Video;
@@ -10,32 +11,9 @@ interface HistoryVideo {
 }
 
 const WatchHistory = () => {
-  const [todaysWatchHistory, setTodaysWatchHistory] = useState<
-    HistoryVideo[] | null
-  >(null);
-  const [yesterdayWatchHistory, setYesterdayWatchHistory] = useState<
-    HistoryVideo[] | null
-  >(null);
+  const { data: response, isLoading } = useGetUserWatchHistoryQuery({});
 
-  const [loading, setLoading] = useState(true);
-
-  const getUserWatchHistory = useCallback(async () => {
-    try {
-      const res = await getWatchHistory();
-      const todayVideos = filterTodaysVideos(res.data, "today");
-      setTodaysWatchHistory(todayVideos);
-      const yesterdayVideos = filterTodaysVideos(res.data, "yesterday");
-      setYesterdayWatchHistory(yesterdayVideos);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  }, [setTodaysWatchHistory, setYesterdayWatchHistory, setLoading]);
-
-  useEffect(() => {
-    getUserWatchHistory();
-  }, [getUserWatchHistory]);
+  const WatchHistory: HistoryVideo[] = response?.data || [];
 
   const filterTodaysVideos = useCallback((videos: HistoryVideo[], day: any) => {
     const today = new Date();
@@ -47,19 +25,28 @@ const WatchHistory = () => {
     endOfToday.setHours(23, 59, 59, 999);
 
     if (day === "today") {
-      return videos.filter((video) => {
+      return videos?.filter((video) => {
         const videoDate = new Date(video.videoAddedAt);
         return videoDate >= startOfToday && videoDate <= endOfToday;
       });
     } else {
-      return videos.filter((video) => {
+      return videos?.filter((video) => {
         const videoDate = new Date(video.videoAddedAt);
         return videoDate < startOfToday || videoDate > endOfToday;
       });
     }
   }, []);
 
-  if (loading) {
+  const todaysWatchHistory: HistoryVideo[] = filterTodaysVideos(
+    WatchHistory,
+    "today"
+  );
+  const yesterdayWatchHistory: HistoryVideo[] = filterTodaysVideos(
+    WatchHistory,
+    "yesterday"
+  );
+
+  if (isLoading) {
     return <>loading...</>;
   }
 
