@@ -13,10 +13,10 @@ import {
 import { SidebarProps } from "../types/sidebar.type";
 import { getUserDataFromLocalStorage } from "../lib/localstorageUtils";
 
-export const getSideBarData = (): SidebarProps => {
-  const userData = getUserDataFromLocalStorage();
+export const getSideBarData = (userData: any): SidebarProps => {
+  // const userData = getUserDataFromLocalStorage();
 
-  const username = userData?.data?.user?.username;
+  const username = userData?.username;
 
   return {
     data: [

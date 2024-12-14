@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import videoReducer from "../lib/features/videos/videoSlice";
 import userReducer from "../lib/features/user/userSlice";
 import { videoApiSlice } from "./features/api/videoApiSlice";
+import { subscribedApiSlice } from "./features/api/subscribedApiSlice";
 
 // Define a type for the root state
 export type RootState = ReturnType<typeof store.getState>;
@@ -14,8 +15,12 @@ export const store = configureStore({
     videoReducer,
     user: userReducer,
     [videoApiSlice.reducerPath]: videoApiSlice.reducer,
+    [subscribedApiSlice.reducerPath]: subscribedApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(videoApiSlice.middleware);
+    return getDefaultMiddleware().concat(
+      videoApiSlice.middleware,
+      subscribedApiSlice.middleware
+    );
   },
 });

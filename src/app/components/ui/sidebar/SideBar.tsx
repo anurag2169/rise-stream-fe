@@ -79,15 +79,12 @@ const SideBar: React.FC<SidebarProps> = ({
               );
             })}
           </ul>
-
-          <>
-            <SubscriptionBar
-              subscribedChannelDetails={subscribedChannelDetails}
-              onCloseSideBar={closeSideBar}
-              showMore={showMore}
-              showMoreHandler={showMoreHandler}
-            />
-          </>
+          <SubscriptionBar
+            subscribedChannelDetails={subscribedChannelDetails}
+            onCloseSideBar={closeSideBar}
+            showMore={showMore}
+            showMoreHandler={showMoreHandler}
+          />
         </nav>
       </aside>
     </div>

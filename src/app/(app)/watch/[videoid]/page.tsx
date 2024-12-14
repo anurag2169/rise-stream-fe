@@ -13,7 +13,6 @@ import VideoDescription from "@/app/components/ui/videoDescription/VideoDescript
 import VideoActionBtn from "@/app/components/ui/videoActionBtn/VideoActionBtn";
 import { Owner, Video, Comment } from "@/app/types/video.type";
 import {
-  getVideo,
   getCommentsOnVideo,
   addComment,
   editComment,
@@ -32,17 +31,15 @@ export default function WatchVideo({
   params: { videoid: string };
 }) {
   const { videoid } = params;
-  // const [video, setVideo] = useState<Video | null>(null);
-  // const [videoOwner, setVideoOwner] = useState<Owner | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [currentUser, setCurrentUser] = useState<Owner | null>(null);
   const userState = useSelector(selectUserState);
   const [fullUrl, setFullUrl] = useState("");
 
   // rtk query code
-  const { data: videoResponse, isLoading } = useGetVideoByIdQuery(videoid);
+  const { data: videoResponse } = useGetVideoByIdQuery(videoid);
 
-  const video = videoResponse?.data?.[0];
+  const video: Video = videoResponse?.data;
 
   const fetchComments = async () => {
     try {

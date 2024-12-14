@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,29 +18,34 @@ import Cookies from "js-cookie";
 import { AvatarIcon, ExitIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import SideBar from "./ui/sidebar/SideBar";
 import { getSideBarData } from "../config/sideBarData";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SidebarProps, SubscribedChannelDetail } from "../types/sidebar.type";
-import { getSubscribedChannels } from "../services/subscriptionServices";
+import { useGetSubscribedChannelsQuery } from "../lib/features/api/subscribedApiSlice";
 
 function Navbar() {
   const router = useRouter();
   const userState = useSelector(selectUserState);
   const dispatch = useDispatch<AppDispatch>();
   const accessToken = Cookies.get("accessToken") || "";
-  const pathname = usePathname();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [searchInputData, setSearchInputData] = useState("");
 
-  const [sidebarData, setSidebarData] = useState<SidebarProps | null>(null);
-
-  const [subscribedChannelDetails, setSubscribedChannelDetails] = useState<
-    SubscribedChannelDetail[]
-  >([]);
-
   const [showMore, setShowMore] = useState(false);
+
+  const userData = userState.data?.data?.user;
+
+  // rtk query code
+  const { data: respones, isLoading } = useGetSubscribedChannelsQuery(
+    userData?._id,
+    {
+      skip: !userData?._id,
+    }
+  );
+
+  const subscribedChannelDetails = respones?.data?.subscribedChannels || [];
 
   const handleSearch = (e: any) => {
     if (e.key === "Enter" || e.type === "click") {
@@ -64,11 +69,10 @@ function Navbar() {
     dispatch(logoutUser(accessToken));
   };
 
-  useEffect(() => {
-    const data = getSideBarData();
-    setSidebarData(data);
-    getSubscriptionDetails();
-  }, [pathname]);
+  const sidebarData: SidebarProps = useMemo(
+    () => getSideBarData(userData),
+    [userData]
+  );
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -84,19 +88,6 @@ function Navbar() {
       document.body.classList.remove("overflow-hidden");
     };
   }, [isSidebarOpen]);
-
-  const getSubscriptionDetails = async () => {
-    try {
-      const subscribedData = await getSubscribedChannels(
-        userState.data?.data?.user?._id
-      );
-      setSubscribedChannelDetails(
-        subscribedData?.data?.subscribedChannels.reverse()
-      );
-    } catch (error) {
-      console.log("Failed to get subscription details" + error);
-    }
-  };
 
   const showMoreHandler = () => {
     setShowMore(!showMore);
@@ -143,15 +134,13 @@ function Navbar() {
             />
           </div>
           <div className="flex items-center gap-1 md:gap-4">
-            <div className="">
-              <ThemeSwitcher />
-            </div>
+            <ThemeSwitcher />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="rounded-full">
                     <AvatarImage
-                      src={userState.data?.data?.user?.avatar}
+                      src={userData?.avatar}
                       alt="Channel avatar"
                       className="w-10 h-10 rounded-full"
                     />
@@ -163,9 +152,7 @@ function Navbar() {
               <DropdownMenuContent className="w-80 rounded-xl" align="end">
                 <div className="flex items-center justify-start gap-2 p-2">
                   <div className="flex flex-col space-y-1 leading-none">
-                    <p className="font-medium">
-                      {userState.data?.data?.user?.email}
-                    </p>
+                    <p className="font-medium">{userData?.email}</p>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
@@ -173,14 +160,14 @@ function Navbar() {
                   <div className="mb-2">
                     <Avatar className="h-24 w-24 mx-auto">
                       <AvatarImage
-                        src={userState.data?.data?.user?.avatar}
-                        alt={userState.data?.data?.user?.username}
+                        src={userData?.avatar}
+                        alt={userData?.username}
                       />
                       <AvatarFallback>RS</AvatarFallback>
                     </Avatar>
                   </div>
                   <p className="text-center text-xl font-semibold">
-                    Hi, {userState.data?.data?.user?.fullName}!
+                    Hi, {userData?.fullName}!
                   </p>
                 </div>
                 <DropdownMenuSeparator />

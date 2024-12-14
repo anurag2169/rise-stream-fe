@@ -7,7 +7,7 @@ import { getUserDataFromLocalStorage } from "../../localstorageUtils";
 // action
 export const registerUser = createAsyncThunk(
   "registerUser",
-  async (formData: FormData, thunkAPI: any) => {  
+  async (formData: FormData, thunkAPI: any) => {
     const res = await fetch(`${urlPath.registerUser}`, {
       method: "POST",
       body: formData,
@@ -67,12 +67,9 @@ interface UserState {
   error: boolean;
 }
 
-// const userData = localStorage.getItem("userData") || "";
-// const userData = localStorage.getItem("userData");
 const initialState: UserState = {
   status: "idle",
   data: getUserDataFromLocalStorage() || {},
-  // data: userData ? JSON.parse(userData) : {},
   error: false,
 };
 

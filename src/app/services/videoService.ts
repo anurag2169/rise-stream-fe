@@ -4,28 +4,6 @@ import Cookies from "js-cookie";
 
 const accessToken = Cookies.get("accessToken");
 
-export const getVideo = async (videoid: string) => {
-  try {
-    const res = await fetch(`${videoUrlPath.getVideoById}${videoid}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const data = await res.json();
-    return data.data[0];
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
 export const getCommentsOnVideo = async (videoid: string) => {
   try {
     const res = await fetch(`${commentUrlPath.getVideoComments}${videoid}`, {
