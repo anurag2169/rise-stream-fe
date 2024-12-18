@@ -4,110 +4,57 @@ import PlaylistTab from "@/app/components/ui/playlist/PlaylistTab";
 import HomeTab from "@/app/components/ui/tabs/homeTab/HomeTab";
 import Tab from "@/app/components/ui/tabs/Tabs";
 import VideoTab from "@/app/components/ui/tabs/videoTab/VideoTab";
-import { getChannelPlaylists } from "@/app/services/playlistService";
-import {
-  getSubscribedChannels,
-  getUserChannelSubscribers,
-  toggleSubscription,
-} from "@/app/services/subscriptionServices";
-import {
-  getUserChannelProfile,
-  getUserChannelVideos,
-} from "@/app/services/userService";
+import { toggleSubscription } from "@/app/services/subscriptionServices";
 import { TabType } from "@/app/types/tab.type";
-import { channelDetails } from "@/app/types/userChannel.types";
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { useSearchParams } from "next/navigation";
 import ProfileCard from "@/app/components/ui/profileCard/ProfileCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  useGetUserChannelProfileQuery,
+  useGetUserChannelVideosQuery,
+  useGetUserPlaylistsQuery,
+} from "@/app/lib/features/api/videoApiSlice";
+import { useGetUserChannelSubscribersQuery } from "@/app/lib/features/api/subscribedApiSlice";
 
 const Channel = ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const searchParams = useSearchParams();
   const tabQuery = searchParams.get("query") || "home";
 
-  const [userChannelDetails, setuserChannelDetails] =
-    useState<channelDetails | null>(null);
+  // rtk query code
+  const {
+    data: userChannelDetails,
+    isLoading,
+    refetch: refetchChannelDetails,
+  } = useGetUserChannelProfileQuery(username);
 
-  const [channelVideos, setchannelVideos] = useState([]);
-  const [channelPlaylists, setchannelPlaylists] = useState([]);
-  const [subscribedChannelDetails, setSubscribedChannelDetails] = useState([]);
-  const [subscribersDetails, setSubscribersDetails] = useState([]);
+  const userId = userChannelDetails?.data?._id;
 
-  const fetchUserChannelAndVideos = async () => {
-    try {
-      const userChannelResult = await getUserChannelProfile(username);
-      setuserChannelDetails(userChannelResult);
+  const { data: channelVideos, isLoading: isLoadingvideos } =
+    useGetUserChannelVideosQuery(userId, { skip: !userId });
 
-      const userId = userChannelResult?.data?._id;
-      if (userId) {
-        const videoData = await getUserChannelVideos(userId);
-        setchannelVideos(videoData?.data.reverse());
-      }
-    } catch (error) {
-      console.error("Failed to fetch User channel or videos", error);
-    }
-  };
+  const { data: channelPlaylists } = useGetUserPlaylistsQuery(userId, {
+    skip: !userId,
+  });
+
+  const {
+    data: subscribersDetails,
+    isLoading: isSubscriberLoading,
+    refetch: refetchSubscribers,
+  } = useGetUserChannelSubscribersQuery(userId, {
+    skip: !userId,
+  });
 
   const togglesubscription = async () => {
     try {
-      await toggleSubscription(userChannelDetails?.data._id);
-      getSubscriptionDetails();
-      getSubscriberDetails();
-      fetchUserChannelAndVideos();
+      await toggleSubscription(userId);
+      refetchSubscribers();
+      refetchChannelDetails();
     } catch (error) {
       console.error("Failed to toggle User channel subscription");
     }
   };
-
-  const getSubscriptionDetails = async () => {
-    try {
-      const subscribedData = await getSubscribedChannels(
-        userChannelDetails?.data._id
-      );
-      setSubscribedChannelDetails(
-        subscribedData.data.subscribedChannels.reverse()
-      );
-    } catch (error) {
-      console.log("Failed to get subscription details" + error);
-    }
-  };
-
-  const getSubscriberDetails = async () => {
-    try {
-      const subscriberData = await getUserChannelSubscribers(
-        userChannelDetails?.data._id
-      );
-      setSubscribersDetails(subscriberData?.data.reverse());
-    } catch (error) {
-      console.error("Failed to get channel subscribers: ", error);
-    }
-  };
-
-  const getChannelplaylists = async () => {
-    if (!userChannelDetails?.data?._id) return;
-
-    try {
-      const playListsData = await getChannelPlaylists(
-        userChannelDetails.data._id
-      );
-      setchannelPlaylists(playListsData?.data || []);
-    } catch (error) {
-      console.error("Failed to fetch channel playlists:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserChannelAndVideos();
-  }, []);
-
-  useEffect(() => {
-    if (userChannelDetails?.data._id) {
-      getChannelplaylists();
-      getSubscriptionDetails();
-      getSubscriberDetails();
-    }
-  }, [userChannelDetails?.data._id]);
 
   const tabs: TabType[] = [
     {
@@ -116,8 +63,9 @@ const Channel = ({ params }: { params: { username: string } }) => {
       isVisible: true,
       content: (
         <HomeTab
-          channelVideos={channelVideos}
+          channelVideos={channelVideos?.data}
           channelId={userChannelDetails?.data._id}
+          loading={isLoadingvideos}
         />
       ),
     },
@@ -127,7 +75,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
       isVisible: true,
       content: (
         <VideoTab
-          userVideos={channelVideos}
+          userVideos={channelVideos?.data}
           ownerAvatar={userChannelDetails?.data.avatar}
           ownerName={userChannelDetails?.data.fullName}
         />
@@ -137,7 +85,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
       value: "playlist",
       label: "Playlist",
       isVisible: true,
-      content: <PlaylistTab playlists={channelPlaylists} />,
+      content: <PlaylistTab playlists={channelPlaylists?.data} />,
     },
     {
       value: "subscribers",
@@ -148,7 +96,7 @@ const Channel = ({ params }: { params: { username: string } }) => {
           <h2 className="text-xl font-semibold pb-2">Channel Subscribers</h2>
           <div className="flex flex-row flex-wrap justify-center">
             {subscribersDetails &&
-              subscribersDetails.map((subscriber: any) => (
+              subscribersDetails?.data.map((subscriber: any) => (
                 <div
                   key={subscriber.subscriber?._id}
                   className="flex flex-col items-center justify-center mb-2"
@@ -168,52 +116,20 @@ const Channel = ({ params }: { params: { username: string } }) => {
         </div>
       ),
     },
-    {
-      value: "subscription",
-      label: `Subscription (${subscribedChannelDetails.length})`,
-      isVisible: false,
-      content: (
-        <div className="p-4">
-          <h2 className="text-xl font-semibold pb-2">Subscribed Channels</h2>
-          <div className="flex flex-row flex-wrap justify-center">
-            {subscribedChannelDetails &&
-              subscribedChannelDetails.map((subsChannel: any) => (
-                <div
-                  key={subsChannel.channel?._id}
-                  className="flex flex-col items-center justify-center mb-3"
-                >
-                  <ProfileCard
-                    name={subsChannel.channel?.fullName}
-                    username={subsChannel.channel?.username}
-                    description={
-                      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet quas, doloribus quidem, dolores ipsum tempora accusantium, natus minus molestias necessitatibus quia porro. Neque esse iste suscipit temporibus quis odio cum, delectus atque consequuntur debitis alias aperiam aliquam, aliquid eos recusandae."
-                    }
-                    avatarUrl={subsChannel.channel?.avatar}
-                    createdAt={subsChannel?.createdAt}
-                  />
-                </div>
-              ))}
-          </div>
-        </div>
-      ),
-    },
   ];
 
   return (
     <div className="w-full lg:w-10/12 mt-5 lg:mx-36 h-screen">
-      {userChannelDetails ? (
+      {!isLoading ? (
         <ChannelDetails
           channelDetails={userChannelDetails}
           toggleSubscriber={togglesubscription}
         />
       ) : (
-        <div>
-          <Skeleton className="h-52 md:h-80 overflow-hidden rounded-xl mx-2 p-5 flex flex-col gap-5 justify-between"></Skeleton>
-        </div>
+        <Skeleton className="h-52 md:h-80 overflow-hidden rounded-xl mx-2 p-5 flex flex-col gap-5 justify-between" />
       )}
-      <div className="">
-        <Tab tabs={tabs} activetab={tabQuery} />
-      </div>
+
+      <Tab tabs={tabs} activetab={tabQuery} />
     </div>
   );
 };

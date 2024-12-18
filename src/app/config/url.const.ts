@@ -29,10 +29,10 @@ export const urlPath = {
   updateUserCoverImage: DOMAIN + "users/cover-image",
 
   /* GET :username */
-  getUserChannelProfile: DOMAIN + "users/c/",
+  getUserChannelProfile: "users/c/",
 
   /* GET */
-  getUserWatchHistory: DOMAIN + "users/history",
+  getUserWatchHistory: "users/history",
 
   /* POST :videoId */
   addUserWatchHistory: DOMAIN + "users/addWatchHistory/",
@@ -58,7 +58,7 @@ export const videoUrlPath = {
   togglePublishStatus: DOMAIN + "videos/toggle/publish/:videoId",
 
   /* GET :userId */
-  getUserAllVideos: DOMAIN + "videos/userVideos/",
+  getUserAllVideos: "videos/userVideos/",
 };
 
 export const playlistUrlPath = {
@@ -81,7 +81,7 @@ export const playlistUrlPath = {
   removeVideoFromPlaylist: DOMAIN + "playlist/remove/:videoId/:playlistId",
 
   /* GET :userId */
-  getUserPlaylists: DOMAIN + "playlist/user/",
+  getUserPlaylists: "playlist/user/",
 };
 
 export const commentUrlPath = {
@@ -114,13 +114,13 @@ export const likesUrlPath = {
 
 export const subscriptionsUrlPath = {
   /* GET :channelId */
-  getUserChannelSubscribers: DOMAIN + "subscriptions/c/",
+  getUserChannelSubscribers: "subscriptions/c/",
 
   /* POST :channelId*/
   toggleSubscription: DOMAIN + "subscriptions/c/",
 
   /* GET  :subscriberId*/
-  getSubscribedChannels: DOMAIN + "subscriptions/u/",
+  getSubscribedChannels: "subscriptions/u/",
 };
 
 export const dashboardUrlPath = {

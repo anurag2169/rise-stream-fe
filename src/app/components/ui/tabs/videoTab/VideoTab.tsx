@@ -5,6 +5,7 @@ import ThumbnailCard from "../../thumbnailCard/ThumbnailCard";
 import { addUserWatchHistory } from "@/app/services/userService";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { Video } from "@/app/types/video.type";
 
 const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
   const addVideoToHistory = async (videoId: string) => {
@@ -25,26 +26,27 @@ const VideoTab = ({ userVideos = [], ownerName, ownerAvatar }: any) => {
           </Link>
         </div>
         <div className="flex flex-row flex-wrap justify-center md:justify-start gap-3 md:min-w-0 min-w-full">
-          {userVideos.map((video: any) => (
-            <div
-              key={video._id}
-              className="flex flex-col mb-2 md:mb-5"
-              onClick={() => addVideoToHistory(video._id)}
-            >
-              <Link href={`/watch/${video._id}`}>
-                <ThumbnailCard
-                  title={video?.title}
-                  thumbnail={video?.thumbnail}
-                  duration={video?.duration}
-                  createdAt={video?.createdAt}
-                  views={0}
-                  ownerAvatar={ownerAvatar}
-                  ownerName={ownerName}
-                  videoUrl={video?.videoFile}
-                />
-              </Link>
-            </div>
-          ))}
+          {userVideos &&
+            userVideos.map((video: Video) => (
+              <div
+                key={video._id}
+                className="flex flex-col mb-2 md:mb-5"
+                onClick={() => addVideoToHistory(video._id)}
+              >
+                <Link href={`/watch/${video._id}`}>
+                  <ThumbnailCard
+                    title={video?.title}
+                    thumbnail={video?.thumbnail}
+                    duration={video?.duration}
+                    createdAt={video?.createdAt}
+                    views={0}
+                    ownerAvatar={ownerAvatar}
+                    ownerName={ownerName}
+                    videoUrl={video?.videoFile}
+                  />
+                </Link>
+              </div>
+            ))}
         </div>
       </section>
     </>

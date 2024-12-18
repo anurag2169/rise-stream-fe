@@ -1,4 +1,4 @@
-import { DOMAIN } from "@/app/config/url.const";
+import { DOMAIN, subscriptionsUrlPath } from "@/app/config/url.const";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 
@@ -19,8 +19,15 @@ export const subscribedApiSlice = createApi({
       getSubscribedChannels: builder.query({
         query: (subscriberId) => `subscriptions/u/${subscriberId}`,
       }),
+      getUserChannelSubscribers: builder.query({
+        query: (channelId) =>
+          `${subscriptionsUrlPath.getUserChannelSubscribers}${channelId}`,
+      }),
     };
   },
 });
 
-export const { useGetSubscribedChannelsQuery } = subscribedApiSlice;
+export const {
+  useGetSubscribedChannelsQuery,
+  useGetUserChannelSubscribersQuery,
+} = subscribedApiSlice;

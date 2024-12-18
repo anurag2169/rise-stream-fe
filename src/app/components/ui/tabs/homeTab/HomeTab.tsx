@@ -9,26 +9,20 @@ import { useSelector } from "react-redux";
 import ThumbnailCard from "../../thumbnailCard/ThumbnailCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const HomeTab = ({ channelVideos, channelId }: any) => {
-  const [loading, setLoading] = useState(true);
+const HomeTab = ({ channelVideos = [], channelId, isLoading }: any) => {
+  // const [loading, setLoading] = useState(true);
   const [latestVideos, setLatestVideos] = useState<Video[]>([]);
   const userState = useSelector(selectUserState);
 
   useEffect(() => {
     if (channelVideos && channelVideos.length > 0) {
-      // Simulate a loading delay or fetch
-
-      const sortedVideos = channelVideos
+      const sortedVideos = [...channelVideos]
         .sort(
           (a: any, b: any) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         )
         .slice(0, 3);
       setLatestVideos(sortedVideos);
-      setLoading(false); // Data has been loaded
-      // Simulate loading time
-    } else {
-      setLoading(false); // No videos to load
     }
   }, [channelVideos]);
 
@@ -44,7 +38,7 @@ const HomeTab = ({ channelVideos, channelId }: any) => {
       )}
 
       <div className="flex flex-row flex-wrap justify-center md:justify-start gap-3">
-        {loading ? (
+        {isLoading ? (
           [...Array(3)].map((_, idx) => (
             <Skeleton key={idx} className="h-56 w-96 p-3"></Skeleton>
           ))

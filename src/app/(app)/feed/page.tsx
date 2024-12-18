@@ -45,7 +45,7 @@ const Feed = () => {
               key={video._id}
               onClick={() => addVideoToHistory(video?._id)}
             >
-              <Link href={`/watch/${video._id}`}>
+              <Link  href={`/watch/${video._id}`}>
                 <ThumbnailCard
                   title={video.title}
                   views={video.views}

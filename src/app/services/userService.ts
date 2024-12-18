@@ -61,24 +61,6 @@ export const getUserChannelVideos = async (userId: any) => {
   }
 };
 
-export const getWatchHistory = async () => {
-  try {
-    const res = await fetch(`${urlPath.getUserWatchHistory}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    });
-    if (!res.ok) {
-      console.error("Failed to get user watch history");
-    }
-    return await res.json();
-  } catch (error) {
-    console.error("Failed to get user watch history" + error);
-  }
-};
-
 export const addUserWatchHistory = async (videoId: string) => {
   try {
     const res = await fetch(`${urlPath.addUserWatchHistory}${videoId}`, {
